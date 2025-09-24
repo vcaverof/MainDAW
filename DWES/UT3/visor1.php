@@ -5,48 +5,57 @@
     <title>Datos Recibidos</title>
     <style>
         body {
+            background-color: #eaf2f8;
             font-family: 'Segoe UI', sans-serif;
-            background-color: #f1f8e9;
+            margin: 0;
             padding: 20px;
         }
-        .container {
+        .visor {
             background-color: #ffffff;
-            padding: 25px;
-            border-radius: 10px;
             max-width: 600px;
             margin: auto;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
         h2 {
             text-align: center;
-            color: #558b2f;
+            color: #2c3e50;
         }
         p {
             margin: 10px 0;
-            color: #33691e;
+            color: #34495e;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h2>Datos del Alumno</h2>
-        <p><strong>Nombre:</strong> <?php echo $_POST["nombre"]; ?></p>
-        <p><strong>Edad:</strong> <?php echo $_POST["edad"]; ?></p>
-        <p><strong>Email:</strong> <?php echo $_POST["email"]; ?></p>
-        <p><strong>Fecha de nacimiento:</strong> <?php echo $_POST["nacimiento"]; ?></p>
-        <p><strong>Sexo:</strong> <?php echo $_POST["sexo"]; ?></p>
-        <p><strong>Curso académico:</strong> <?php echo $_POST["curso"]; ?></p>
-        <p><strong>Asignaturas favoritas:</strong>
-            <?php
-                if (!empty($_POST["asignaturas"])) {
-                    echo implode(", ", $_POST["asignaturas"]);
-                } else {
-                    echo "Ninguna seleccionada";
+    <div class="visor">
+        <h2>Datos Recibidos</h2>
+        <?php
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            echo "<p><strong>Nombre:</strong> " . htmlspecialchars($_POST["nombre"]) . "</p>";
+            echo "<p><strong>Edad:</strong> " . htmlspecialchars($_POST["edad"]) . "</p>";
+            echo "<p><strong>Email:</strong> " . htmlspecialchars($_POST["email"]) . "</p>";
+            echo "<p><strong>Sexo:</strong> " . htmlspecialchars($_POST["sexo"]) . "</p>";
+
+            echo "<p><strong>Asignaturas favoritas:</strong><br>";
+            if (!empty($_POST["asignaturas"])) {
+                echo "<ul>";
+                foreach ($_POST["asignaturas"] as $asignatura) {
+                    echo "<li>" . htmlspecialchars($asignatura) . "</li>";
                 }
-            ?>
-        </p>
-        <p><strong>Turno:</strong> <?php echo $_POST["turno"]; ?></p>
-        <p><strong>Comentarios:</strong> <?php echo nl2br($_POST["comentarios"]); ?></p>
+                echo "</ul>";
+            } else {
+                echo "Ninguna seleccionada";
+            }
+            echo "</p>";
+
+            echo "<p><strong>Turno:</strong> " . htmlspecialchars($_POST["turno"]) . "</p>";
+            echo "<p><strong>Comentarios:</strong> " . nl2br(htmlspecialchars($_POST["comentarios"])) . "</p>";
+        } else {
+            echo "<p>No se han enviado datos.</p>";
+        }
+        ?>
     </div>
 </body>
 </html>
