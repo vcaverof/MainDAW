@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Suma de dos números</title>
+    <script>
+        function sumarNumeros() {
+            // Obtener los valores de los inputs
+            var num1 = parseFloat(document.getElementById('numero1').value);
+            var num2 = parseFloat(document.getElementById('numero2').value);
+            
+            // Sumar los números
+            var suma = num1 + num2;
+            
+            // Mostrar el resultado en el HTML
+            document.getElementById('resultado').innerText = 'Resultado: ' + suma;
+        }
+    </script>
+</head>
+<body>
+    <h1>Suma de dos números</h1>
+
+    <!-- Inputs para los números -->
+    <input type="number" id="numero1" placeholder="Número 1">
+    <input type="number" id="numero2" placeholder="Número 2">
+
+    <!-- Botón para sumar -->
+    <button onclick="sumarNumeros()">Sumar</button>
+
+    <!-- Área para mostrar el resultado -->
+    <p id="resultado"></p>
+</body>
+</html>
