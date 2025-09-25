@@ -33,16 +33,16 @@
         <h2>Datos Recibidos</h2>
         <?php
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            echo "<p><strong>Nombre:</strong> " . htmlspecialchars($_POST["nombre"]) . "</p>";
-            echo "<p><strong>Edad:</strong> " . htmlspecialchars($_POST["edad"]) . "</p>";
-            echo "<p><strong>Email:</strong> " . htmlspecialchars($_POST["email"]) . "</p>";
-            echo "<p><strong>Sexo:</strong> " . htmlspecialchars($_POST["sexo"]) . "</p>";
+            echo "<p><strong>Nombre:</strong> " . ($_POST["nombre"]) . "</p>";
+            echo "<p><strong>Edad:</strong> " . ($_POST["edad"]) . "</p>";
+            echo "<p><strong>Email:</strong> " . ($_POST["email"]) . "</p>";
+            echo "<p><strong>Sexo:</strong> " . ($_POST["sexo"]) . "</p>";
 
             echo "<p><strong>Asignaturas favoritas:</strong><br>";
             if (!empty($_POST["asignaturas"])) {
                 echo "<ul>";
                 foreach ($_POST["asignaturas"] as $asignatura) {
-                    echo "<li>" . htmlspecialchars($asignatura) . "</li>";
+                    echo "<li>" . ($asignatura) . "</li>";
                 }
                 echo "</ul>";
             } else {
@@ -50,8 +50,8 @@
             }
             echo "</p>";
 
-            echo "<p><strong>Turno:</strong> " . htmlspecialchars($_POST["turno"]) . "</p>";
-            echo "<p><strong>Comentarios:</strong> " . nl2br(htmlspecialchars($_POST["comentarios"])) . "</p>";
+            echo "<p><strong>Turno:</strong> " . ($_POST["turno"]) . "</p>";
+            echo "<p><strong>Comentarios:</strong> " . nl2br(($_POST["comentarios"])) . "</p>";
         } else {
             echo "<p>No se han enviado datos.</p>";
         }

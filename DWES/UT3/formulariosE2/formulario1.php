@@ -3,10 +3,10 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Formulario de Alumno</title>
+    <title>Formulario para los alumnos</title>
     <style>
         body {
-            background-color: #f0f4f8;
+            background-color: #eaf0f7ff;
             font-family: 'Segoe UI', sans-serif;
             margin: 0;
             padding: 20px;
@@ -32,10 +32,17 @@
             color: #34495e;
         }
 
-        input,
-        select,
-        textarea {
-            width: 100%;
+        input, textarea {
+            width: 97%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        select{
+            width:17%;
             padding: 10px;
             margin-top: 5px;
             border: 1px solid #ccc;
@@ -64,7 +71,7 @@
         }
 
         .asignaturas-grid .asignatura {
-            background-color: #ecf0f1;
+            background-color: #e2ecf5ff;
             padding: 10px 14px;
             border-radius: 6px;
             display: grid;
@@ -91,14 +98,13 @@
         }
 
         .turno-option {
-            background-color: #ecf0f1;
+            background-color: #e2ecf5ff;
             padding: 10px 14px;
             border-radius: 6px;
             display: flex;
             align-items: center;
             justify-content: space-between;
             width: 200px;
-            box-sizing: border-box;
         }
 
         .turno-option label {
@@ -107,15 +113,12 @@
             margin-right: 10px;
         }
 
-        .turno-option input[type="radio"] {
-            transform: scale(1.2);
-        }
     </style>
 </head>
 
 <body>
     <div class="formulario">
-        <h2>Formulario de Datos del Alumno</h2>
+        <h2>DATOS ALUMNADO 1ºDAM 25/26</h2>
         <form action="visor1.php" method="post">
             <label>Nombre:</label>
             <input type="text" name="nombre" required>
@@ -133,13 +136,13 @@
                 <option value="Otro">Otro</option>
             </select>
 
-            <label>Asignaturas del FP de Informática:</label>
+            <label>Asignaturas 1º DAM:</label>
             <div class="asignaturas-grid">
-                <div class="asignatura"><label for="so">Sistemas operativos</label><input type="checkbox" name="asignaturas[]" value="Sistemas operativos" id="so"></div>
+                <div class="asignatura"><label for="si">Sistemas informáticos</label><input type="checkbox" name="asignaturas[]" value="Sistemas informaticos" id="si"></div>
                 <div class="asignatura"><label for="redes">Redes</label><input type="checkbox" name="asignaturas[]" value="Redes" id="redes"></div>
                 <div class="asignatura"><label for="prog">Programación</label><input type="checkbox" name="asignaturas[]" value="Programación" id="prog"></div>
                 <div class="asignatura"><label for="bd">Bases de datos</label><input type="checkbox" name="asignaturas[]" value="Bases de datos" id="bd"></div>
-                <div class="asignatura"><label for="seg">Seguridad informática</label><input type="checkbox" name="asignaturas[]" value="Seguridad informática" id="seg"></div>
+                <div class="asignatura"><label for="it">Itinerario para la empleabilidad I</label><input type="checkbox" name="asignaturas[]" value="IPE I" id="it"></div>
                 <div class="asignatura"><label for="lm">Lenguajes de marcas</label><input type="checkbox" name="asignaturas[]" value="Lenguajes de marcas" id="lm"></div>
                 <div class="asignatura"><label for="ent">Entornos de desarrollo</label><input type="checkbox" name="asignaturas[]" value="Entornos de desarrollo" id="ent"></div>
             </div>
@@ -158,7 +161,7 @@
 
             <label>Comentarios:</label>
             <textarea name="comentarios" rows="4"></textarea>
-
+            
             <input type="submit" value="Enviar">
         </form>
     </div>
