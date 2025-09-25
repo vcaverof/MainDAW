@@ -87,6 +87,22 @@ array.splice(1,3,7,5);
 console.log(array);     //(6) [1, 7, 5, 9, 2, 7]
 
 
+let a = [21, 23, 32];
+
+//For in
+console.log("Prueba For in");
+for (i in a) {
+    console.log(a[i]); //21, 23, 32
+}
+
+
+//For of
+console.log("Prueba For of");
+for (it of a) {
+    console.log(it); //21, 23, 32
+}
+
+
 
 
 
