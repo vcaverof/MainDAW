@@ -82,19 +82,19 @@ console.log("--------------------");
 
 //match() Devuelve un array con las ocurrencias
 console.log("match()");
-console.log(frase.match("rdes"));
+console.log(frase.match("rdes")); //(1) ['rdes', index: 14, input: 'Hola Buenas Tardes', groups: undefined]
 console.log("--------------------");
 
 //repeat() repite un string un numero de veces concreto
 console.log("repeat()");
-console.log(palabra.repeat(5));
+console.log(palabra.repeat(5)); //PepePepePepePepePepe
 console.log("--------------------");
 
 //trim() elimina los espacios en blanco (muy útil)
-console.log("trim()");
-let sinEspacios = frase.trim();
-console.log(sinEspacios);
-console.log("--------------------");
+// console.log("trim()");
+// let sinEspacios = frase.trim();
+// console.log(sinEspacios);
+// console.log("--------------------");
 
 //padEnd() se encarga de añadir espacios/caracteres al final (Cuentan los caracteres que ocupa la palabra)
 console.log("padEnd()");
