@@ -32,7 +32,8 @@
             color: #34495e;
         }
 
-        input, textarea {
+        input,
+        textarea {
             width: 97%;
             padding: 10px;
             margin-top: 5px;
@@ -41,8 +42,8 @@
             font-size: 14px;
         }
 
-        select{
-            width:17%;
+        select {
+            width: 17%;
             padding: 10px;
             margin-top: 5px;
             border: 1px solid #ccc;
@@ -112,14 +113,13 @@
             color: #2c3e50;
             margin-right: 10px;
         }
-
     </style>
 </head>
 
 <body>
     <div class="formulario">
         <h2>DATOS ALUMNADO 1ºDAM 25/26</h2>
-        <form action="visor1.php" method="post">
+        <form action="" method="post">
             <label>Nombre:</label>
             <input type="text" name="nombre" required>
 
@@ -161,8 +161,8 @@
 
             <label>Comentarios:</label>
             <textarea name="comentarios" rows="4"></textarea>
-            
-            <input type="submit" value="Enviar">
+
+            <input type="submit" value="Enviar" name ="enviar">
         </form>
     </div>
 </body>
