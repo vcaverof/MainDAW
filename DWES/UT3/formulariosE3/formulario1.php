@@ -1,3 +1,53 @@
+<?php
+// Verifica si el formulario ha sido enviado
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Declara un array para almacenar los errores
+    $errores = array();
+
+    // Validar el campo nombre
+    if (empty($_POST['nombre'])) {
+        $errores['nombre'] = "El campo nombre es obligatorio.";
+    }
+
+    // Validar el campo edad
+    if (empty($_POST['edad'])) {
+        $errores['edad'] = "El campo edad es obligatorio.";
+    }
+
+    // Validar el campo email
+    if (empty($_POST['email'])) {
+        $errores['email'] = "El campo email es obligatorio.";
+    }
+
+    // Validar el campo sexo
+    if (empty($_POST['sexo'])) {
+        $errores['sexo'] = "El campo sexo es obligatorio.";
+    }
+
+    // Validar el campo asignaturas
+    $comprobarAsignaturas = $_POST['asignaturas'];
+    if (empty($comprobarAsignaturas)) {
+        $errores['asignaturas'] = "Selecciona al menos un campo de asignaturas";
+    }
+    // Validar el campo turno
+    if (empty($_POST['turno'])) {
+        $errores['turno'] = "El campo turno es obligatorio.";
+    }
+
+    // Si no hay errores, procesar el formulario
+    if (empty($errores)) {
+        echo "¡Datos recibidos con éxito! Nombre: $nombre, Edad: $edad, Email: $email";
+    } else {
+        // Mostrar los errores al usuario
+        echo "<ul>";
+        foreach ($errores as $campo => $error) {
+            echo "<li>$error</li>";
+        }
+        echo "</ul>";
+    }
+}
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -121,13 +171,13 @@
         <h2>DATOS ALUMNADO 1ºDAM 25/26</h2>
         <form action="" method="post">
             <label>Nombre:</label>
-            <input type="text" name="nombre" required>
+            <input type="text" name="nombre">
 
             <label>Edad:</label>
-            <input type="number" name="edad" required>
+            <input type="number" name="edad">
 
             <label>Email:</label>
-            <input type="email" name="email" required>
+            <input type="email" name="email">
 
             <label>Sexo:</label>
             <select name="sexo">
@@ -162,7 +212,7 @@
             <label>Comentarios:</label>
             <textarea name="comentarios" rows="4"></textarea>
 
-            <input type="submit" value="Enviar" name ="enviar">
+            <input type="submit" value="Enviar" name="enviar">
         </form>
     </div>
 </body>
