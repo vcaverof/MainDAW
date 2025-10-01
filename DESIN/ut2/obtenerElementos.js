@@ -13,3 +13,16 @@ for (let i = 0; i < array.length; i++) {
 }
 
 console.log(aux);
+
+
+
+//Recorrer un array multidimensional con un foreach
+
+let tabla1 =[[1, 2, 3] , [4, 5, 6] , [7, 8, 9, 10] , ['A','B','C'], ['D', 'F', 'G']];
+
+tabla1.forEach(function(fila, i) {
+    fila.forEach(function(columna, j){
+        console.log(i + ", " + j + ": " + tabla1[i][j]);
+    })
+});
+
