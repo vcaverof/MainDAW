@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>Validación de datos</h1>
+    <script>
+
+        function comprobar(titulo, dato, expr) {
+            if (expr.test(dato)) {
+                document.write("<p> El campo " + titulo + ": " + dato + "SI cumple con las especificaciones " + expr + "</p>");
+            } else {
+                document.write("<p> El campo " + titulo + ": " + dato + "SI cumple con las especificaciones " + expr + "</p>");
+            }
+        }
+
+
+        //Solicitar datos al usuario
+
+        // let nombre = prompt("Introduce tu nombre: ");
+        // let apellidos = prompt("Introduce tus apellidos: ");
+        let edad = prompt("Introduce tu edad: ");
+        // let email = prompt("Introduce tu correo electrónico: ");
+        // let telefono = prompt("Introduce tu número de teléfono");
+        // let centro = prompt("Introduce tu centro educativo: ");
+        // let curso = prompt("Introduce tu curso: ");
+        // let observaciones = prompt("Introduce alguna observacición: ");
+        // let anio = prompt("Introduce tu año de nacimiento: ");
+
+
+        // //Validaciones
+        // let nombreV = /(^[A-Z])([a-z]){1,}([a-z]$)/;
+        // comprobar("Nombre", nombre, nombreV);
+
+        // let apellidosV = /(^[A-Z])([a-z]){1,}([a-z]$)/;
+        // comprobar("Apellidos", apellidos, apellidosV);
+
+
+        let edadV = /(^[1-9])([0-9]){1}/;
+        comprobar("Edad", edad, edadV);
+
+        // let emailV = /(\w+)('@')([A-Za-z0-9]+)('.')([a-z]{3})/;
+        // comprobar("Email", email, emailV);
+
+        // let telefonoV = /^6|^9([0-9]){9}/;
+        // comprobar("Telefono", telefono, telefonoV);
+
+        // let centroV = /([A-Za-z]){5-120}/
+        // comprobar("Centro", centro, centroV);
+
+        // let cursoV = /[1-2]{1}/;
+        // comprobar("Curso", curso, cursoV);
+
+        // let observacionesV = /(\w){0-120}/;
+        // comprobar("Observaciones", observaciones, observacionesV);
+
+        // let anioV = /(^1 | ^2)[0-9]{4} /;
+        // comprobar("Año", anio, anioV);
+    </script>
+</body>
+
+</html>
