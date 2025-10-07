@@ -11,56 +11,66 @@
     <h1>Validación de datos</h1>
     <script>
 
-        function comprobar(titulo, dato, expr) {
+        function comprobar(titulo, dato, expr, mensaje) {
             if (expr.test(dato)) {
-                document.write("<p> El campo " + titulo + ": " + dato + "SI cumple con las especificaciones " + expr + "</p>");
+                document.write("<p> El campo <strong>" + titulo + "</strong>: " + dato + " SI cumple con las especificaciones </p>");
             } else {
-                document.write("<p> El campo " + titulo + ": " + dato + "SI cumple con las especificaciones " + expr + "</p>");
+                document.write("<p> El campo " + titulo + ": " + dato + " NO cumple con las especificaciones - <strong>" + mensaje + "</strong></p>");
             }
         }
 
+        //Explicación de la validación
+        let nombreExpr = "No debe introducir números ni caracteres especiales. El nombre deben comenzar por mayúscula.";
+        let apellidosExpr = "No debe introducir números ni caracteres especiales. Los apellidos deben comenzar por mayúscula.";
+        let edadExpr = " Solo se pueden introducir números de 3 dígitos como máximo";
+        let emailExpr = "El correo debe respetar el formato típico de un correo, con su @ y un dominio formado por 2 o 3 letras";
+        let telefonoExpr = "Debe empezar por 6 o por 9 y debe tener un tamaño adecuado, es decir, 9 dígitos en total";
+        let centroExpr = "Debe contener entre 5 y 120 caracteres";
+        let cursoExpr = "Solo dos opciones posibles: 1 o 2";
+        let observacionesExpr = "Texto y/o números. Tamaño máximo de 120 caracteres";
+        let anioExpr = "Debe introducirse un año entre 1905 y 2099";
+
 
         //Solicitar datos al usuario
-
-        // let nombre = prompt("Introduce tu nombre: ");
-        // let apellidos = prompt("Introduce tus apellidos: ");
+        let nombre = prompt("Introduce tu nombre: ");
+        let apellidos = prompt("Introduce tus apellidos: ");
         let edad = prompt("Introduce tu edad: ");
-        // let email = prompt("Introduce tu correo electrónico: ");
-        // let telefono = prompt("Introduce tu número de teléfono");
-        // let centro = prompt("Introduce tu centro educativo: ");
-        // let curso = prompt("Introduce tu curso: ");
-        // let observaciones = prompt("Introduce alguna observacición: ");
-        // let anio = prompt("Introduce tu año de nacimiento: ");
+        let email = prompt("Introduce tu correo electrónico: ");
+        let telefono = prompt("Introduce tu número de teléfono");
+        let centro = prompt("Introduce tu centro educativo: ");
+        let curso = prompt("Introduce tu curso: ");
+        let observaciones = prompt("Introduce alguna observacición: ");
+        let anio = prompt("Introduce tu año de nacimiento: ");
+
 
 
         // //Validaciones
-        // let nombreV = /(^[A-Z])([a-z]){1,}([a-z]$)/;
-        // comprobar("Nombre", nombre, nombreV);
+        let nombreV = /^([A-Z][a-z]+)(\s[A-Z][a-z]+)*$/; //La (\s) indica un espacio, para poder validar nombres compuestos
+        comprobar("Nombre", nombre, nombreV, nombreExpr);
 
-        // let apellidosV = /(^[A-Z])([a-z]){1,}([a-z]$)/;
-        // comprobar("Apellidos", apellidos, apellidosV);
+        let apellidosV = /(^[A-Z])([a-z]){1,}([a-z]$)/;
+        comprobar("Apellidos", apellidos, apellidosV, apellidosExpr);
 
+        let edadV = /^\d{1,3}$/;
+        comprobar("Edad", edad, edadV, edadExpr);
 
-        let edadV = /(^[1-9])([0-9]){1}/;
-        comprobar("Edad", edad, edadV);
+        let emailV = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/;  //Hay que escapar el punto, para que represente un . literal en el texto
+        comprobar("Email", email, emailV, emailExpr);
 
-        // let emailV = /(\w+)('@')([A-Za-z0-9]+)('.')([a-z]{3})/;
-        // comprobar("Email", email, emailV);
+        let telefonoV = /^[69]\d{8}$/;
+        comprobar("Telefono", telefono, telefonoV, telefonoExpr);
 
-        // let telefonoV = /^6|^9([0-9]){9}/;
-        // comprobar("Telefono", telefono, telefonoV);
+        let centroV = /^.{5,120}$/
+        comprobar("Centro", centro, centroV, centroExpr);
 
-        // let centroV = /([A-Za-z]){5-120}/
-        // comprobar("Centro", centro, centroV);
+        let cursoV = /^[1-2]{1}$/;
+        comprobar("Curso", curso, cursoV, cursoExpr);
 
-        // let cursoV = /[1-2]{1}/;
-        // comprobar("Curso", curso, cursoV);
+        let observacionesV = /^[\w\s.,;:!?()\-]{0,120}$/; //Incluye letras, números, espacios y signos de puntuación
+        comprobar("Observaciones", observaciones, observacionesV, observacionesExpr);
 
-        // let observacionesV = /(\w){0-120}/;
-        // comprobar("Observaciones", observaciones, observacionesV);
-
-        // let anioV = /(^1 | ^2)[0-9]{4} /;
-        // comprobar("Año", anio, anioV);
+        let anioV = /^(19|20)\d{2}$/; //Solo años entre 1900 y 2099 válidos
+        comprobar("Año", anio, anioV, anioExpr);
     </script>
 </body>
 
