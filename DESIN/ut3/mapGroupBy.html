@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+    <h1>JavaScript Objects</h1>
+    <h2>The Object.groupBy() Method</h2>
+
+    <p id="demo"></p>
+
+    <script>
+        // Crear un array
+        const fruits = [
+            { name: "apples", quantity: 300 },
+            { name: "bananas", quantity: 500 },
+            { name: "oranges", quantity: 200 },
+            { name: "kiwi", quantity: 150 }
+        ];
+
+        // Callback function to select low volumes 
+        function myCallback({ quantity }) {
+            return quantity > 200 ? "ok" : "low";
+        }
+
+        // Agrupar en ok y low
+        const result = Object.groupBy(fruits, myCallback);
+
+        // Display Results
+        let text = "These fruits are Ok: <br>";
+        for (let x of result.get("ok")) {
+            text += y.name + " " + y.quantity + "<br>";
+        }
+
+        text += "<br>These fruits are low: <br>";
+        for (let x of result.get("low")) {
+            text += y.name + " " + y.quantity + "<br>";
+        }
+
+        document.getElementById("demo").innerHTML = text;
+    </script>
+
+</body>
+
+</html>
