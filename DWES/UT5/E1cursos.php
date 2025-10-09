@@ -23,12 +23,26 @@
         // Si se ha enviado el formulario para añadir plaza
         if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["id"])) {
             $id = $_POST["id"];
-            $sql = "UPDATE cursos 
-                    SET plazasDisponibles = plazasDisponibles - 1 
-                    WHERE id = :id";
-            $stmt = $conn->prepare($sql);
-            $stmt->bindParam(":id", $id, PDO::PARAM_INT);
-            $stmt->execute();
+
+            // Verificar plazas disponibles
+            $checkSql = "SELECT plazasDisponibles FROM cursos WHERE id = :id";
+            $checkStmt = $conn->prepare($checkSql);
+            $checkStmt->bindParam(":id", $id, PDO::PARAM_INT);
+            $checkStmt->execute();
+            $plazas = $checkStmt->fetchColumn();
+
+            if ($plazas > 0) {
+                $sql = "UPDATE cursos 
+                        SET plazasDisponibles = plazasDisponibles - 1 
+                        WHERE id = :id";
+                $stmt = $conn->prepare($sql);
+                $stmt->bindParam(":id", $id, PDO::PARAM_INT);
+                $stmt->execute();
+            }
+
+            // Redirigir para evitar doble envío
+            header("Location: " . $_SERVER['PHP_SELF']);
+            exit;
         }
 
         // Consulta para mostrar los cursos
@@ -52,8 +66,6 @@
         while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
             $sumaPlazasDisponibles += $row["plazasDisponibles"];
             $sumaplazasTotales += $row["plazasTotales"];
-            $sumaPlazasOcupadas += ($sumaplazasTotales - $sumaPlazasDisponibles);
-            $porcentajeOcupacion = (($sumaplazasTotales - $sumaPlazasDisponibles) / $sumapPlazasTotales) * 100;
 
             $plazasDisponibles = ($row["plazasDisponibles"] == 0)
                 ? "<s>" . $row["plazasDisponibles"] . "</s>"
@@ -77,10 +89,13 @@
                   </tr>";
         }
 
+        $sumaPlazasOcupadas += ($sumaplazasTotales - $sumaPlazasDisponibles);
+        $porcentajeOcupacion = (($sumaplazasTotales - $sumaPlazasDisponibles) / $sumaplazasTotales) * 100;
+
         echo "</table>";
 
         echo "<h2>Resumen de ocupación</h2>";
-        echo "Plazas totales ofertadas: " . $sumapPlazasOfertadas . "<br>";
+        echo "Plazas totales ofertadas: " . $sumaplazasTotales . "<br>";
         echo "Plazas ocupadas: " . $sumaPlazasOcupadas . "<br>";
         echo "Porcentaje de ocupación: " . number_format($porcentajeOcupacion, 2) . "%";
 
