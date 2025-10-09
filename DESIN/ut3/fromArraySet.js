@@ -6,7 +6,7 @@ console.log(array);
 
 for (let i = 0; i < array.length; i++) {
     if (array[i] != array[i - 1]) {
-        outputArray[i] = array[i];
+        outputArray.push(array[i]);
     }      
 }
 
