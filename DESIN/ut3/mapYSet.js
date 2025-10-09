@@ -1,3 +1,7 @@
+/////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////FUNCIONES MAPAS/////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
+
 let mapa = new Map();
 
 //-------SET--------
@@ -12,14 +16,14 @@ console.log(mapa.get(1)); //Pedro
 //-------SIZE--------
 console.log(mapa.size); //4
 
-//-------DELETE--------
+console.log("-------DELETE--------");
 mapa.delete(2); //Borra un valor asociado a una clave
 console.log(mapa.entries()); //{1 => Pedro, 3 => Manuel, 4 => David}
 
-//-------HAS--------
+console.log("-------HAS--------");
 console.log(mapa.has(2)); //False
 
-//-------CLAVES Y VALORES--------
+console.log("-------CLAVES Y VALORES--------");
 console.log(mapa.values()); // {Pedro, Manuel, David}
 console.log(mapa.keys()); // {1, 3, 4}
 console.log(mapa.entries()); //{1 => Pedro, 3 => Manuel, 4 => David}
@@ -68,6 +72,42 @@ mapa.forEach(function(clave, valor) {
 console.log(texto);
 
 mapa.clear(); //Elimina todos los valores del mapa
+
+
+/////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////FUNCIONES SET//////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
+
+console.log("-------ADD-------");
+const letras = new Set(["a", "b", "c", "d"]);
+letras.add("a"); //No lo añade porque está repetida
+letras.add("z"); //Si se añade
+
+console.log(letras.values()); // {a, b, c, d, z}
+
+console.log("------DELETE-------");
+console.log(letras.delete("b")); //Devuelve True, porque si se ha podido eliminar el valor en el conjunto
+console.log(letras.delete("b")); //Devuelve False, porque no se ha podido eliminar el valor en el conjunto
+
+console.log(letras.values()); //{a, c, d, z}
+
+console.log("-----HAS------");
+console.log(letras.has("a")); //Devuelve True, porque si ha encontrado el valor "a" en el conjunto
+console.log(letras.has("t")); //Devuelve False, porque no ha encontrado el valor "t" en el conjunto
+
+console.log("-------VALUES()--------");
+for (valor of letras.values()) {
+    console.log(valor);
+}
+
+console.log("------CLEAR---------");
+letras.clear(); //Elimina todos los valores del conjunto
+console.log(letras.values()); //El conjunto está vacío
+
+
+
+
+
 
 
 
