@@ -5,7 +5,7 @@ try {
     $servername = "localhost";
     $username = "root";
     $password = "";
-    $database = "cursos";
+    $database = "geografia";
 
     $pdo = new PDO("mysql:host=$servername;dbname=$database", $username, $password);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -37,23 +37,23 @@ $inicio = ($pagina - 1) * $por_pagina;
     <?php
     if ($provincia) {
         // Buscar provincia (insensible a mayúsculas)
-        $stmt = $pdo->prepare("SELECT id FROM provincias WHERE LOWER(nombre) = ?");
+        $stmt = $pdo->prepare("SELECT n_provincia FROM provincias WHERE LOWER(nombre) = ?");
         $stmt->execute([$provincia]);
         $provincia_data = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if (!$provincia_data) {
             echo "<p>La provincia no existe.</p>";
         } else {
-            $provincia_id = $provincia_data['id'];
+            $provincia_id = $provincia_data['n_provincia'];
 
             // Total de localidades
-            $stmt_total = $pdo->prepare("SELECT COUNT(*) FROM localidades WHERE provincia_id = ?");
+            $stmt_total = $pdo->prepare("SELECT COUNT(*) FROM localidades WHERE n_provincia = ?");
             $stmt_total->execute([$provincia_id]);
             $total = $stmt_total->fetchColumn();
             $total_paginas = ceil($total / $por_pagina);
 
             // Localidades paginadas
-            $stmt_localidades = $pdo->prepare("SELECT nombre FROM localidades WHERE provincia_id = ? ORDER BY nombre ASC LIMIT $inicio, $por_pagina");
+            $stmt_localidades = $pdo->prepare("SELECT nombre FROM localidades WHERE n_provincia = ? ORDER BY nombre ASC LIMIT $inicio, $por_pagina");
             $stmt_localidades->execute([$provincia_id]);
             $localidades = $stmt_localidades->fetchAll(PDO::FETCH_ASSOC);
 
