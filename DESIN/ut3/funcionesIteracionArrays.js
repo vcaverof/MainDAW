@@ -1,24 +1,29 @@
 console.log("------FOREACH()------");
 let array = [1, 2, 3, 4, 5];
-array.forEach(e => console.log(e)); //1 2 3 4 5 
+array.forEach((e, i, a) => console.log("Valor: " + e, "Indice: " + i,"Array: " + a));
+//Parámetros del ForEach (elemento, indice, array)
+/*
+Valor: 1 Indice: 0 Array: [1,2,3,4,5]
+Valor: 2 Indice: 1 Array: [1,2,3,4,5]
+Valor: 3 Indice: 2 Array: [1,2,3,4,5]
+Valor: 4 Indice: 3 Array: [1,2,3,4,5]
+Valor: 5 Indice: 4 Array: [1,2,3,4,5]
+*/
 
 console.log("------MAP------");
 console.log(array);
-array.map(e => e + 1);
-console.log(array);
+let dobles = array.map(e => e * 2);
+console.log(dobles);
+//Parámetros del map (elemento, indice, mapa)
 
 
 console.log("------REDUCE()------");
-let total = array.reduce(
-    (a, b) => a + b,
-);
+let total = array.reduce((a, b) => a + b);
 console.log(total); //15
+//Parámetros del reduce (accumulator, valorActual, index, array, [initial]) El valor por defecto del initial es 0
 
 console.log("------REDUCE-RIGHT()------");
-const sumWithInitial = array.reduceRight(
-    (accumulator, currentValue) => accumulator + currentValue,
-);
-
+const sumWithInitial = array.reduceRight((accumulator, currentValue) => accumulator + currentValue);
 console.log(sumWithInitial); //15
 
 console.log("------FILTER()------");
@@ -49,3 +54,37 @@ console.log(valorBuscadoIndex); //2 (Devuelve el índice del elemento encontrado
 
 let valorBuscadoIndex2 = array.findLastIndex(e => e < 5);
 console.log(valorBuscadoIndex2); //3 (Indice del ultimo elemento que ha encontrado que cumple la condicion de busqueda)
+
+
+console.log("EJEMPLO REDUCE() CLASE");
+const c = [10, 20, 30];
+console.log(c.reduce(ac => {
+    console.log(ac);
+    return ac;
+})); //10 Empieza directamente con el valor del indice 0 en el acumulador y comienza a iterar en el 1
+
+console.log(c.reduce(ac => {
+    console.log(ac);
+    return ac;
+}, 0)); //Devuelve siempre 0 
+
+console.log(c.reduce((ac, n) => {
+    console.log(ac);
+    return ac + n;
+}, 0)); //60
+
+console.log(c.reduce((ac, n, i) => {
+    console.log(i);
+    return ac + n + i;
+}, 0)); //63
+
+console.log(c.reduce((ac, n, i, a) => {
+    return ac + n + i + a[2];
+})); //123 (Itera 2 veces)
+
+console.log(c.reduce((ac, n, i, a) => {
+    return ac + n + i + a[2];
+}, 0)); //153 (Itera 3 veces)
+
+console.log(c.reduce((ac, n) => ac + n, 100)); //160 La iteración comienza con el valor 100 en el acumulador
+
