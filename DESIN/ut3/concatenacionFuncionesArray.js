@@ -20,14 +20,19 @@ let res2 = frase.split(" ")
 console.log(res2);
 
 //Escribir las siguientes funciones que admitan el array a = [1,2,3,4] como parámetro
-//Una funcion 'f1' que devuelva un array con los números que sean el resultado de multiplicar
-//cada elemento por 3, filtrando los resultantes no divisibles por 4
-
 let array = [1, 2, 3, 4];
 
-let f1 = (array) => a.map(e => e * 3)
+//Una funcion 'f1' que devuelva un array con los números que sean el resultado de multiplicar cada elemento por 3, filtrando los resultantes no divisibles por 4
+let f1 = (array) => array.map(e => e * 3)
     .filter(e => e % 4 === 0);
-console.log(a); //[12]
+console.log(f1(array));
 
 //Una funcion f2 que visualice en consola los elementos que no sean divisibles por 2
-//Uns funcion f3 que devuelva la suma de todos los elementos que etén en una posición par
+let f2 = (array) => array.filter(e => e % 2 != 0);
+console.log(f2(array)); //[1, 3]
+
+//Una funcion f3 que devuelva la suma de todos los elementos que estén en una posición par
+let f3 = (array) => array.filter((e, i) => i % 2 == 0)
+.reduce((a,b) => a + b, 0); //El cero es para evitar errores en caso de que el array esté vacio
+console.log(f3(array)); //4 (1 + 3)
+
