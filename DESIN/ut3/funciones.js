@@ -1,7 +1,7 @@
 console.log("------Funcion nombrada------");
 console.log(hello("Pedro (Llamada antes de definirla)")); //Al ser una funcion nombrada se produce hoisting
 
-function hello (nombre) {
+function hello(nombre) {
     return "Hola " + nombre;
 }
 
@@ -23,18 +23,18 @@ function hola(foo) {
     foo(); //Llamada a la función sin parámetros
 }
 
-hola(function() {
+hola(function () {
     console.log("Hola");
 })
 
 
 console.log("------Funcion que recibe una función con parámetros------");
 function suma(foo) {
-    foo (1,2); //3
+    foo(1, 2); //3
 }
 
-suma(function (a,b){
-    console.log(a+b);
+suma(function (a, b) {
+    console.log(a + b);
 });
 
 
@@ -54,7 +54,7 @@ f1('Pepe', 20, "Calle X"); //Pepe - 20 - Calle X
 
 
 console.log("------Parámetros con argument------")
-function f2 (nombre, edad) {
+function f2(nombre, edad) {
     console.log(`${arguments[0]} - ${arguments[1]}`);
 }
 f2('Pepe'); //Pepe - undefined
@@ -62,7 +62,7 @@ f2('Pepe', 30, 'Otro dato'); //Pepe - 30
 
 
 console.log("------Parámetros con valores por defecto------");
-function f3 (nombre="Paco", edad = 20) {
+function f3(nombre = "Paco", edad = 20) {
     console.log(nombre + " - " + edad);
 }
 f3('Pepe');
@@ -72,7 +72,7 @@ f3();
 console.log("------Funciones con parámetros 'rest'------");
 function añadirApellido(nombre, ...apellidos) { //...apellidos recibe X número de parámetros y los agrupa en un array iterable
     let result = nombre;
-    for(const i in apellidos) {
+    for (const i in apellidos) {
         result += " " + apellidos[i];
     }
     return result;
@@ -84,23 +84,23 @@ console.log(añadirApellido("Victor", "Cavero", "Fernández")); //Victor Cavero 
 
 console.log("----------------------------");
 
-let values= [1,2,3];
+let values = [1, 2, 3];
 console.log(values); //[1, 2, 3]
 let morevalues = [4, 5];
 values.push(...morevalues);
 console.log(values); //[1, 2, 3, 4, 5]
 
-function suma (a, b, c) {
+function suma(a, b, c) {
     return a + b + c;
 }
 
-let array1 = [1,2,3];
+let array1 = [1, 2, 3];
 console.log(suma(...array1)); //6
-let array2 = [1,2,3,4,5,6,7];
+let array2 = [1, 2, 3, 4, 5, 6, 7];
 console.log(suma(...array2)); //6
 //El resultado es el mismo, porque la funcion suma solo recoge los 3 primeros parámetros del array
 
-let array3 = [1,2,3,4,5,6,7];
+let array3 = [1, 2, 3, 4, 5, 6, 7];
 function add(...args) {
     result = 0;
     for (const i of args) {
@@ -142,4 +142,66 @@ console.log("-----------------");
 let saludo5 = (nombre, apellido) => console.log("Hola " + nombre + " " + apellido);
 
 saludo5("Pepe", "Ruiz"); //Hola Pepe Ruiz
+
+console.log("------FUNCIÓN DENTRO DE FUNCIÓN------");
+function hello() {
+    console.log("Nivel 1");
+    return function () {
+        console.log("Nivel 2");
+        return function () { return "Nivel 3" }
+    }
+};
+
+console.log(hello()()());
+
+console.log("------PASO POR VALOR O POR REFERENCIA------");
+let array4 = [1, 2, 3];
+console.log(array4);
+let prueba = function () {
+    array4.pop();
+    console.log(array4);
+}
+prueba(array4);
+console.log(array4);
+
+console.log("------Calcular------");
+
+function calcular(accion, numero = 1, ...cantidad) {
+
+    function incrementar(...valor) {
+        return numero + valor;
+    }
+
+    function decrementar(valor) {
+        return numero - valor;
+    }
+
+    function multiplicar(valor) {
+        return numero * valor;
+    }
+
+    function dividir(valor) {
+        if (valor > 0) {
+            return numero / valor;
+        } else {
+            return "No se puede dividir por 0";
+        }
+    }
+
+    if (accion == '+') resultado = incrementar(cantidad);
+    if (accion == '-') resultado = decrementar(cantidad);
+    if (accion == '*') resultado = multiplicar(cantidad);
+    if (accion == '/') resultado = dividir(cantidad);
+
+
+    return resultado;
+}
+
+
+console.log("Suma: " + calcular('+', 8, 3));
+console.log("Resta: " + calcular('-', 47, 9)); 
+console.log("Division: " + calcular('/', 25, 0));
+console.log("Division: " + calcular('/',25, 5));
+console.log("Multiplicacion: " + calcular('*', 3, 9));
+
 
