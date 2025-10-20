@@ -31,6 +31,7 @@ $idiomaGuardado = isset($_COOKIE["idioma"]) ? $_COOKIE["idioma"] : null;
             <p>Idioma no reconocido.</p>
         <?php endif; ?>
         <p><a href="?borrar=1">Cambiar idiomas</a></p>
+
         <?php
         // Opción para borrar la cookie y volver al formulario
         if (isset($_GET["borrar"])) {
@@ -39,6 +40,7 @@ $idiomaGuardado = isset($_COOKIE["idioma"]) ? $_COOKIE["idioma"] : null;
             exit;
         }
         ?>
+        
     <?php else: ?>
         <h2>Selecciona tu idioma preferido:</h2>
         <form method="post" action="">
