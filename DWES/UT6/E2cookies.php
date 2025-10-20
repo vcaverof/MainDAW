@@ -1,33 +1,45 @@
 <?php
-$nombre_cookie = "idioma";
+// Comprobar si se ha enviado el formulario
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["idioma"])) {
+    // Guardar la cookie por 7 días
+    setcookie("idioma", $_POST["idioma"], time() + (7 * 24 * 60 * 60));
+}
 
-$duracion = 365 * 24 * 60 * 60;
-
-
+// Comprobar si la cookie existe
+$idiomaGuardado = isset($_COOKIE["idioma"]) ? $_COOKIE["idioma"] : null;
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Seleccionar idioma</title>
 </head>
 
 <body>
-    <form methos="post" action="">
-
-        <label>Español</label>
-        <input type="radio" name="idioma" value="esp">
-
-        <label>Inglés</label>
-        <input type="radio" name="idioma" value="eng">
-
-        <input type="submit">
+    <?php if ($idiomaGuardado): ?>
+    <?php if ($idiomaGuardado == "es"): ?>
+        <h1>¡Bienvenido!</h1>
+        <p>Has seleccionado Español como tu idioma preferido.</p>
+    <?php elseif ($idiomaGuardado == "en"): ?>
+        <h1>Welcome!</h1>
+        <p>You have selected English as your preferred language.</p>
+    <?php else: ?>
+        <p>Idioma no reconocido.</p>
+    <?php endif; ?>
+<?php else: ?>
+    <h2>Selecciona tu idioma preferido:</h2>
+    <form method="post" action="">
+        <label>
+            <input type="radio" name="idioma" value="es" required> Español
+        </label><br>
+        <label>
+            <input type="radio" name="idioma" value="en" required> Inglés
+        </label><br><br>
+        <button type="submit">Guardar idioma</button>
     </form>
-
-
+<?php endif; ?>
 </body>
 
 </html>
