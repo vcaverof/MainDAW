@@ -4,38 +4,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="login.css">
     <title>Login</title>
 </head>
 
 <body>
-    <form action="#" method="post" atuocmplete="on" aria-describedby="login-help">
-        <h1>Iniciar Sesión</h1>
+    <form class="formulario" action="#" method="post" atuocmplete="on" aria-describedby="login-help">
+        <h2>Iniciar Sesión</h2>
         <label for="correo">Correo electrónico</label>
         <input type="email" name="correo" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}" required>
 
         <label>Contraseña</label>
-        <input type="password" name="pass">
-        <button type="button" id="showPass">Mostrar</button>
+        <input type="password" name="pass" placeholder="8 carácteres mínimo">
+        <!-- <button type="button" id="showPass">Mostrar</button> -->
 
-        <input type="checkbox" name="recordarme">
-        <label for="recordarme">Recordarme</label>
-
-        <a href="#">¿Olvidaste tu contraseña?</a>
-
-        <input type="submit" name="iniciar">
-
-        <p>O continuar con</p>
-
-        <!-- Botones de inicio de sesion con diferentes plataformas -->
-
-        <div id="iniciosPlataformas">
-            <a href="#"><img src="" alt="Logo Google" width="10" height="10">Google</a>
-            <a href="#"><img src="" alt="Logo Facebook" width="10" height="10">Facebook</a>
-            <a href="#"><img src="" alt="Logo Apple" width="10" height="10">Apple</a>
-            <a href="#"><img src="" alt="Logo Microsoft" width="10" height="10">Microsoft</a>
+        <div class="recordarme">
+            <label for="recordarme"> <input type="checkbox" name="recordarme"> Recordarme</label>
+            <a href="#">¿Olvidaste tu contraseña?</a>
         </div>
 
+        <input type="submit" name="iniciar" value="Iniciar sesión">
+
+        <div class="continuar">
+            <hr width="31%" color ="#CCC">
+            <p>O continuar con</p>
+            <hr width="31%" color ="#CCC">
+        </div>
+        
+        <!-- Botones de inicio de sesion con diferentes plataformas -->
+
+        <div class="logos">
+            <a class="boton-enlace" href="https://www.google.com"><img
+                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/1200px-Google_%22G%22_logo.svg.png"
+                    width="30" height="30">Google</a>
+            <a class="boton-enlace" href="https://www.facebook.com"><img
+                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b8/2021_Facebook_icon.svg/2048px-2021_Facebook_icon.svg.png"
+                    width="30" height="30">Facebook</a>
+            <a class="boton-enlace" href="https://www.apple.com"><img
+                    src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg" witdth="30"
+                    height="30">Apple</a>
+            <a class="boton-enlace" href="https://www.microsoft.com"><img
+                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Microsoft_logo.svg/2048px-Microsoft_logo.svg.png"
+                    width="30" height="30">Microsoft</a>
+        </div>
         <p>¿No tienes una cuentra? <a href="#">Registrate</a></p>
     </form>
 </body>
+
 </html>

@@ -1,0 +1,97 @@
+body {
+    background-color: #eaf0f7ff;
+    font-family: 'Segoe UI', sans-serif;
+    margin: 0;
+    padding: 20px;
+}
+
+h2,
+p {
+    text-align: center;
+}
+
+.formulario {
+    background-color: #ffffff;
+    margin: auto;
+    padding: 40px;
+    max-width: 350px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    margin-top: 7px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+input[type="submit"] {
+    background-color: #0a63d8;
+    color: white;
+    border: none;
+    margin-top: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+input[type="submit"]:hover {
+    background-color: #2980b9;
+}
+
+
+.boton-enlace {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color:#FFF;
+    border: 2px solid #DDD;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: sans-serif;
+}
+
+.boton-enlace:hover {
+    background-color: #EEE;
+}
+
+.logos > a {
+    text-decoration: none;
+    color: #222;
+    gap: 15px;
+    margin-bottom: 10px;
+}
+
+.recordarme {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.recordarme > label {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.continuar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #CCC;
+    margin:15px 15px;
+}
+
+a {
+    text-decoration: none;
+}
+
+
+
+
