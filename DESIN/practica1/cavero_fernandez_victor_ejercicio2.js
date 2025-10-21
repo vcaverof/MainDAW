@@ -1,13 +1,17 @@
 let texto = "En un lugar de la mancha";
 
+//Devolver la frase en CamelCase
 console.log("Función f4");
-let f4 = texto => texto.split(" ")
+let f4 = texto => texto.toLowerCase()
+    .split(" ")
+    .map((e, i) => i === 0 ? e : e.charAt(0).toUpperCase() + e.slice(1))
     .join("");
-   
 
 console.log(f4(texto));
 
 console.log("--------------------");
+
+//Devolver la media de caracteres de las palabras del texto
 console.log("Funcion f5");
 let f5 = texto => texto.split(" ")
     .reduce((acc, e) => acc + e.length, 0) / texto.split(" ").length;
