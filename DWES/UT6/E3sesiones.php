@@ -5,7 +5,7 @@ session_start();
 $host = "localhost";
 $user = "root";
 $password = "";
-$dbname = "login";
+$dbname = "login"; //Mi base de datos
 
 try {
     $conn = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $user, $password);
@@ -31,6 +31,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $accion = $_POST['accion'];
     $usuario = $_POST['usuario'];
     $clave = $_POST['clave'];
+    $password_hash = password_hash($clave, PASSWORD_DEFAULT);
 
     if ($accion === "registro") {
         // Verificar si el usuario ya existe
@@ -45,19 +46,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Registrar nuevo usuario
             $insert_sql = "INSERT INTO usuarios (usuario, clave) VALUES (?, ?)";
             $insert_stmt = $conn->prepare($insert_sql);
-            $insert_stmt->execute([$usuario, $clave]);
+            $insert_stmt->execute([$usuario, $password_hash]);
             echo "<p style='color:green;'>Usuario registrado correctamente. Ahora puedes iniciar sesión.</p>";
         }
     }
 
     if ($accion === "login") {
         // Validar login
-        $login_sql = "SELECT * FROM usuarios WHERE usuario = ? AND clave = ?";
+        $login_sql = "SELECT * FROM usuarios WHERE usuario = ?";
         $login_stmt = $conn->prepare($login_sql);
-        $login_stmt->execute([$usuario, $clave]);
-        $login_result = $login_stmt->fetchAll();
+        $login_stmt->execute([$usuario]);
+        $login_result = $login_stmt->fetch(PDO::FETCH_ASSOC);
 
-        if (count($login_result) === 1) {
+        //Comprobar que existen usuarios tras la búsqueda y que además coincide la clave con el hash almacenado
+        if ($login_result && password_verify($clave, $login_result['clave'])) {
             $_SESSION['usuario'] = $usuario;
 
             // Registrar sesión
