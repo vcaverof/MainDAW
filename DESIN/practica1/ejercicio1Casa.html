@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Control de usuarios y contraseñas</title>
+</head>
+
+<body>
+    <script>
+        const coleccionUsuarios = new Set();
+
+        function añadirUsuario() {
+            let entrada = prompt("Introduce tu nombre completo (NNombre Apellido1 Apellido2)");
+            let partesUsuario = entrada.trim().split(" ");
+
+            if (partesUsuario.length < 3) {
+                alert("Introduce el nombre completo de forma correcta");
+                return;
+            }
+
+            let nombre = partesUsuario[0];
+            let ap1 = partesUsuario[1];
+            let ap2 = partesUsuario[2];
+            let nombreCompleto = nombre + " " + ap1 + " " + ap2;
+
+            //Comprobar si el usuario existe
+            for (let usuario of coleccionUsuarios) {
+                if (usuario === nombreCompleto) {
+                    alert("El usuario ya existe");
+                    return;
+                }
+            }
+
+            let sinEspacios = partesUsuario.join("");
+            //Mostrar al usuario
+            alert("Tamaño del nombre más los apellidos: " + sinEspacios.length);
+            alert("Minúsculas: " + nombreCompleto.toLowerCase());
+            alert("Mayúsculas: " + nombreCompleto.toUpperCase());
+            alert("Nombre: " + nombre + "\n" +
+                "Apellido1: " + ap1 + "\n" +
+                "Apellido2: " + ap2
+            );
+
+            //Elegir tipo de contraseña
+            let tipoPassword = prompt("Selecciona un tipo de contraseña para el usuario: \n1. Nombre completo + Iniciales de los apellidos\n2. Dos iniciales de nombre y de los dos apellidos\n3. Letra del nombre + posicion");
+            let password;
+
+            switch (tipoPassword) {
+                case "1":
+                    password = nombre.toLowerCase() + ap1.charAt(0).toUpperCase() + ap2.charAt(0).toUpperCase();
+                    break;
+                case "2":
+                    password = nombre.slice(0, 2).toUpperCase() + ap1.slice(0, 2).toLowerCase() + ap2.slice(0, 2).toLowerCase();
+                    break;
+                case "3":
+                    password = nombre.split("").map((e, i) => e + i).join("");
+                    break;
+                default:
+                    password = "12345";
+            }
+
+            //Añadir el usuario a la colección
+            coleccionUsuarios.add({ nombre: nombreCompleto, contraseña: password });
+            alert("El usuario ha sido añadido con éxito. Contraseña: " + password);
+
+        }
+
+
+        function modificarUsuario() {
+            let nombreBuscado = prompt("Nombre: ");
+            let passwordActual = prompt("Contraseña: ");
+            let encontrado = false;
+
+            for (let usuario of coleccionUsuarios) {
+                if (usuario.nombre === nombreBuscado && usuario.contraseña === passwordActual) {
+                    //Solicitar la nueva contraseña
+                    let passwordNueva = prompt("Introduce la nueva contraseña");
+
+                    //Eliminar al usuario anterior
+                    coleccionUsuarios.delete(usuario);
+
+                    //Añadir al usuario con la nueva contraseña
+                    coleccionUsuarios.add({ nombre: nombreBuscado, contraseña: passwordNueva });
+                    encontrado = true;
+                    break;
+                }
+
+                if (!encontrado) {
+                    alert("No se ha encontrado el usuario o la contraseña es incorrecta");
+                }
+            }
+        }
+
+        function mostrarUsuarios() {
+            let salida = "Usuarios registrados:\n";
+            for (let usuario of coleccionUsuarios) {
+                salida += `${usuario.nombre} → ${usuario.contraseña}\n`;
+            }
+            alert(salida);
+        }
+
+        function eliminarUsuario() {
+            let nombreBuscado = prompt("Nombre: ");
+            let encontrado = false;
+
+            for (let usuario of coleccionUsuarios) {
+                if (usuario.nombre === nombreBuscado) {
+                    coleccionUsuarios.delete(usuario);
+                    alert("El usuario ha sido eliminado con éxito");
+                    encontrado = true;
+                    break;
+                }
+
+                if (!encontrado) {
+                    alert("No se ha encontrado el usuario")
+                }
+            }
+        }
+
+
+        function menu() {
+
+            let salir = false;
+
+            while (!salir) {
+                let opcion = prompt("Selecciona una opción\n1. Añadir usuario\n2. Modificar usuario\n3. Eliminar usuario\n4. Mostrar colección de usuarios\n5. Salir");
+                switch (opcion) {
+                    case "1":
+                        añadirUsuario();
+                        break;
+                    case "2":
+                        modificarUsuario();
+                        break;
+
+                    case "3":
+                        eliminarUsuario();
+                        break;
+
+                    case "4":
+                        mostrarUsuarios();
+                        break;
+
+                    case "5":
+                        salir = true;
+                        break;
+                    default:
+                        alert("Opción no válida");
+                }
+            }
+        }
+        menu();
+    </script>
+</body>
+
+</html>
