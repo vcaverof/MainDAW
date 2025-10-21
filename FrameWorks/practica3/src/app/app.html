@@ -1,15 +1,16 @@
 <h1>Control de temperaturas</h1>
 
 <div class="botones">
-  <button (click)="reiniciarTodo()">Reiniciar temperaturas</button>
-  <button (click)="fijarTodo(55)">Fijar todas a 55°</button>
+  <button (click)="fijarTemperaturas()">Fijar temperaturas</button>
+  <button (click)="reiniciarTemperaturas()">Reiniciar</button>
 </div>
 
 <div class="sensores">
   <app-sensor-temperatura
     *ngFor="let sensor of sensores"
     [nombre]="sensor.nombre"
-    [umbral]="sensor.rango"
+    [rango]="sensor.rango"
     (alerta)="manejarAlerta($event)">
   </app-sensor-temperatura>
 </div>
+<router-outlet/>

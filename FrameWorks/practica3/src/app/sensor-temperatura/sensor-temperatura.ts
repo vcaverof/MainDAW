@@ -1,27 +1,25 @@
-import { EmitterVisitorContext } from '@angular/compiler';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-sensor-temperatura',
-  imports: [],
+  standalone: true,
   templateUrl: './sensor-temperatura.html',
-  styleUrl: './sensor-temperatura.css'
 })
 export class SensorTemperatura {
-  @Input() nombre: string = "";
-  @Input() umbral: {min: number, max: number} = {min: 0, max: 100};
+  @Input() nombre: string = '';
+  @Input() rango: { min: number; max: number } = { min: 0, max: 100 };
   @Output() alerta = new EventEmitter<string>();
 
-  temperaturaActual: number = 0;
+  temperatura: number = 0;
 
   fijar(valor: number) {
-    this.temperaturaActual = valor;
-    if (valor > this.umbral.max) {
-      this.alerta.emit(`${this.nombre} superó el umbral de ${this.umbral.max}ºC`);
+    this.temperatura = valor;
+    if (valor > this.rango.max) {
+      this.alerta.emit(`${this.nombre} superó el umbral de temperatura`);
     }
   }
 
-  reset(){
-    this.temperaturaActual = 10;
+  reset() {
+    this.temperatura = 0;
   }
 }
