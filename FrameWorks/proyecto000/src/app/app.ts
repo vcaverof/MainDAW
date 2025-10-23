@@ -1,12 +1,18 @@
 import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import {Hijo} from './hijo/hijo';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [CommonModule, RouterOutlet, Hijo],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
 export class App {
-  protected readonly title = signal('proyecto000');
+  mensajeRecibido = '';
+
+  mostrarMensaje(mensaje: string) {
+    this.mensajeRecibido = mensaje;
+  }
 }
