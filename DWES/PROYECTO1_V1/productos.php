@@ -5,8 +5,8 @@
 //     exit();
 // }
 
-if(isset($_GET['categoria'])) {
-    if($_GET['categoria'] == 1) {
+if (isset($_GET['categoria'])) {
+    if ($_GET['categoria'] == 1) {
         $categoria = 1;
     } elseif ($_GET['categoria'] == 2) {
         $categoria = 2;
@@ -37,6 +37,8 @@ $productos = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <th>Descripción</th>
                 <th>Precio (€)</th>
                 <th>Stock</th>
+                <th>Unidades</th>
+                <th>Acción</th>
             </tr>
             <?php foreach ($productos as $producto): ?>
                 <tr>
@@ -44,9 +46,16 @@ $productos = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <td><?php echo htmlspecialchars($producto['descripcion']); ?></td>
                     <td><?php echo number_format($producto['precio'], 2); ?></td>
                     <td><?php echo intval($producto['stock']); ?></td>
+                    <td>
+                        <input type="number" name="unidades[<?php echo $producto['id']; ?>]" min="1" max="<?php echo $producto['stock']; ?>" value="1">
+                    </td>
+                    <td>
+                        <button type="submit" name="comprar" value="<?php echo $producto['id']; ?>">Comprar</button>
+                    </td>
                 </tr>
             <?php endforeach; ?>
         </table>
+        <!-- <input type="hidden" name="origen" value="productos.php"> cambia según la página -->
     </form>
 <?php else: ?>
     <p>No hay productos disponibles en esta categoría.</p>
