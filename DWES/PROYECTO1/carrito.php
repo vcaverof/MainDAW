@@ -4,11 +4,12 @@ include 'cabecera.php';
 
 echo "<h2>🛒 Tu carrito</h2>";
 
+//Comprobar si se ha incluido algun objeto en el carrito
 if (!isset($_SESSION['carrito']) || count($_SESSION['carrito']) === 0) {
     echo "<p>El carrito está vacío.</p>";
 } else {
     // Formulario para actualizar/eliminar
-    echo '<form method="POST" action="actualizar_carrito.php">';
+    echo '<form method="POST" action="carrito.php">';
     echo "<table border='1' cellpadding='8' cellspacing='0'>";
     echo "<tr><th>Producto</th><th>Unidades</th><th>Acción</th></tr>";
 

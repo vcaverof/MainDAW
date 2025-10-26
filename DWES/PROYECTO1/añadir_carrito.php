@@ -2,6 +2,7 @@
 session_start();
 include 'conexion.php';
 
+//Comprueba si se ha enviado el formulario de compra
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['comprar'])) {
     $id_producto = $_POST['comprar'];
     $unidades = $_POST['unidades'][$id_producto];

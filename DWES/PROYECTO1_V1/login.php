@@ -13,7 +13,9 @@ if (($_SERVER['REQUEST_METHOD'] == "POST")) {
     $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if ($result) {
-        $_SESSION['email'] = $result['id'];
+        $_SESSION['id_restaurante'] = $result['id'];
+        $_SESSION['email'] = $result['email'];
+
 
         header("Location: home.php");
         exit();
@@ -21,9 +23,7 @@ if (($_SERVER['REQUEST_METHOD'] == "POST")) {
         echo "Usuario o contraseña incorrectos. Prueba de nuevo";
     }
 }
-
 ?>
-
 
 <body>
     <h2>Inicio de sesión</h2>

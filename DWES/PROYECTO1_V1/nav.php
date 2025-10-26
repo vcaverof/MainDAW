@@ -8,13 +8,12 @@ if (!isset($_SESSION['email'])) {
 }
 
 //Comprobar si se ha cerrado sesión
-
-if (isset($_GET['logut']) && $_GET['logut'] == true) {
+if (isset($_GET['logout']) && $_GET['logout'] == true) {
     session_start();
     session_unset(); //Eliminar las variables internas de la sesion
     session_destroy(); //Destruye la sesion
 
-    header("Location: login.php");
+    header("Location: cierre_sesion.php?logout=1");
     exit();
 }
 ?>
@@ -24,7 +23,7 @@ if (isset($_GET['logut']) && $_GET['logut'] == true) {
     <nav>
         <a href="home.php">Home</a>
         <a href="carrito.php">Ver carrito</a>
-        <a href="home.php?logut=true">Cerrar Sesión</a>
+        <a href="home.php?logout=true">Cerrar Sesión</a>
     </nav>
     <hr>
 </div>
