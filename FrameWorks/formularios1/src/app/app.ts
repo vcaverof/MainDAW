@@ -53,8 +53,9 @@ export class App {
         descripcion: this.art.descripcion,
         precio: this.art.precio
       });
+      this.art.codigo = 0;
+      this.art.descripcion = "";
+      this.art.precio = 0;
     }
   }
-
-
 }
