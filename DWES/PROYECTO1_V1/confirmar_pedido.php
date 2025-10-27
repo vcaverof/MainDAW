@@ -46,7 +46,7 @@ try {
     $id_pedido = $conn->lastInsertId();
 
     // Insertar detalles del pedido y actualizar stock
-    $sqlDetalle = "INSERT INTO detallespedido (id_pedido, id_producto, cantidad) VALUES (?, ?, ?)";
+    $sqlDetalle = "INSERT INTO detallepedido (id_pedido, id_producto, cantidad) VALUES (?, ?, ?)";
     $stmtDetalle = $conn->prepare($sqlDetalle);
 
     $sqlStock = "UPDATE productos SET stock = stock - ? WHERE id = ?";

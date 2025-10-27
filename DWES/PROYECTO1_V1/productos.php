@@ -2,73 +2,102 @@
 include 'nav.php';
 include 'conexion.php';
 
+// Recoger la categoría elegida
+$categoria = isset($_GET['categoria']) ? $_GET['categoria'] : null;
 
-//Recoger la categoria elegida en el home
-if (isset($_GET['categoria'])) {
-    $categoria = $_GET['categoria'];
-} else {
-    $categoria = 1; // o redirigir, mostrar mensaje, etc.
-}
-
-//Comprobar que se ha procesado el formulario de compra
+// Procesar el formulario de compra
 if ($_SERVER["REQUEST_METHOD"] == 'POST' && isset($_POST['comprar'])) {
     $id_producto = $_POST['comprar'];
     $unidades = $_POST['unidades'][$id_producto];
 
-    //Obtener datos del producto
-    $sql = "SELECT nombre FROM productos WHERE id = ?";
+    // Obtener datos del producto incluyendo stock
+    $sql = "SELECT nombre, stock FROM productos WHERE id = ?";
     $stmt = $conn->prepare($sql);
     $stmt->execute([$id_producto]);
     $producto = $stmt->fetch(PDO::FETCH_ASSOC);
 
-
     if ($producto) {
         $nombre = $producto['nombre'];
+        $stock_actual = $producto['stock'];
 
-        //Iniciar el carrito en caso de que no este iniciado
-        if (!isset($_SESSION['carrito'])) {
-            $_SESSION['carrito'] = [];
-        }
-
-
-        $productoYaEnCarrito = false;
-
-        //Comprobar si el producto ya esta en el carrito
-        foreach ($_SESSION['carrito'] as &$item) {  //Utilizamos & delante de la variable para trabajar con la referencia y no con la copia
-            if ($item['id_producto'] == $id_producto) {
-                $item['cantidad'] += $unidades;
-                $productoYaEnCarrito = true;
-                break;
+        // Calcular cuántas unidades ya hay en el carrito
+        $enCarrito = 0;
+        if (isset($_SESSION['carrito'])) {
+            foreach ($_SESSION['carrito'] as $item) {
+                if ($item['id_producto'] == $id_producto) {
+                    $enCarrito = $item['cantidad'];
+                    break;
+                }
             }
         }
-        unset($item); //Romper la referencia
 
-        if (!$productoYaEnCarrito) {
-            $_SESSION['carrito'][] = [
-                'id_producto' => $id_producto,
-                'nombre' => $nombre,
-                'cantidad' => $unidades
-            ];
+        $totalSolicitado = $enCarrito + $unidades;
+
+        if ($totalSolicitado > $stock_actual) {
+            $_SESSION['mensaje'] = "<p style='color:red;'>❌ No puedes añadir $unidades unidades de '$nombre'. Ya tienes $enCarrito en el carrito y solo hay $stock_actual disponibles.</p>";
+        } else {
+            $stock_restante = $stock_actual - $totalSolicitado;
+
+            if ($stock_restante <= 5) {
+                $_SESSION['mensaje'] = "<p style='color:orange;'>⚠️ Atención: solo quedarán $stock_restante unidades de '$nombre' en stock después de esta compra.</p>";
+            } else {
+                $_SESSION['mensaje'] = null;
+            }
+
+            // Iniciar el carrito si no existe
+            if (!isset($_SESSION['carrito'])) {
+                $_SESSION['carrito'] = [];
+            }
+
+            $productoYaEnCarrito = false;
+
+            // Actualizar cantidad en el carrito
+            foreach ($_SESSION['carrito'] as &$item) {
+                if ($item['id_producto'] == $id_producto) {
+                    $item['cantidad'] += $unidades;
+                    $productoYaEnCarrito = true;
+                    break;
+                }
+            }
+            unset($item);
+
+            if (!$productoYaEnCarrito) {
+                $_SESSION['carrito'][] = [
+                    'id_producto' => $id_producto,
+                    'nombre' => $nombre,
+                    'cantidad' => $unidades
+                ];
+            }
+
+            // Redirigir
+            $origen = isset($_POST['origen']) ? $_POST['origen'] . '?categoria=' . urlencode($categoria) : 'home.php';
+            header("Location: " . $origen);
+            exit();
         }
-
-        $origen = isset($_POST['origen']) ? $_POST['origen'] : 'home.php';
-        header("Location: " . $origen);
-        exit();
     } else {
-        echo "Producto no encontrado";
+        $_SESSION['mensaje'] = "<p style='color:red;'>❌ Producto no encontrado.</p>";
     }
 }
 
+// Mostrar productos de la categoría
 $sql = "SELECT id, nombre, descripcion, precio, stock FROM productos WHERE id_categoria = ?";
 $stmt = $conn->prepare($sql);
 $stmt->execute([$categoria]);
 $productos = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
-<h2>Productos de la categoria: <?php echo $categoria ?></h2>
+<h2>Productos de la categoría: <?php echo htmlspecialchars($categoria); ?></h2>
+
+<?php
+// Mostrar mensaje si existe
+if (isset($_SESSION['mensaje'])) {
+    echo $_SESSION['mensaje'];
+    unset($_SESSION['mensaje']);
+}
+?>
 
 <?php if (count($productos) > 0): ?>
-    <form method="POST" action="productos.php?categoria=<?php echo $categoria; ?>">
+    <form method="POST" action="productos.php?categoria=<?php echo urlencode($categoria); ?>">
         <table border="1" cellpadding="8" cellspacing="0">
             <tr>
                 <th>Nombre</th>
@@ -79,21 +108,40 @@ $productos = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <th>Acción</th>
             </tr>
             <?php foreach ($productos as $producto): ?>
+                <?php
+                $stock = intval($producto['stock']);
+                $aviso = '';
+                if ($stock == 0) {
+                    $aviso = "<span style='color:red;'>🔴 Sin stock</span>";
+                } elseif ($stock <= 5) {
+                    $aviso = "<span style='color:orange;'>🟠 ¡Quedan pocas unidades!</span>";
+                }
+                ?>
                 <tr>
                     <td><?php echo htmlspecialchars($producto['nombre']); ?></td>
                     <td><?php echo htmlspecialchars($producto['descripcion']); ?></td>
                     <td><?php echo number_format($producto['precio'], 2); ?></td>
-                    <td><?php echo intval($producto['stock']); ?></td>
                     <td>
-                        <input type="number" name="unidades[<?php echo $producto['id']; ?>]" min="1" max="<?php echo $producto['stock']; ?>" value="1">
+                        <?php echo $stock; ?> <?php echo $aviso; ?>
                     </td>
                     <td>
-                        <button type="submit" name="comprar" value="<?php echo $producto['id']; ?>">Comprar</button>
+                        <?php if ($stock > 0): ?>
+                            <input type="number" name="unidades[<?php echo $producto['id']; ?>]" min="1" max="<?php echo $stock; ?>" value="1">
+                        <?php else: ?>
+                            <input type="number" disabled value="0">
+                        <?php endif; ?>
+                    </td>
+                    <td>
+                        <?php if ($stock > 0): ?>
+                            <button type="submit" name="comprar" value="<?php echo $producto['id']; ?>">Comprar</button>
+                        <?php else: ?>
+                            <button disabled>Agotado</button>
+                        <?php endif; ?>
                     </td>
                 </tr>
             <?php endforeach; ?>
         </table>
-        <input type="hidden" name="origen" value="productos.php"> <!-- Sirve para recargar la pagina a la hora de usar el carrito -->
+        <input type="hidden" name="origen" value="productos.php">
     </form>
 <?php else: ?>
     <p>No hay productos disponibles en esta categoría.</p>

@@ -7,12 +7,13 @@ if (($_SERVER['REQUEST_METHOD'] == "POST")) {
     $clave = $_POST['clave'];
 
     //Verificar datos de login en la base de datos
-    $sql = "SELECT * FROM restaurantes WHERE email = ? AND clave = ?";
+    $sql = "SELECT * FROM restaurantes WHERE email = ?";
     $stmt = $conn->prepare($sql);
-    $stmt->execute([$email, $clave]);
+    $stmt->execute([$email]);
     $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if ($result) {
+        if(password_verify($clave, $result['clave']))
         $_SESSION['id_restaurante'] = $result['id'];
         $_SESSION['email'] = $result['email'];
 
