@@ -1,4 +1,5 @@
 <?php
+session_start();
 include 'nav.php';
 include 'conexion.php';
 
@@ -10,7 +11,6 @@ if ($_SERVER["REQUEST_METHOD"] == 'POST' && isset($_POST['comprar'])) {
     $id_producto = $_POST['comprar'];
     $unidades = $_POST['unidades'][$id_producto];
 
-    // Obtener datos del producto incluyendo stock
     $sql = "SELECT nombre, stock FROM productos WHERE id = ?";
     $stmt = $conn->prepare($sql);
     $stmt->execute([$id_producto]);
@@ -20,7 +20,6 @@ if ($_SERVER["REQUEST_METHOD"] == 'POST' && isset($_POST['comprar'])) {
         $nombre = $producto['nombre'];
         $stock_actual = $producto['stock'];
 
-        // Calcular cuántas unidades ya hay en el carrito
         $enCarrito = 0;
         if (isset($_SESSION['carrito'])) {
             foreach ($_SESSION['carrito'] as $item) {
@@ -34,24 +33,22 @@ if ($_SERVER["REQUEST_METHOD"] == 'POST' && isset($_POST['comprar'])) {
         $totalSolicitado = $enCarrito + $unidades;
 
         if ($totalSolicitado > $stock_actual) {
-            $_SESSION['mensaje'] = "<p style='color:red;'>❌ No puedes añadir $unidades unidades de '$nombre'. Ya tienes $enCarrito en el carrito y solo hay $stock_actual disponibles.</p>";
+            $_SESSION['mensaje'] = "<p class='mensaje error'>❌ No puedes añadir $unidades unidades de '$nombre'. Ya tienes $enCarrito en el carrito y solo hay $stock_actual disponibles.</p>";
         } else {
             $stock_restante = $stock_actual - $totalSolicitado;
 
             if ($stock_restante <= 5) {
-                $_SESSION['mensaje'] = "<p style='color:orange;'>⚠️ Atención: solo quedarán $stock_restante unidades de '$nombre' en stock después de esta compra.</p>";
+                $_SESSION['mensaje'] = "<p class='mensaje alerta'>⚠️ Atención: solo quedarán $stock_restante unidades de '$nombre' en stock después de esta compra.</p>";
             } else {
                 $_SESSION['mensaje'] = null;
             }
 
-            // Iniciar el carrito si no existe
             if (!isset($_SESSION['carrito'])) {
                 $_SESSION['carrito'] = [];
             }
 
             $productoYaEnCarrito = false;
 
-            // Actualizar cantidad en el carrito
             foreach ($_SESSION['carrito'] as &$item) {
                 if ($item['id_producto'] == $id_producto) {
                     $item['cantidad'] += $unidades;
@@ -69,13 +66,12 @@ if ($_SERVER["REQUEST_METHOD"] == 'POST' && isset($_POST['comprar'])) {
                 ];
             }
 
-            // Redirigir
             $origen = isset($_POST['origen']) ? $_POST['origen'] . '?categoria=' . urlencode($categoria) : 'home.php';
             header("Location: " . $origen);
             exit();
         }
     } else {
-        $_SESSION['mensaje'] = "<p style='color:red;'>❌ Producto no encontrado.</p>";
+        $_SESSION['mensaje'] = "<p class='mensaje error'>❌ Producto no encontrado.</p>";
     }
 }
 
@@ -86,63 +82,172 @@ $stmt->execute([$categoria]);
 $productos = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
-<h2>Productos de la categoría: <?php echo htmlspecialchars($categoria); ?></h2>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Productos</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 40px;
+        }
 
-<?php
-// Mostrar mensaje si existe
-if (isset($_SESSION['mensaje'])) {
-    echo $_SESSION['mensaje'];
-    unset($_SESSION['mensaje']);
-}
-?>
+        h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
 
-<?php if (count($productos) > 0): ?>
-    <form method="POST" action="productos.php?categoria=<?php echo urlencode($categoria); ?>">
-        <table border="1" cellpadding="8" cellspacing="0">
-            <tr>
-                <th>Nombre</th>
-                <th>Descripción</th>
-                <th>Precio (€)</th>
-                <th>Stock</th>
-                <th>Unidades</th>
-                <th>Acción</th>
-            </tr>
-            <?php foreach ($productos as $producto): ?>
-                <?php
-                $stock = intval($producto['stock']);
-                $aviso = '';
-                if ($stock == 0) {
-                    $aviso = "<span style='color:red;'>🔴 Sin stock</span>";
-                } elseif ($stock <= 5) {
-                    $aviso = "<span style='color:orange;'>🟠 ¡Quedan pocas unidades!</span>";
-                }
-                ?>
+        .mensaje {
+            text-align: center;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .mensaje.error {
+            color: red;
+        }
+
+        .mensaje.alerta {
+            color: orange;
+        }
+
+        table {
+            width: 100%;
+            max-width: 1000px;
+            margin: 0 auto;
+            border-collapse: collapse;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0,0,0,0.05);
+        }
+
+        th, td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #ddd;
+            text-align: center;
+        }
+
+        th {
+            background-color: #007BFF;
+            color: white;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        input[type="number"] {
+            width: 60px;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            padding: 8px 12px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button[disabled] {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        button:hover:not([disabled]) {
+            background-color: #218838;
+        }
+
+        .stock-alert {
+            font-weight: bold;
+        }
+
+        .stock-alert.red {
+            color: red;
+        }
+
+        .stock-alert.orange {
+            color: orange;
+        }
+
+        p.no-productos {
+            text-align: center;
+            font-size: 18px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <h2>Productos de la categoría: <?php echo htmlspecialchars($categoria); ?></h2>
+
+    <?php
+    if (isset($_SESSION['mensaje'])) {
+        echo $_SESSION['mensaje'];
+        unset($_SESSION['mensaje']);
+    }
+    ?>
+
+    <?php if (count($productos) > 0): ?>
+        <form method="POST" action="productos.php?categoria=<?php echo urlencode($categoria); ?>">
+            <table>
                 <tr>
-                    <td><?php echo htmlspecialchars($producto['nombre']); ?></td>
-                    <td><?php echo htmlspecialchars($producto['descripcion']); ?></td>
-                    <td><?php echo number_format($producto['precio'], 2); ?></td>
-                    <td>
-                        <?php echo $stock; ?> <?php echo $aviso; ?>
-                    </td>
-                    <td>
-                        <?php if ($stock > 0): ?>
-                            <input type="number" name="unidades[<?php echo $producto['id']; ?>]" min="1" max="<?php echo $stock; ?>" value="1">
-                        <?php else: ?>
-                            <input type="number" disabled value="0">
-                        <?php endif; ?>
-                    </td>
-                    <td>
-                        <?php if ($stock > 0): ?>
-                            <button type="submit" name="comprar" value="<?php echo $producto['id']; ?>">Comprar</button>
-                        <?php else: ?>
-                            <button disabled>Agotado</button>
-                        <?php endif; ?>
-                    </td>
+                    <th>Nombre</th>
+                    <th>Descripción</th>
+                    <th>Precio (€)</th>
+                    <th>Stock</th>
+                    <th>Unidades</th>
+                    <th>Acción</th>
                 </tr>
-            <?php endforeach; ?>
-        </table>
-        <input type="hidden" name="origen" value="productos.php">
-    </form>
-<?php else: ?>
-    <p>No hay productos disponibles en esta categoría.</p>
-<?php endif; ?>
+                <?php foreach ($productos as $producto): ?>
+                    <?php
+                    $stock = intval($producto['stock']);
+                    $aviso = '';
+                    $clase = '';
+                    if ($stock == 0) {
+                        $aviso = "🔴 Sin stock";
+                        $clase = "red";
+                    } elseif ($stock <= 5) {
+                        $aviso = "🟠 ¡Quedan pocas unidades!";
+                        $clase = "orange";
+                    }
+                    ?>
+                    <tr>
+                        <td><?php echo htmlspecialchars($producto['nombre']); ?></td>
+                        <td><?php echo htmlspecialchars($producto['descripcion']); ?></td>
+                        <td><?php echo number_format($producto['precio'], 2); ?></td>
+                        <td>
+                            <?php echo $stock; ?>
+                            <?php if ($aviso): ?>
+                                <div class="stock-alert <?php echo $clase; ?>"><?php echo $aviso; ?></div>
+                            <?php endif; ?>
+                        </td>
+                        <td>
+                            <?php if ($stock > 0): ?>
+                                <input type="number" name="unidades[<?php echo $producto['id']; ?>]" min="1" max="<?php echo $stock; ?>" value="1">
+                            <?php else: ?>
+                                <input type="number" disabled value="0">
+                            <?php endif; ?>
+                        </td>
+                        <td>
+                            <?php if ($stock > 0): ?>
+                                <button type="submit" name="comprar" value="<?php echo $producto['id']; ?>">Añadir al carrito</button>
+                            <?php else: ?>
+                                <button disabled>Agotado</button>
+                            <?php endif; ?>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            </table>
+            <input type="hidden" name="origen" value="productos.php">
+        </form>
+    <?php else: ?>
+        <p class="no-productos">No hay productos disponibles en esta categoría.</p>
+    <?php endif; ?>
+</body>
+</html>
