@@ -49,9 +49,79 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 }
 ?>
 
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Inicio de sesión</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        form {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            width: 300px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            color: #555;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: 92%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        input[type="checkbox"] {
+            margin-right: 5px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 20px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        p {
+            text-align: center;
+            color: red;
+            margin-top: 10px;
+        }
+    </style>
+</head>
 <body>
-    <h2>Inicio de sesión</h2>
     <form method="POST">
+        <h2>Inicio de sesión</h2>
         <label>Email:</label>
         <input type="text" name="email" required>
 
