@@ -1,7 +1,14 @@
 const libro1 = { nombre: "Lagartijas", color: "Rojo", autor: "A.J. Perez", num_paginas: 50, editorial: "Analla", forrado: true, url_cover: "url_prueba" };
 const libro2 = { nombre: "El Quijote", color: "Verde", autor: "Miguel de Cervantes", num_paginas: 500, editorial: "Editorial2", forrado: false, url_cover: "url_prueba2" };
 const libro3 = { nombre: "La Celestina", color: "Azul", autor: "Unamuno", num_paginas: 600, editorial: "Editorial3", forrado: true, url_cover: "url_prueba3" };
-const libro4 = { nombre: "Alicia en el Pais de las Maravillas", color: "Naranja", autor: "Autor4", num_paginas: 400, editorial: "Editorial4", forrado: false, url_cover: "url_prueba4" };
+const libro4 = { 
+    nombre: "Alicia en el Pais de las Maravillas", 
+    color: "Naranja", autor: "Autor4", 
+    num_paginas: 400, editorial: "Editorial4", 
+    forrado: false, 
+    url_cover: "url_prueba4",
+    toString: function() { return "${libro.nombre} - ${libro.autor} (${libro.num_paginas}) ** ${libro.forrado}"}
+ };
 
 let biblioteca = [libro1, libro2, libro3];
 
@@ -94,7 +101,3 @@ function comprar(libro) {
 }
 comprar(libro1);
 
-//Devuelve datos del libro
-function toString(libro) {
-    return libro.nombre + "-" + libro.autor + "(" + libro.num_paginas + ")" + "**" + libro.forrado;
-}
