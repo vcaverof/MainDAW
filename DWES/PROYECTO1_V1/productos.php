@@ -3,10 +3,8 @@ session_start();
 include 'nav.php';
 include 'conexion.php';
 
-// Recoger la categoría elegida
 $categoria = isset($_GET['categoria']) ? $_GET['categoria'] : null;
 
-// Procesar el formulario de compra
 if ($_SERVER["REQUEST_METHOD"] == 'POST' && isset($_POST['comprar'])) {
     $id_producto = $_POST['comprar'];
     $unidades = $_POST['unidades'][$id_producto];
@@ -37,8 +35,8 @@ if ($_SERVER["REQUEST_METHOD"] == 'POST' && isset($_POST['comprar'])) {
         } else {
             $stock_restante = $stock_actual - $totalSolicitado;
 
-            if ($stock_restante <= 5) {
-                $_SESSION['mensaje'] = "<p class='mensaje alerta'>⚠️ Atención: solo quedarán $stock_restante unidades de '$nombre' en stock después de esta compra.</p>";
+            if ($stock_restante < 5) {
+                $_SESSION['mensaje'] = "<p class='mensaje alerta'>⚠️ Atención: quedarán $stock_restante unidades de '$nombre' en stock después de esta compra.</p>";
             } else {
                 $_SESSION['mensaje'] = null;
             }
@@ -75,7 +73,6 @@ if ($_SERVER["REQUEST_METHOD"] == 'POST' && isset($_POST['comprar'])) {
     }
 }
 
-// Mostrar productos de la categoría
 $sql = "SELECT id, nombre, descripcion, precio, stock FROM productos WHERE id_categoria = ?";
 $stmt = $conn->prepare($sql);
 $stmt->execute([$categoria]);
@@ -84,6 +81,7 @@ $productos = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <title>Productos</title>
@@ -121,10 +119,11 @@ $productos = $stmt->fetchAll(PDO::FETCH_ASSOC);
             margin: 0 auto;
             border-collapse: collapse;
             background-color: #fff;
-            box-shadow: 0 0 10px rgba(0,0,0,0.05);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
         }
 
-        th, td {
+        th,
+        td {
             padding: 12px 15px;
             border-bottom: 1px solid #ddd;
             text-align: center;
@@ -183,6 +182,7 @@ $productos = $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
     </style>
 </head>
+
 <body>
     <h2>Productos de la categoría: <?php echo htmlspecialchars($categoria); ?></h2>
 
@@ -206,13 +206,27 @@ $productos = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 </tr>
                 <?php foreach ($productos as $producto): ?>
                     <?php
+                    $id = $producto['id'];
                     $stock = intval($producto['stock']);
+
+                    $enCarrito = 0;
+                    if (isset($_SESSION['carrito'])) {
+                        foreach ($_SESSION['carrito'] as $item) {
+                            if ($item['id_producto'] == $id) {
+                                $enCarrito = $item['cantidad'];
+                                break;
+                            }
+                        }
+                    }
+
+                    $stock_informativo = $stock - $enCarrito;
+
                     $aviso = '';
                     $clase = '';
-                    if ($stock == 0) {
+                    if ($stock_informativo <= 0) {
                         $aviso = "🔴 Sin stock";
                         $clase = "red";
-                    } elseif ($stock <= 5) {
+                    } elseif ($stock_informativo <= 5) {
                         $aviso = "🟠 ¡Quedan pocas unidades!";
                         $clase = "orange";
                     }
@@ -222,21 +236,21 @@ $productos = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <td><?php echo htmlspecialchars($producto['descripcion']); ?></td>
                         <td><?php echo number_format($producto['precio'], 2); ?></td>
                         <td>
-                            <?php echo $stock; ?>
+                            <?php echo max(0, $stock_informativo); ?>
                             <?php if ($aviso): ?>
                                 <div class="stock-alert <?php echo $clase; ?>"><?php echo $aviso; ?></div>
                             <?php endif; ?>
                         </td>
                         <td>
-                            <?php if ($stock > 0): ?>
-                                <input type="number" name="unidades[<?php echo $producto['id']; ?>]" min="1" max="<?php echo $stock; ?>" value="1">
+                            <?php if ($stock_informativo > 0): ?>
+                                <input type="number" name="unidades[<?php echo $id; ?>]" min="1" max="<?php echo $stock_informativo; ?>" value="1">
                             <?php else: ?>
                                 <input type="number" disabled value="0">
                             <?php endif; ?>
                         </td>
                         <td>
-                            <?php if ($stock > 0): ?>
-                                <button type="submit" name="comprar" value="<?php echo $producto['id']; ?>">Añadir al carrito</button>
+                            <?php if ($stock_informativo > 0): ?>
+                                <button type="submit" name="comprar" value="<?php echo $id; ?>">Añadir al carrito</button>
                             <?php else: ?>
                                 <button disabled>Agotado</button>
                             <?php endif; ?>
@@ -250,4 +264,5 @@ $productos = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <p class="no-productos">No hay productos disponibles en esta categoría.</p>
     <?php endif; ?>
 </body>
+
 </html>
