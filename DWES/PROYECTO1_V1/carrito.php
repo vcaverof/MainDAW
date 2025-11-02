@@ -16,8 +16,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['eliminar'])) {
 // Actualizar cantidades de los elementos del carrito
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['actualizar']) && isset($_POST['cantidades'])) {
     foreach ($_POST['cantidades'] as $index => $cantidad) {
-        $_SESSION['carrito'][$index]['cantidad'] = max(1, intval($cantidad));
+        $id_producto = $_SESSION['carrito'][$index]['id_producto'];
+
+        $stmt = $conn->prepare("SELECT stock FROM productos WHERE id = ?");
+        $stmt->execute([$id_producto]);
+        $stock = $stmt->fetchColumn();
+
+        $cantidad = max(1, intval($cantidad));
+        if ($cantidad > $stock) {
+            $cantidad = $stock; // Limita al máximo disponible
+        }
+
+        $_SESSION['carrito'][$index]['cantidad'] = $cantidad;
     }
+
     header("Location: carrito.php");
     exit();
 }
@@ -25,6 +37,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['actualizar']) && isset
 
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <title>Carrito de compras</title>
@@ -54,10 +67,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['actualizar']) && isset
             margin: 0 auto 20px auto;
             border-collapse: collapse;
             background-color: #fff;
-            box-shadow: 0 0 10px rgba(0,0,0,0.05);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
         }
 
-        th, td {
+        th,
+        td {
             padding: 12px 15px;
             border-bottom: 1px solid #ddd;
             text-align: center;
@@ -107,6 +121,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['actualizar']) && isset
         }
     </style>
 </head>
+
 <body>
     <h2>🛒 Tu carrito</h2>
 
@@ -121,10 +136,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['actualizar']) && isset
                     <th>Acción</th>
                 </tr>
                 <?php foreach ($_SESSION['carrito'] as $index => $item): ?>
+                    <?php
+                    $stmt = $conn->prepare("SELECT stock FROM productos WHERE id = ?");
+                    $stmt->execute([$item['id_producto']]);
+                    $stock = $stmt->fetchColumn();
+                    ?>
                     <tr>
                         <td><?php echo htmlspecialchars($item['nombre']); ?></td>
                         <td>
-                            <input type="number" name="cantidades[<?php echo $index; ?>]" value="<?php echo intval($item['cantidad']); ?>" min="1">
+                            <input type="number" name="cantidades[<?php echo $index; ?>]"
+                                value="<?php echo intval($item['cantidad']); ?>"
+                                min="1" max="<?php echo intval($stock); ?>">
                         </td>
                         <td>
                             <button type="submit" name="eliminar" value="<?php echo $index; ?>">Eliminar</button>
@@ -144,4 +166,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['actualizar']) && isset
         </div>
     <?php endif; ?>
 </body>
+
 </html>

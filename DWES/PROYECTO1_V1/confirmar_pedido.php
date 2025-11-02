@@ -106,6 +106,25 @@ echo "<!DOCTYPE html>
 </head>
 <body>";
 
+foreach ($productosConsolidados as $id_producto => $cantidad) {
+    $stmtCheck = $conn->prepare("SELECT stock FROM productos WHERE id = ?");
+    $stmtCheck->execute([$id_producto]);
+    $stockDisponible = $stmtCheck->fetchColumn();
+
+    if ($stockDisponible === false) {
+        echo "<p class='error'>❌ Producto con ID $id_producto no encontrado.</p>";
+        echo "<a href='carrito.php'>Volver al carrito</a>";
+        exit;
+    }
+
+    if ($cantidad > $stockDisponible) {
+        echo "<p class='error'>❌ Stock insuficiente para el producto con ID $id_producto. Disponible: $stockDisponible, solicitado: $cantidad.</p>";
+        echo "<a href='carrito.php'>Volver al carrito</a>";
+        exit;
+    }
+}
+
+
 try {
     $conn->beginTransaction();
 
