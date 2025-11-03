@@ -36,26 +36,46 @@ export class App {
     }
   }
 
-
   agregar() {
     if (this.art.codigo == 0) {
       alert("Debe ingresar un código distinto a 0");
       return;
     }
 
-    for(let i = 0; i < this.articulos.length; i++) {
+    for (let i = 0; i < this.articulos.length; i++) {
       if (this.articulos[i].codigo == this.art.codigo) {
         alert("Ya existe un artículo con este código");
         return;
       }
-      this.articulos.push({
-        codigo: this.art.codigo,
-        descripcion: this.art.descripcion,
-        precio: this.art.precio
-      });
-      this.art.codigo = 0;
-      this.art.descripcion = "";
-      this.art.precio = 0;
     }
+
+    this.articulos.push({
+      codigo: this.art.codigo,
+      descripcion: this.art.descripcion,
+      precio: this.art.precio
+    });
+    this.art.codigo = 0;
+    this.art.descripcion = "";
+    this.art.precio = 0;
+  }
+
+  seleccionar(art: { codigo: number; descripcion: string; precio: number }) {
+    this.art.codigo = art.codigo;
+    this.art.descripcion = art.descripcion;
+    this.art.precio = art.precio;
+  }
+
+  modificar() {
+    for (let i = 0; i < this.articulos.length; i++) {
+      if (this.articulos[i].codigo == this.art.codigo) {
+        this.articulos[i].descripcion = this.art.descripcion;
+        this.articulos[i].precio = this.art.precio;
+        return;
+      }
+    }
+    alert('No existe el código del articulo');
   }
 }
+
+
+

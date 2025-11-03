@@ -1,0 +1,55 @@
+<h2>🎬 Películas Disponibles</h2>
+<ul *ngIf="hayRegistros(); else sinPeliculas">
+  <li *ngFor="let peli of peliculas">
+    <strong>{{ peli.titulo }}</strong> - {{ peli.horario }} - Precio: {{ peli.precio }}€ -
+    Butacas disponibles: {{ peli.butacasTotales - peli.butacasOcupadas }}
+    <button (click)="seleccionar(peli)">Seleccionar</button>
+  </li>
+</ul>
+
+<ng-template #sinPeliculas>
+  <p>No hay películas disponibles.</p>
+</ng-template>
+
+<hr />
+
+<!-- Solo se muestra el formulario si hay una película seleccionada -->
+<div *ngIf="pelicula.id !== 0">
+  <h2>📝 Formulario de Reserva</h2>
+  <form #formulario="ngForm" (ngSubmit)="reservar()">
+    <label>Nombre:</label>
+    <input name="nombreCliente" [(ngModel)]="nombreCliente" required />
+
+    <label>Película seleccionada:</label>
+    <input [value]="pelicula.titulo" disabled />
+
+    <label>Cantidad de butacas:</label>
+    <input type="number" name="cantidadReservada" [(ngModel)]="cantidadReservada" min="1" required />
+
+    <p>
+      Butacas disponibles: {{ pelicula.butacasTotales - pelicula.butacasOcupadas }}
+    </p>
+
+    <button type="submit">Reservar</button>
+  </form>
+
+  <p *ngIf="mensaje" style="color:red">{{ mensaje }}</p>
+</div>
+
+<hr />
+
+<h2>📋 Reservas Realizadas</h2>
+<table border="1" *ngIf="reservas.length > 0">
+  <tr>
+    <th>Cliente</th>
+    <th>Película</th>
+    <th>Cantidad</th>
+    <th>Total (€)</th>
+  </tr>
+  <tr *ngFor="let r of reservas">
+    <td>{{ r.nombre }}</td>
+    <td>{{ r.pelicula }}</td>
+    <td>{{ r.cantidad }}</td>
+    <td>{{ r.total }}</td>
+  </tr>
+</table>
