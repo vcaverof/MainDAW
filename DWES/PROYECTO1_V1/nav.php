@@ -27,8 +27,6 @@ if (!isset($_SESSION['id_restaurante']) && isset($_COOKIE['remember_me'])) {
 }
 ?>
 
-
-
 <!DOCTYPE html>
 <html lang="es">
 <head>

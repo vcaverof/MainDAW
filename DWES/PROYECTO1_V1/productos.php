@@ -5,10 +5,12 @@ include 'conexion.php';
 
 $categoria = isset($_GET['categoria']) ? $_GET['categoria'] : null;
 
+//Verifica si se ha enviado el formulario de compra
 if ($_SERVER["REQUEST_METHOD"] == 'POST' && isset($_POST['comprar'])) {
     $id_producto = $_POST['comprar'];
     $unidades = $_POST['unidades'][$id_producto];
 
+    //Consulta el nombre y stock actual del producto
     $sql = "SELECT nombre, stock FROM productos WHERE id = ?";
     $stmt = $conn->prepare($sql);
     $stmt->execute([$id_producto]);
@@ -18,6 +20,7 @@ if ($_SERVER["REQUEST_METHOD"] == 'POST' && isset($_POST['comprar'])) {
         $nombre = $producto['nombre'];
         $stock_actual = $producto['stock'];
 
+        //Verifica si el producto ya está en el carrito y cuántas unidades hay
         $enCarrito = 0;
         if (isset($_SESSION['carrito'])) {
             foreach ($_SESSION['carrito'] as $item) {
@@ -30,23 +33,27 @@ if ($_SERVER["REQUEST_METHOD"] == 'POST' && isset($_POST['comprar'])) {
 
         $totalSolicitado = $enCarrito + $unidades;
 
+        //Si se solicita más de lo disponible, muestra un mensaje de error
         if ($totalSolicitado > $stock_actual) {
             $_SESSION['mensaje'] = "<p class='mensaje error'>❌ No puedes añadir $unidades unidades de '$nombre'. Ya tienes $enCarrito en el carrito y solo hay $stock_actual disponibles.</p>";
         } else {
             $stock_restante = $stock_actual - $totalSolicitado;
 
+            // Muestra alerta si el stock restante es bajo
             if ($stock_restante < 5) {
                 $_SESSION['mensaje'] = "<p class='mensaje alerta'>⚠️ Atención: quedarán $stock_restante unidades de '$nombre' en stock después de esta compra.</p>";
             } else {
                 $_SESSION['mensaje'] = null;
             }
 
+            // Inicializa el carrito si no existe
             if (!isset($_SESSION['carrito'])) {
                 $_SESSION['carrito'] = [];
             }
 
             $productoYaEnCarrito = false;
 
+            // Actualiza la cantidad si el producto ya está en el carrito
             foreach ($_SESSION['carrito'] as &$item) {
                 if ($item['id_producto'] == $id_producto) {
                     $item['cantidad'] += $unidades;
@@ -56,6 +63,7 @@ if ($_SERVER["REQUEST_METHOD"] == 'POST' && isset($_POST['comprar'])) {
             }
             unset($item);
 
+            // Si no está en el carrito, lo añade
             if (!$productoYaEnCarrito) {
                 $_SESSION['carrito'][] = [
                     'id_producto' => $id_producto,
@@ -64,6 +72,7 @@ if ($_SERVER["REQUEST_METHOD"] == 'POST' && isset($_POST['comprar'])) {
                 ];
             }
 
+            // Redirige a la página de origen o a home.php
             $origen = isset($_POST['origen']) ? $_POST['origen'] . '?categoria=' . urlencode($categoria) : 'home.php';
             header("Location: " . $origen);
             exit();
@@ -73,6 +82,7 @@ if ($_SERVER["REQUEST_METHOD"] == 'POST' && isset($_POST['comprar'])) {
     }
 }
 
+// Consulta los productos de la categoría seleccionada
 $sql = "SELECT id, nombre, descripcion, precio, stock FROM productos WHERE id_categoria = ?";
 $stmt = $conn->prepare($sql);
 $stmt->execute([$categoria]);
@@ -186,6 +196,7 @@ $productos = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <body>
     <h2>Productos de la categoría: <?php echo htmlspecialchars($categoria); ?></h2>
 
+    <!-- Muestra el mensaje de sesión si existe -->
     <?php
     if (isset($_SESSION['mensaje'])) {
         echo $_SESSION['mensaje'];
@@ -209,6 +220,7 @@ $productos = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     $id = $producto['id'];
                     $stock = intval($producto['stock']);
 
+                    // Verifica si el producto ya está en el carrito
                     $enCarrito = 0;
                     if (isset($_SESSION['carrito'])) {
                         foreach ($_SESSION['carrito'] as $item) {
@@ -219,8 +231,11 @@ $productos = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         }
                     }
 
+                    // Calcula el stock disponible para mostrar
                     $stock_informativo = $stock - $enCarrito;
 
+
+                    // Define alertas visuales según el stock
                     $aviso = '';
                     $clase = '';
                     if ($stock_informativo <= 0) {
