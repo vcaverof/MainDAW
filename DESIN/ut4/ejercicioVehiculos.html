@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <script>
+        class Vehiculo {
+            constructor(pasajeros) {
+                this._pasajeros = pasajeros;
+            }
+
+            set pasajeros(value) {
+                this._pasajeros = value;
+            }
+
+            get pasajeros() {
+                return this._pasajeros;
+            }
+        }
+
+        class Coche extends Vehiculo {
+            constructor(pasajeros, color) {
+                super(pasajeros);
+                this._color = color;
+            }
+
+            set color(value) {
+                this._color = value;
+            }
+
+            get color() {
+                return this._color;
+            }
+        }
+
+        class Camion extends Vehiculo {
+            constructor(pasajeros, tara) {
+                super(pasajeros);
+                this._tara = tara;
+            }
+
+            set tara(value) {
+                this._tara = value;
+            }
+
+            get tara() {
+                return this._tara;
+            }
+        }
+
+
+        let colores = ["azul", "rojo", "verde"];
+
+        function generarVehiculos() {
+            let carretera = [];
+            for (let i = Math.floor(Math.random() * 3.99); i < 4; i++) {
+                carretera.push(new Coche(Math.floor((Math.random() * 6.99) + 1), colores[Math.floor((Math.random() * 2.99))]));
+            }
+
+            for (let i = Math.floor(Math.random() * 3.99); i < 4; i++) {
+                carretera.push(new Camion(Math.floor((Math.random() * 6.99) + 1), Math.floor((Math.random() * 9999.99))));
+            }
+
+            return carretera;
+        }
+
+        function capturarReloj() {
+            const ahora = new Date();
+            const horas = ahora.getHours();
+            const minutos = ahora.getMinutes();
+            const segundos = ahora.getSeconds();
+
+            return `Hora: ${horas}:${minutos}:${segundos}`;
+        }
+
+        function mostrarVehiculos() {
+            let contador = 0;
+            const id = setInterval(function () {
+                let vehiculos = generarVehiculos();
+                let hora = capturarReloj();
+                for (let i = 0; i < vehiculos.length; i++) {
+                    if (vehiculos[i] instanceof Coche) {
+                        document.write(`${hora} - Tipo: ${vehiculos[i].constructor.name} - Pasajeros: ${vehiculos[i].pasajeros} - Color: ${vehiculos[i].color}`);
+                        document.write("<br>");
+                    }
+                    
+                    if (vehiculos[i] instanceof Camion) {
+                        document.write(`${hora} - Tipo: ${vehiculos[i].constructor.name} - Pasajeros: ${vehiculos[i].pasajeros} - Tara: ${vehiculos[i].tara}`);
+                        document.write("<br>");
+                    }
+                }
+
+                if (contador++ == 5) {
+                    clearInterval(id); //Una vez cumple la condición, elimina el intervalo
+                }
+            }, 2000);
+
+        }
+        mostrarVehiculos();
+    </script>
+</body>
+
+</html>

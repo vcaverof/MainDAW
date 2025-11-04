@@ -14,23 +14,14 @@ function Figura(tipo) {
     this.tipo = tipo;
     this.x = 0;
     this.y = 0;
-
-    //IMPORTANTE AÑADIR EL THIS
-    this.moverA = function(x, y) {
-        //Primero vaciar la posicion anterior
-        tablero[this.y][this.x] = " ";
-
-        //Seleccionar las coordenadas nuevas
-        this.x = x;
-        this.y = y;
-
-        //Colocar la figura en su nueva posicion
-        tablero[y][x] = this.tipo
-    }
-
 }
 
-let figura = new Figura();
+Figura.prototype.moverA = function (x, y) {
+    //Seleccionar las coordenadas nuevas
+    this.x = x;
+    this.y = y;
+}
+
 
 let rey = new Figura('R');
 let reina = new Figura('Q');
@@ -59,9 +50,10 @@ for (let i = 0; i < figuras.length; i++) {
     colocarPieza(figuras[i], tablero);
 }
 
+//PRUEBAS
 console.table(tablero);
 
-rey.moverA(4,7);
+rey.moverA(4, 7);
 
 console.table(tablero);
 
