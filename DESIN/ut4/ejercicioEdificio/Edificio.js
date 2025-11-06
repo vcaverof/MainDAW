@@ -1,15 +1,15 @@
 import { Propietario } from "./Propietario.js";
-export class Edificio extends Propietario {
+
+export class Edificio {
     #calle;
     #numero
     #cpostal;
     #plantas;
-    constructor(nombre, genero, miembros, calle, numero, cpostal) {
-        super(nombre, genero, miembros);
+    constructor(calle, numero, cpostal) {
         this.#calle = calle;
         this.#numero = numero;
         this.#cpostal = cpostal;
-        this.#plantas = [];
+        this.#plantas = []; //Dentro de las plantas tendremos los Propietarios
 
 
         console.log(`Construido nuevo edificio en la calle: ${this.calle} Nº: ${this.numero} CP: ${this.cpostal} `);
@@ -27,24 +27,41 @@ export class Edificio extends Propietario {
         return this.#cpostal;
     }
 
-    agregarPlantarYPuertas(plantas, puertas) {
-        for (let i = 0; i < plantas; i++) {
-            for (let i = 0; i < puertas; i++) {
-                this.#plantas[i] = [];
-            }
-        } 
-
-        console.log(this.#plantas.length);
+    get plantas() {
+        return this.#plantas;
     }
 
-    añadirPersona(personas) {
-        for (let i = 0; i < personas.length; i++) {
-            for (let j = 0; j < personas[i].length; j++) {
-                console.log(`${personas[i][j].nombre} es ahora el propietario de la puerta ${j} de la planta ${i}`);
-                this.propietarios.push(personas[i][j].nombre);
+    mostrarPropietarios() {
+        const tabla = this.plantas.map(planta =>
+            planta.map(puerta => puerta ? puerta.nombre : "Libre")
+        );
+        console.table(tabla);
+    }
+
+    agregarPlantasYPuertas(plantas, puertas) {
+        for (let i = 0; i < plantas; i++) {
+            this.plantas[i] = [];
+            for (let j = 0; j < puertas; j++) {
+                this.plantas[i][j] = "Vacio";
             }
         }
     }
+
+    asignarPropietario(propietario, planta, puerta) {
+        if (planta >= 0 && planta < this.plantas.length && puerta >= 0 && puerta < this.plantas[planta].length) { //Comprueba si la planta y la puerta existen
+            if (this.plantas[planta][puerta] === "Vacio") { //Comprueba que la puerta indicada en la planta indicada no está ocupada por alguien
+                this.plantas[planta][puerta] = propietario;
+                console.log(`${propietario.nombre} es ahora el propietario de la puerta ${puerta} de la planta ${planta}`);
+            } else {
+                console.log(`La puerta ${puerta} de la planta ${planta} ya tiene un propietario: ${this.plantas[planta][puerta].nombre}`);
+            }
+        } else {
+            console.log(`Error: la planta ${planta} o la puerta ${puerta} no existen en el edificio.`);
+        }
+    }
+
 }
+
+
 
 

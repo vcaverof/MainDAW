@@ -2,12 +2,29 @@ import { Edificio } from "./Edificio.js";
 import { Propietario } from "./Propietario.js";
 
 
-let personas = [
-    [new Propietario("Edu", "Varon", 5), new Propietario("Antonio", "Varon", 2), new Propietario("Erik", "Varon", 4)],
-    [new Propietario("Mayte", "Mujer", 2), new Propietario("Monica", "Mujer"), new Propietario("Santiago", "Varon", 5)]
-];
 
-let e1 = new Edificio("Calle Melancolía", "1", "10000");
-e1.agregarPlantarYPuertas(2,3);
+const e1 = new Edificio("Gran Vía", 123, "28013");
+e1.agregarPlantasYPuertas(2, 3);
 
-console.log("Nombre del propietario de la puerta 0 de la planta 1");
+const p1 = new Propietario("Edu", "masculino", 2);
+const p2 = new Propietario("Antonio", "masculino", 1);
+const p3 = new Propietario("Erik", "masculino", 4);
+const p4 = new Propietario("Mayte", "femenino", 2);
+const p5 = new Propietario("Mónica", "femenino", 1);
+const p6 = new Propietario("Santiago", "masculino", 4);
+
+//Asignación de propietarios
+e1.asignarPropietario(p1, 0, 0);
+e1.asignarPropietario(p2, 0, 1);
+e1.asignarPropietario(p3, 0, 2);
+e1.asignarPropietario(p4, 1, 0);
+e1.asignarPropietario(p5, 1, 1);
+e1.asignarPropietario(p6, 1, 2);
+
+console.table(e1.mostrarPropietarios());
+
+
+
+
+
+
