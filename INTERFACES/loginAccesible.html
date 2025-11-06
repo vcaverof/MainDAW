@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar sesión</title>
+    <link rel="stylesheet" href="login.css">
+</head>
+
+<body>
+    <main>
+        <form class="formulario" action="#" method="post" autocomplete="on" aria-labelledby="titulo-login"
+            aria-describedby="login-help">
+            <h2 id="titulo-login">Iniciar sesión</h2>
+            <p id="login-help">Introduce tus credenciales para acceder a tu cuenta.</p>
+
+            <div class="campo">
+                <label for="correo">Correo electrónico</label>
+                <input type="email" id="correo" name="correo" required
+                    pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}" aria-required="true"
+                    aria-describedby="correo-desc">
+                <small id="correo-desc">Formato válido: usuario@dominio.com</small>
+            </div>
+
+            <div class="campo">
+                <label for="pass">Contraseña</label>
+                <input type="password" id="pass" name="pass" placeholder="8 caracteres mínimo" minlength="8"
+                    aria-required="true" aria-describedby="pass-desc">
+                <small id="pass-desc">Debe contener al menos 8 caracteres.</small>
+            </div>
+
+            <div class="recordarme">
+                <input type="checkbox" id="recordarme" name="recordarme" aria-checked="false">
+                <label for="recordarme">Recordarme</label>
+                <a href="#" aria-label="Recuperar contraseña">¿Olvidaste tu contraseña?</a>
+            </div>
+
+            <button type="submit" name="iniciar" aria-label="Enviar formulario de inicio de sesión">Iniciar
+                sesión</button>
+
+            <div class="continuar" role="separator" aria-label="O continuar con otras opciones">
+                <hr width="31%" color="#CCC" aria-hidden="true">
+                <p>O continuar con</p>
+                <hr width="31%" color="#CCC" aria-hidden="true">
+            </div>
+
+            <div class="logos" role="group" aria-label="Opciones de inicio de sesión con otras plataformas">
+                <a class="boton-enlace" href="https://www.google.com" target="_blank" rel="noopener"
+                    aria-label="Iniciar sesión con Google">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/1200px-Google_%22G%22_logo.svg.png"
+                        width="30" height="30" alt="Logo de Google"> Google
+                </a>
+                <a class="boton-enlace" href="https://www.facebook.com" target="_blank" rel="noopener"
+                    aria-label="Iniciar sesión con Facebook">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b8/2021_Facebook_icon.svg/2048px-2021_Facebook_icon.svg.png"
+                        width="30" height="30" alt="Logo de Facebook"> Facebook
+                </a>
+                <a class="boton-enlace" href="https://www.apple.com" target="_blank" rel="noopener"
+                    aria-label="Iniciar sesión con Apple">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg" width="30"
+                        height="30" alt="Logo de Apple"> Apple
+                </a>
+                <a class="boton-enlace" href="https://www.microsoft.com" target="_blank" rel="noopener"
+                    aria-label="Iniciar sesión con Microsoft">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Microsoft_logo.svg/2048px-Microsoft_logo.svg.png"
+                        width="30" height="30" alt="Logo de Microsoft"> Microsoft
+                </a>
+            </div>
+
+            <p>¿No tienes una cuenta? <a href="#" aria-label="Registrarse para crear una cuenta nueva">Regístrate</a>
+            </p>
+        </form>
+    </main>
+</body>
+
+</html>
