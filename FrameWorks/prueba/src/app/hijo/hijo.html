@@ -1,0 +1,13 @@
+<h3>Formulario de datos</h3>
+<form>
+    <label>Nombre:</label>
+    <input type="text" [(ngModel)]="nombre" name="nombre"/>
+
+    <label>Edad:</label>
+    <input type="number" [(ngModel)]="edad" name="edad"/>
+
+    <label>Sexo:</label>
+    <input type="text" [(ngModel)]="sexo" name="sexo"/>
+
+    <button (click)="enviarDatos()">Enviar</button>
+</form>

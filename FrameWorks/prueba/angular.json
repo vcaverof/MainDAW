@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "practica4": {
+    "prueba": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -56,10 +56,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "practica4:build:production"
+              "buildTarget": "prueba:build:production"
             },
             "development": {
-              "buildTarget": "practica4:build:development"
+              "buildTarget": "prueba:build:development"
             }
           },
           "defaultConfiguration": "development"
