@@ -25,7 +25,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <title>Inicio del juego de los barcos</title>
-    <link rel="stylesheet" href="estilos.css">
 </head>
 
 <body>

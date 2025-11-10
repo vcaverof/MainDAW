@@ -2,13 +2,13 @@
 session_start();
 require 'funciones.php';
 
-// Verificar si la sesión está iniciada correctamente
+//Verificar que la sesion se ha iniciado correctamente
 if (!isset($_SESSION['tablero'], $_SESSION['intentos'], $_SESSION['disparos'], $_SESSION['aciertos'])) {
     header('Location: index.php');
     exit;
 }
 
-// Procesar disparo
+//Procesar disparo
 $mensaje = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['x'], $_POST['y'])) {
     $x = intval($_POST['x']);
@@ -16,34 +16,34 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['x'], $_POST['y'])) {
     $clave = "$x,$y";
 
     if ($_SESSION['intentos'] <= 0) {
-        $mensaje = "La partida ha terminado.";
-    } elseif ($_SESSION['aciertos']>= 16) {
+        $mensaje = "La partida ha terminado";
+    } elseif ($_SESSION['aciertos'] >= 16) {
         $mensaje = "¡Has ganado!";
     } elseif (in_array($clave, $_SESSION['disparos'])) {
-        $mensaje = "Casilla ya utilizada.";
+        $mensaje = "Casilla ya utilizada";
     } else {
         $_SESSION['disparos'][] = $clave;
         $_SESSION['intentos']--;
 
         if ($_SESSION['tablero'][$x][$y] === 1) {
             $_SESSION['aciertos']++;
-            $mensaje = "¡Tocado!";
+            $mensaje = "¡TOCADO!";
         } else {
             $mensaje = "Agua...";
         }
     }
 }
 
-// Verificar fin de partida
 $fin = ($_SESSION['intentos'] <= 0 || $_SESSION['aciertos'] >= 16);
 ?>
 
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <title>Juego de los Barcos</title>
-    <link rel="stylesheet" href="estilos.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juedo de los barcos</title>
     <style>
         table { border-collapse: collapse; margin: 20px auto; }
         td { width: 40px; height: 40px; text-align: center; border: 1px solid #000; }
@@ -53,20 +53,21 @@ $fin = ($_SESSION['intentos'] <= 0 || $_SESSION['aciertos'] >= 16);
         .tocado { color: red; font-weight: bold; }
     </style>
 </head>
+
 <body>
-    <h2 style="text-align:center;">Juego de los Barcos</h2>
+    <h2 style="text-align:center;">Juego de los barcos</h2>
 
     <p style="text-align:center;">
-        Intentos restantes: <?= $_SESSION['intentos'] ?><br>
-        Aciertos: <?= $_SESSION['aciertos'] ?> / 16<br>
-        Casillas por descubrir: <?= 16 - $_SESSION['aciertos'] ?><br>
+        Intentos restantes: <?= $_SESSION['intentos'] ?> <br>
+        Aciertos: <?= $_SESSION['aciertos'] ?> <br>
+        Casillas por descubrir: <?= 16 - $_SESSION['aciertos'] ?> <br>
         <?= $mensaje ?>
     </p>
 
     <table>
-        <?php for ($i = 0; $i < 10; $i++): ?>
+        <?php for ($i = 0; $i < 10; $i++) : ?>
             <tr>
-                <?php for ($j = 0; $j < 10; $j++): 
+                <?php for ($j = 0; $j < 10; $j++):
                     $clave = "$i,$j";
                     $usada = in_array($clave, $_SESSION['disparos']);
                     $contenido = '';
@@ -80,17 +81,17 @@ $fin = ($_SESSION['intentos'] <= 0 || $_SESSION['aciertos'] >= 16);
                         }
                     }
                 ?>
-                <td class="<?= $clase ?>">
-                    <?php if (!$usada && !$fin): ?>
-                        <form method="post">
-                            <input type="hidden" name="x" value="<?= $i ?>">
-                            <input type="hidden" name="y" value="<?= $j ?>">
-                            <button type="submit"></button>
-                        </form>
-                    <?php else: ?>
-                        <?= $contenido ?>
-                    <?php endif; ?>
-                </td>
+                    <td class="<?= $clase ?>">
+                        <?php if (!$usada && !$fin): ?>
+                            <form method="post">
+                                <input type="hidden" name="x" value="<?= $i ?>">
+                                <input type="hidden" name="y" value="<?= $j ?>">
+                                <button type="submit"></button>
+                            </form>
+                        <?php else: ?>
+                            <?= $contenido ?>
+                        <?php endif; ?>
+                    </td>
                 <?php endfor; ?>
             </tr>
         <?php endfor; ?>
@@ -105,4 +106,5 @@ $fin = ($_SESSION['intentos'] <= 0 || $_SESSION['aciertos'] >= 16);
         </form>
     </div>
 </body>
+
 </html>
