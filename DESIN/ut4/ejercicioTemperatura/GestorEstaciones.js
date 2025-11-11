@@ -14,7 +14,7 @@ export class GestorEstaciones {
         this.#estaciones = value;
     }
 
-    añadirCiudad(ciudad) {
+    addCiudad(ciudad) {
         if (this.#estaciones.some(e => e.ciudad == ciudad)) {  //Comprobar si ya existe dicha estación
             console.log(`La estación ${ciudad} ya existe`);
             return;

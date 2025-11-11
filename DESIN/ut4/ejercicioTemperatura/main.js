@@ -2,10 +2,10 @@ import { GestorEstaciones } from "./GestorEstaciones.js";
 
 const gestor = new GestorEstaciones();
 
-gestor.añadirCiudad("Oviedo");
-gestor.añadirCiudad("Santander");
-gestor.añadirCiudad("Valladolid");
-gestor.añadirCiudad("Oviedo");
+gestor.addCiudad("Oviedo");
+gestor.addCiudad("Santander");
+gestor.addCiudad("Valladolid");
+gestor.addCiudad("Oviedo");
 
 gestor.mostrarEstaciones();
 
