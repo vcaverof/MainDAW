@@ -1,6 +1,6 @@
-const max = 40;
-const min = -20;
-const dias = 30;
+const MAX = 40;
+const MIN = -20;
+const DIAS = 30;
 
 export class Estacion {
     #ciudad;
@@ -20,15 +20,15 @@ export class Estacion {
 
     generarTemperaturas() {
         let temperaturas = [];
-        for (let i = 0; i < dias; i++) {
-            const temperatura = Math.floor(Math.random() * (max - min + 1) + min);
+        for (let i = 0; i < DIAS; i++) {
+            const temperatura = Math.floor(Math.random() * (MAX - MIN + 1) + MIN);
             temperaturas.push(temperatura);
         }
         return temperaturas;
     }
 
     modificarTemperatura(dia, nuevaTemperatura) {
-        if (dia < 1 || dia > 30) {
+        if (dia < 1 || dia > DIAS) {
             console.log("Introduce un día del mes válido");
             return
         }
@@ -38,8 +38,7 @@ export class Estacion {
     }
 
     calcularMedia() {
-        const suma = this.temperaturas.reduce((acc, t) => acc + t, 0);
-        return (suma / this.temperaturas.length).toFixed(2);
+        return (this.temperaturas.reduce((acc, t) => acc + t, 0) / this.temperaturas.length).toFixed(2);
     }
 
     mostrarTemperaturas() {
