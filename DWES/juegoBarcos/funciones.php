@@ -31,3 +31,28 @@ function generarTablero()
         return $tablero;
     }
 }
+
+function cargarDesdeFichero($ruta = 'tablero.txt')
+{
+    $tablero = array_fill(0, 10, array_fill(0, 10, 0));
+
+    if (!file_exists($ruta)) {
+        // Si no existe el archivo, se devuelve un tablero vacío
+        return $tablero;
+    }
+
+    $lineas = file($ruta, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+
+    foreach ($lineas as $linea) {
+        $coordenadas = explode(',', trim($linea));
+        if (count($coordenadas) === 2) {
+            $x = intval($coordenadas[0]);
+            $y = intval($coordenadas[1]);
+
+            if ($x >= 0 && $x < 10 && $y >= 0 && $y < 10) {
+                $tablero[$x][$y] = 1;
+            }
+        }
+    }
+    return $tablero;
+}

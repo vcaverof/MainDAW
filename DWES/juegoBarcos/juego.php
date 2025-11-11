@@ -45,12 +45,38 @@ $fin = ($_SESSION['intentos'] <= 0 || $_SESSION['aciertos'] >= 16);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Juedo de los barcos</title>
     <style>
-        table { border-collapse: collapse; margin: 20px auto; }
-        td { width: 40px; height: 40px; text-align: center; border: 1px solid #000; }
-        button { width: 100%; height: 100%; border: none; background: none; }
-        form {width: 100%; height: 100%;}
-        .agua { background-color: blue; }
-        .tocado { color: red; font-weight: bold; }
+        table {
+            border-collapse: collapse;
+            margin: 20px auto;
+        }
+
+        td {
+            width: 40px;
+            height: 40px;
+            text-align: center;
+            border: 1px solid #000;
+        }
+
+        button {
+            width: 100%;
+            height: 100%;
+            border: none;
+            background: none;
+        }
+
+        form {
+            width: 100%;
+            height: 100%;
+        }
+
+        .agua {
+            background-color: blue;
+        }
+
+        .tocado {
+            color: red;
+            font-weight: bold;
+        }
     </style>
 </head>
 
@@ -105,6 +131,12 @@ $fin = ($_SESSION['intentos'] <= 0 || $_SESSION['aciertos'] >= 16);
             <button type="submit">Nueva partida</button>
         </form>
     </div>
+    <div style="text-align:center; margin-top:10px;">
+        <form method="get" action="index.php">  
+            <button type="submit">Volver al inicio</button>
+        </form>
+    </div>
+
 </body>
 
 </html>

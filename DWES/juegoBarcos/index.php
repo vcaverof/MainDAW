@@ -10,7 +10,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $_SESSION['intentos'] = $intentos;
     $_SESSION['modo'] = $modo;
-    $_SESSION['tablero'] = ($modo === 'ficheor') ? cargarDesdeFichero() : generarTablero();
+    $_SESSION['tablero'] = ($modo === 'fichero') ? cargarDesdeFichero() : generarTablero();
     $_SESSION['disparos'] = [];
     $_SESSION['aciertos'] = 0;
 
