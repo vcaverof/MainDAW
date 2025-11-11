@@ -1,3 +1,7 @@
+const max = 40;
+const min = -20;
+const dias = 30;
+
 export class Estacion {
     #ciudad;
     #temperaturas;
@@ -15,9 +19,6 @@ export class Estacion {
     }
 
     generarTemperaturas() {
-        let max = 40;
-        let min = -20;
-        let dias = 30;
         let temperaturas = [];
         for (let i = 0; i < dias; i++) {
             const temperatura = Math.floor(Math.random() * (max - min + 1) + min);
@@ -41,8 +42,8 @@ export class Estacion {
         return (suma / this.temperaturas.length).toFixed(2);
     }
 
-     mostrarTemperaturas() {
-        console.log(`Temperaturas de ${this.ciudad}:`);
+    mostrarTemperaturas() {
+        // console.log(`Temperaturas de ${this.ciudad}:`);
         console.table(this.temperaturas);
     }
 }

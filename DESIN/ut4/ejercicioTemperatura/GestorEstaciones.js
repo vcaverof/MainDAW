@@ -15,9 +15,14 @@ export class GestorEstaciones {
     }
 
     añadirCiudad(ciudad) {
-        const estacion = new Estacion(ciudad);
-        this.estaciones.push(estacion);
-        console.log(`Ciudad ${ciudad} añadida con éxito`);
+        if (this.#estaciones.some(e => e.ciudad == ciudad)) {  //Comprobar si ya existe dicha estación
+            console.log(`La estación ${ciudad} ya existe`);
+            return;
+        } else {
+            const estacion = new Estacion(ciudad);
+            this.estaciones.push(estacion);
+            console.log(`Ciudad ${ciudad} añadida con éxito`);
+        }
     }
 
     eliminarCiudad(ciudad) {
@@ -38,7 +43,7 @@ export class GestorEstaciones {
         let html = "<table>";
 
         // Cabecera con días + columna de media
-        html += "<tr><th>Ciudad</th>";
+        html += "<tr><th></th>";
         for (let d = 1; d <= 30; d++) {
             html += `<th>${d}</th>`;
         }

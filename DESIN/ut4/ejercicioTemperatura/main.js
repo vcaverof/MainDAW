@@ -4,7 +4,8 @@ const gestor = new GestorEstaciones();
 
 gestor.añadirCiudad("Oviedo");
 gestor.añadirCiudad("Santander");
-gestor.añadirCiudad("Valladolid")
+gestor.añadirCiudad("Valladolid");
+gestor.añadirCiudad("Oviedo");
 
 gestor.mostrarEstaciones();
 
