@@ -1,0 +1,14 @@
+<div class="botones">
+  <button (click)="encenderTodas()">Encender</button>
+  <button (click)="apagarTodas()">Apagar</button>
+  <button (click)="fijarTodas(30)">Fijar baja intensidad</button>
+</div>
+
+<div>
+  <app-bombilla-component *ngFor="let bombilla of bombillas" 
+    [nombre]="bombilla.nombre" 
+    [rango]="bombilla.rango"
+    (alerta)="manejarAlerta($event)">
+  </app-bombilla-component>
+</div>
+<router-outlet/>
