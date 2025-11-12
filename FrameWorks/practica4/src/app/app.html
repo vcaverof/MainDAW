@@ -1,0 +1,13 @@
+<div class="botones">
+  <button (click)="abrirTodas()">Abrir todas</button>
+  <button (click)="cerrarTodas()">Cerrar todas</button>
+  <button (click)="bloquearTodas()">Bloquear todas</button>
+</div>
+
+<div class="componente">
+  <app-puerta-component *ngFor="let puerta of puertas" 
+    [nombre]="puerta.nombre" 
+    [rango]="puerta.rango"
+    (alerta)="manejarAlerta($event)">
+  </app-puerta-component>
+</div>

@@ -1,0 +1,6 @@
+<div class="puerta">
+    <h3>{{ nombre }}</h3>
+    <p>Tiempo actual de la puerta: {{ tiempo }}</p>
+    <p>Rango de tiempo para abrir la puerta: {{ rango.min}}s - {{ rango.max}}s</p>
+    <p [ngClass]="estado">Estado de la puerta: {{ estado }}</p>
+</div>
