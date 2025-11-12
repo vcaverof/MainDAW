@@ -1,0 +1,12 @@
+.encendido {
+    color: green;
+}
+
+.apagado {
+    color: gray;
+}
+
+.bloqueado {
+    color: red;
+    font-weight: bold;
+}

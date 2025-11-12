@@ -1,0 +1,30 @@
+<div class="botones">
+  <button (click)="encenderTodos()">Encender todos</button>
+  <button (click)="apagarTodos()">Apagar todos</button>
+  <button (click)="bloquearTodos()">Bloquear todos</button>
+</div>
+
+<div class="sistema">
+
+
+  <div class="luces">
+    <h3>SISTEMA DE LUCES</h3>
+    <app-luces-component *ngFor="let luz of luces" [nombre]="luz.nombre" [rango]="luz.rango"
+      (alerta)="manejarAlerta($event)">
+    </app-luces-component>
+  </div>
+
+  <div class="ventiladores">
+    <h3>SISTEMA DE VENTILADORES</h3>
+    <app-ventiladores-component *ngFor="let ventilador of ventiladores" [nombre]="ventilador.nombre"
+      [rango]="ventilador.rango" (alerta)="manejarAlerta($event)">
+    </app-ventiladores-component>
+  </div>
+
+  <div class="calefactores">
+    <h3>SISTEMA DE CALEFACTORES</h3>
+    <app-calefactores-component *ngFor="let calefactor of calefactores" [nombre]="calefactor.nombre"
+      [rango]="calefactor.rango" (alerta)="manejarAlerta($event)">
+    </app-calefactores-component>
+  </div>
+</div>
