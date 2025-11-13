@@ -71,10 +71,3 @@ export class Equipo {
 }
 
 
-// PRUEBAS
-let equipo1 = new Equipo("Descripcion del equipo A", true);
-
-console.log("Datos del equipo");
-console.log("Descripcion: " + equipo1.descripcion);
-console.log("Personal: " + equipo1.personal);
-equipo1.toString();

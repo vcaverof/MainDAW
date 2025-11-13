@@ -2,8 +2,6 @@
 //////////FUNCIONA TODO MENOS SOBREPASAR COLUMNAS SI TIENEN PORTATIL//////////
 //////////////////////////////////////////////////////////////////////////////
 
-import { Equipo } from "./Equipo.js";
-
 export class Aula {
     #numero; //Entero
     #equipos;  //Equipo [][]
@@ -84,20 +82,3 @@ export class Aula {
     }
 }
 
-let aula1 = new Aula(1, 5, 5);
-
-let equipo1 = new Equipo("Descripcion del equipo A", true);
-let equipo2 = new Equipo("Descripcion del equipo B", false);
-
-
-aula1.construirAula();
-aula1.activaEquipo(equipo2, 3, 4);
-aula1.activaEquipo(equipo1, 2, 1);
-
-console.log(aula1.equipos);
-
-
-
-console.log("Posición de equipo2: " + aula1.getPosicion("P-BOP-6-5-2001"));
-console.log("Posición de equipo1: " +aula1.getPosicion("P-AOP-6-5-2001"));
-console.log("Porcentaje de ocupación: " + aula1.getPorcentajeOcupacion() + "%");

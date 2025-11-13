@@ -1,7 +1,5 @@
-import { Equipo } from "./Equipo.js";
-import { Aula } from "./Aula.js";
 
-class DptoInformatica {
+export class DptoInformatica {
     #aulas;
     constructor() {
         this.#aulas = new Map();
@@ -21,10 +19,4 @@ class DptoInformatica {
     }
 }
 
-let aula1 = new Aula(1, 5, 5);
-let dpto1 = new DptoInformatica();
-
-dpto1.addAula(aula1, "grupoA");
-
-console.log(dpto1);
 
