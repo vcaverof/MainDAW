@@ -1,0 +1,13 @@
+<h1>Listado de productos</h1>
+<div class="productos">
+  <app-listado-productos 
+    *ngFor="let producto of productos"
+    [producto]="producto"
+    (detalles)="recibirDetalles($event)">
+  </app-listado-productos>
+</div>
+
+<app-detalle-producto [producto]="productoSeleccionado" (descuento)="recibirDescuento($event)">
+
+</app-detalle-producto>
+

@@ -1,0 +1,9 @@
+<div class="detalles">
+    @if (producto.nombre !="") {
+    <h3>Producto seleccionado</h3>
+    <p>Nombre: {{ producto.nombre }}</p>
+    <p>Precio: {{ producto.precio }}€</p>
+    <p>Stock: {{ producto.stock}} disponibles</p>
+    <button (click)="agregarDescuento()">Agregar descuento 20%</button>
+    }
+</div>
