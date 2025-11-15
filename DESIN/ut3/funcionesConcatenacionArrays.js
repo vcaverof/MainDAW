@@ -40,3 +40,5 @@ let f3 = array => array.filter((e, i) => i % 2 == 0)
     .reduce((acc, e) => acc + e, 0); //El cero es para evitar errores en caso de que el array esté vacio
 console.log(f3(a)); //4 (1 + 3)
 
+
+
