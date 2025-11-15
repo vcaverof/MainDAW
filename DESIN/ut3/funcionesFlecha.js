@@ -224,14 +224,22 @@ console.log(sumaCubos([1, 2, 3, 4, 5, 7, 9])); // 7^3 + 9^3 = 343 + 729 = 1072
 
 //Dado un array de usuarios con nombre y email, crea una función flecha que reciba un texto y devuelva todos los usuarios cuyo nombre contenga ese texto (case-insensitive).
 const usuarios = [
-    { nombre: "Victor", email: "victor@correo.com"},
-    { nombre: "Pedro", email: "pedro@correo.com"},
-    { nombre: "Laura", email: "laura@correo.com"},
-    { nombre: "Alba", email: "valba@correo.com"},
-    { nombre: "Eduardo", email: "eduardo@correo.com"},
-    { nombre: "Misho", email: "misho@correo.com"},
+    { nombre: "Victor", email: "victor@correo.com" },
+    { nombre: "Pedro", email: "pedro@correo.com" },
+    { nombre: "Laura", email: "laura@correo.com" },
+    { nombre: "Alba", email: "valba@correo.com" },
+    { nombre: "Eduardo", email: "eduardo@correo.com" },
+    { nombre: "Misho", email: "misho@correo.com" },
 ];
 
 const buscadorUsuarios = (texto) => usuarios
     .filter(e => e.nombre.toLowerCase().includes(texto.toLowerCase()))
 console.log(buscadorUsuarios("ed"));
+
+//Inicializar arrays bidimensionales de forma óptima
+const iniciarArray2D = (filas, columnas, valor = null) => {
+    return Array.from({ length: filas }, () => Array.from({ length: columnas }).fill(valor));
+}
+
+const matriz = iniciarArray2D(5, 5);
+console.table(matriz);
