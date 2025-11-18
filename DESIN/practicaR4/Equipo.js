@@ -3,20 +3,19 @@
 //////////////////////////////////////////////////
 
 const caracteresDescripcion = 3;
-const anioActual = new Date();
 export class Equipo {
     #id;  //Cadena
     #fecha;  //Date
     #descripcion;  //cadena
     #personal;  //booleano
-    constructor(descripcion, personal) {
+    constructor(descripcion, personal, dias = false) {
         this.#descripcion = descripcion;
         if (personal = true) {
             this.#personal = "P";
         } else {
             this.#personal = "S";
         }
-        this.#fecha = new Date(this.anioActual() + '-06-30');
+        this.#fecha = this.calcularFecha();
         this.#id = this.generarID();
         
     }
@@ -33,16 +32,17 @@ export class Equipo {
         return this.#personal;
     }
 
+
     get fecha() {
         return this.#fecha;
     }
 
     generarID() {
-        return `${this.personal}-${this.ultimoCaracteres().toUpperCase()}-${this.fecha.getDay()}-${this.fecha.getMonth()}-${this.fecha.getFullYear()}`;
+        return `${this.personal}-${this.ultimosCaracteres().toUpperCase()}-${this.fecha.getDate()}-${this.fecha.getMonth() + 1}-${this.fecha.getFullYear()}`;
     }
 
     //Funcion para comprobar los ultimos 3 caracteres de la descripcion
-    ultimoCaracteres() {
+    ultimosCaracteres() {
         let ultimoCaracteres = "";
         let caracter = "";
         for (let i = 1; ultimoCaracteres.length < caracteresDescripcion; i++) {
@@ -58,10 +58,18 @@ export class Equipo {
         return ultimoCaracteres;
     }
 
-    //Calcula el año actual
-    anioActual() {
-        let anio = new Date().getFullYear;
-        return anio;
+    calcularFecha() {
+        const hoy = new Date();
+        const anioActual = hoy.getFullYear();
+        let fechaInicio = new Date(anioActual, 7, 1);
+
+        if (this.dias !== undefined && this.dias !== null) {
+            const fin = new Date(fechaInicio);
+            fin.setDate(fin.getDate() + this.dias);
+            return fin;
+        } else {
+            return new Date (anioActual + 1, 5, 30);
+        }
     }
 
     toString() {
