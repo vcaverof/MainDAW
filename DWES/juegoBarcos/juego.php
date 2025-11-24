@@ -125,7 +125,7 @@ $fin = ($_SESSION['intentos'] <= 0 || $_SESSION['aciertos'] >= 16);
 
     <div style="text-align:center;">
         <?php if ($fin): ?>
-            <p><strong>¡Fin de la partida!</strong></p>
+            <p><strong>¡Fin de la partida!</strong></p> 
         <?php endif; ?>
         <form method="post" action="index.php">
             <button type="submit">Nueva partida</button>
