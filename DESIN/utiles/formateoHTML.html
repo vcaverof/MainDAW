@@ -1,0 +1,69 @@
+<!-- MOSTRAR JS EN HTML DENTRO DEL HTML  -->
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Ejemplo JS en HTML</title>
+</head>
+
+<body>
+  <h1>Mi primera página con JS</h1>
+  <div id="output"></div>
+
+  <script>
+    document.getElementById("output").textContent = "Hola desde JavaScript!";
+  </script>
+</body>
+
+</html>
+
+<!-- EN ARCHIVO EXTERNO -->
+<script src="main.js"></script> //Esto en el HTML
+
+<!-- document.getElementById("output").textContent = "Hola desde archivo externo!"; Esto en main.js -->
+
+<!-- PEDIR DATOS AL USUARIO -->
+<!-- Pedir un dato -->
+<script>
+  const nombre = prompt("¿Cuál es tu nombre?");
+  alert("Hola " + nombre);
+</script>
+
+<!-- Confirmar acción -->
+<script>
+  const seguro = confirm("¿Quieres continuar?");
+  if (seguro) {
+    alert("Has confirmado!");
+  } else {
+    alert("Has cancelado!");
+  }
+</script>
+
+<!-- MOSTRAR CONTENIDO EN FORMA DE TABLA -->
+<div id="tabla"></div>
+<script>
+  const libros = [
+    { titulo: "Quijote", autor: "Cervantes" },
+    { titulo: "1984", autor: "Orwell" },
+    { titulo: "JS Moderno", autor: "Victor" }
+  ];
+
+  const tablaDiv = document.getElementById("tabla");
+  const tabla = document.createElement("table");
+  tabla.border = "1";
+
+  // Cabecera
+  const header = tabla.insertRow();
+  header.insertCell().textContent = "Título";
+  header.insertCell().textContent = "Autor";
+
+  // Filas
+  for (let libro of libros) {
+    const fila = tabla.insertRow();
+    fila.insertCell().textContent = libro.titulo;
+    fila.insertCell().textContent = libro.autor;
+  }
+
+  tablaDiv.appendChild(tabla);
+</script>

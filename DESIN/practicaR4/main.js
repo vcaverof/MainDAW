@@ -22,11 +22,10 @@ console.log("AULA 1");
 console.log(aula1.equipos);
 
 console.log("Posición de equipo2: " + aula1.getPosicion("P-BOP-6-5-2001")); //Busca equipo por ID
-console.log("Posición de equipo1: " + aula1.getPosicion("P-AOP-6-5-2001"));  //Busca equipo por ID
-console.log("Posición de equipo3: " + aula1.getPosicion("P-AOH-6-5-2001"));  //Busca equipo por ID
+console.log("Posición de equipo1: " + aula1.getPosicion("P-AOT-6-5-2001"));  //Busca equipo por ID
 console.log("Porcentaje de ocupación: " + aula1.getPorcentajeOcupacion() + "%"); 
 
-//PRUEBA NO FUNCIONAL (FALTA CORREGIR LA CLASE DPTOINFORMATICA)
+// // PRUEBA NO FUNCIONAL (FALTA CORREGIR LA CLASE DPTOINFORMATICA)
 // let dpto1 = new DptoInformatica();
 // dpto1.addAula(aula1, "A");
 // console.log(dpto1);
