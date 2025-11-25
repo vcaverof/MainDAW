@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pruebas</title>
+</head>
+
+<body>
+    <h1>Pruebas</h1>
+    <script>
+        let f1 = function () {
+            window.location.href = "pruebas2.html"; //Te lleva al url al abrir la ventana
+        }
+
+        let f2 = function () {
+            window.history.back(); //Navega a la URL anterior
+        }
+
+        let f3 = function () {
+            window.status = "Pagina de prueba"; //Define el valor que aparece en la barra de estado
+        }
+
+        let f4 = function() { 
+            window.print(); //Imprime el documento contenido en la ventana
+        }
+
+        let f5 = function() {
+            window.open("pruebas.html"); //Abre una nueva ventana y carga la página "pruebas.html"
+        }
+
+
+    </script>
+
+    <button onclick="f1()">Abrir "Pruebas2.html"</button>
+    <button onclick="f2()">Volver a la página anterior</button>
+    <button onclick="f3()">Valor barra de estado</button>
+    <button onclick="f4()">Imprimir documento</button>
+    <button onclick="f5()">Ventana nueva al html</button>
+
+</body>
+
+</html>

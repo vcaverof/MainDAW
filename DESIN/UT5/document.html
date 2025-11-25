@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documento</title>
+</head>
+
+<body onload="f4()">
+    <h1>Documento</h1>
+    <h2>Color de fondo</h2>
+    <script>
+        function f1() {
+            document.body.style.background = "red";
+        }
+
+        function f2() {
+            document.body.style.background = "white";
+        }
+
+        function f3() {
+            alert(document.links[2]);
+        }
+
+        function f4() {
+            document.images["uno"].src = "1.png";
+            document.images["dos"].src = "2.png";
+        }
+    </script>
+
+    <button onclick="f1()">Rojo</button>
+    <button onclick="f2()">Blanco</button>
+
+    <h2>Array de links</h2>
+    <a href="https://google.com">Google</a>
+    <a href="https://apple.com">Apple</a>
+    <a href="https://youtube.com">Youtube</a>
+    <br> <br>
+    <button onclick="f3()">Link número 2</button>
+
+    <h2>Imagenes</h2>
+    <img name="uno" width="200px">Uno
+    <img name="dos" width="200px">Dos
+
+</body>
+
+</html>
