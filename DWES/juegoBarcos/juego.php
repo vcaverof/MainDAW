@@ -8,7 +8,7 @@ if (!isset($_SESSION['tablero'], $_SESSION['intentos'], $_SESSION['disparos'], $
     exit;
 }
 
-//Procesar disparo
+//Procesar disparo y mostrar mensajes de estado
 $mensaje = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['x'], $_POST['y'])) {
     $x = intval($_POST['x']);

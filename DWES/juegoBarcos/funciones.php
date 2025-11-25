@@ -13,9 +13,10 @@ function generarTablero()
         $coordenadas = [];
 
         for ($i = 0; $i < $cantidadBarcos; $i++) {
+            //Avanza en funcion de la orientación del barco
             $nx = $x + ($orientacion ? 0 : $i);
             $ny = $y + ($orientacion ? $i : 0);
-            if ($nx > 9 || $ny > 9 || $tablero[$nx][$ny] === 1) {
+            if ($nx > 9 || $ny > 9 || $tablero[$nx][$ny] === 1) { //Comprueba que no se salga o que haya otro barco
                 $valido = false;
                 break;
             }
