@@ -40,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
     //Si hay resultados, tenemos que modificar la reseña existente
     if ($result) {
-        $sql_update = "UPDATE resenias SET puntuacion = ?, comentario = ?, fecha = ?  WHERE id_usuario = ? AND id_libro = ? ";
+        $sql_update = "UPDATE resenias SET puntuacion = ?, comentario = ?, fecha = ?  WHERE id_usuario = ?";
         $stmt_update = $conn->prepare($sql_update);
         $stmt_update->execute([$puntuacion, $comentario, date("Y-m-d", time()), $_SESSION['id_usuario'], $id_libro]);
         echo "Se ha actualizado la reseña con éxito";

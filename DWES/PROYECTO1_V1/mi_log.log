@@ -1,0 +1,6 @@
+[2025-11-04T10:20:58.704300+01:00] mi_logger.INFO: Este es un mensaje informativo [] []
+[2025-11-04T10:20:58.806067+01:00] mi_logger.ERROR: Este es un mensaje de error [] []
+[2025-11-04T10:21:09.790473+01:00] mi_logger.INFO: Este es un mensaje informativo [] []
+[2025-11-04T10:21:09.791879+01:00] mi_logger.ERROR: Este es un mensaje de error [] []
+[2025-11-06T10:07:21.576398+01:00] mi_logger.INFO: Este es un mensaje informativo [] []
+[2025-11-06T10:07:21.705073+01:00] mi_logger.ERROR: Este es un mensaje de error [] []

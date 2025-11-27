@@ -25,11 +25,14 @@ class Soporte
     }
 
     public function muestraResumen() {
-        return `Titulo: {$this->titulo} - Numero: {$this->numero} - Precio: {$this->precio}`;
+        return `Titulo: $this->titulo - Numero: $this->numero - Precio: $this->precio`;
     }
 }
 
-$soporte = new Soporte("PS5", 1, 500.00);
-echo $soporte->muestraResumen();
+
+$web = new Soporte("Soporte Web", 1, 60.0);
+echo $web->muestraResumen();
+
+
 
 ?>
