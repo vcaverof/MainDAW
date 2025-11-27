@@ -9,6 +9,8 @@ import { RouterOutlet } from '@angular/router';
   styleUrl: './app.css'
 })
 export class App {
+  datos = "";
+
   formularioContacto = new FormGroup({
     nombre: new FormControl(''),
     email: new FormControl(''),
@@ -16,7 +18,9 @@ export class App {
   });
 
   submit() {
-    
+    this.datos = `Nombre= ${this.formularioContacto.value.nombre}
+                  Email= ${this.formularioContacto.value.email}
+                  Mensaje= ${this.formularioContacto.value.mensaje}`;
   }
 }
 

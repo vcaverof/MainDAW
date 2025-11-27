@@ -1,14 +1,16 @@
 <form [formGroup]="formularioContacto" (ngSubmit)="submit()">
-  <label>Nombre:
+  <p>Nombre:
     <input type="text" formControlName="nombre">
-  </label>
+  </p>
 
-  <label>Email:
+  <p>Email:
     <input type="text" formControlName="email">
-  </label>
+  </p>
 
-  <label>Mensaje:
+  <p>Mensaje:
     <textarea type="text" rows="10" cols="70" formControlName="mensaje"></textarea>
-  </label>
+  </p>
+  <button type="submit">Confirmar</button>
+  {{ datos }}
 </form>
-<router-outlet/>
+<router-outlet />
