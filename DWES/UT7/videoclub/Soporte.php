@@ -17,7 +17,7 @@ class Soporte
     }
 
     public function getPrecioConIva() {
-        return ($this->precio + ($this->precio * 0.21));
+        return number_format($this->precio * 1.21, 2);
     }
 
     public function getNumero() {
@@ -25,14 +25,7 @@ class Soporte
     }
 
     public function muestraResumen() {
-        return `Titulo: $this->titulo - Numero: $this->numero - Precio: $this->precio`;
+        return "Titulo: $this->titulo - Numero: $this->numero - Precio: $this->precio";
     }
 }
-
-
-$web = new Soporte("Soporte Web", 1, 60.0);
-echo $web->muestraResumen();
-
-
-
 ?>

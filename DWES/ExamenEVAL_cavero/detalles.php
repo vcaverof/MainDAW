@@ -33,16 +33,16 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $comentario = $_POST['comentario'];
 
     //Comprobamos si el usuario ha puesto alguna reseña en el libro
-    $sql = "SELECT * FROM resenias WHERE id_usuario = ?";
+    $sql = "SELECT * FROM resenias WHERE id_usuario = ? AND id_libro = ?";
     $stmt = $conn->prepare($sql);
-    $stmt->execute([$_SESSION['id_usuario']]);
+    $stmt->execute([$_SESSION['id_usuario'], $id_libro]);
     $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     //Si hay resultados, tenemos que modificar la reseña existente
     if ($result) {
         $sql_update = "UPDATE resenias SET puntuacion = ?, comentario = ?, fecha = ?  WHERE id_usuario = ?";
         $stmt_update = $conn->prepare($sql_update);
-        $stmt_update->execute([$puntuacion, $comentario, date("Y-m-d", time()), $_SESSION['id_usuario'], $id_libro]);
+        $stmt_update->execute([$puntuacion, $comentario, date("Y-m-d", time()), $_SESSION['id_usuario']]);
         echo "Se ha actualizado la reseña con éxito";
     } else { //Si no existe reseña, la creamos 
         $sql_insert = "INSERT INTO resenias (id_usuario, id_libro, puntuacion, comentario, fecha) VALUES (?, ?, ?, ?, ?)";

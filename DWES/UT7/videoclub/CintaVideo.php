@@ -2,19 +2,15 @@
 class CintaVideo extends Soporte{
     private int $duracion;
 
-    public function __construct(string $titulo, float $precio, int $duracion)
+    public function __construct(string $titulo, int $numero, float $precio, int $duracion)
     {
-        parent::__construct($titulo, $precio);
+        parent::__construct($titulo, $numero, $precio);
         $this->duracion = $duracion;
     }
 
     public function muestraResumen()
     {
-        parent::muestraResumen();
-        echo ` - Duración: {$this->duracion}`;
+        return parent::muestraResumen() . " - Duración: {$this->duracion} min";
     }
 }
-
-
-
 ?>

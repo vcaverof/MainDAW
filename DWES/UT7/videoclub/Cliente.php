@@ -11,7 +11,7 @@ class Cliente
     {
         $this->nombre = $nombre;
         $this->numero = $numero;
-        $this->maxAlquilerConcurrente;
+        $this->maxAlquilerConcurrente = $maxAlquilerConcurrente;
         $this->soportesAlquilados = [];
         $this->numSoportesAlquilados = 0;
     }
@@ -29,7 +29,7 @@ class Cliente
 
         $this->soportesAlquilados[$soporte->getNumero()] = $soporte;
         $this->numSoportesAlquilados++;
-        echo "Soporte alquilador correctamente";
+        echo "Soporte alquilado correctamente";
         return true;
     }
 
@@ -48,7 +48,7 @@ class Cliente
             return true;
         }
 
-        echo "El cliente {$this->nombre} no tiene alquilado el soporte con número {$this->numero}";
+        echo "El cliente {$this->nombre} no tiene alquilado el soporte con número {$numSoporte}";
         return false;
     }
 
@@ -61,7 +61,7 @@ class Cliente
 
         echo "Soportes alquilados por {$this->nombre}: \n";
         foreach ($this->soportesAlquilados as $soporte) {
-            $soporte->muestraResumen();
+            echo $soporte->muestraResumen() . "\n";
         }
     }
 
