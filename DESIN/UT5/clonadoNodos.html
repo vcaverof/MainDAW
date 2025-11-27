@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="id0" style="border:solid 1px black">Esto es un 
+        <input type="text">
+        <a href="https://google.com">Google</a>
+    </div>
+
+    <script>
+        //IMPORTANTE, SI NO PASAS PARÁMETRO AL cloneNode(), EL VALOR ES FALSE POR DEFECTO
+        const d = document.querySelector('#id0');
+        const copiaProfunda = d.cloneNode(true);
+        d.after(copiaProfunda); //Copia el nodo con todos sus atributos y contenidos
+
+        const copiaSuperficial = d.cloneNode(false);
+        d.before(copiaSuperficial); //Copia solo el nodo en sí
+        d.remove(); //En este caso borra el nodo "d" y todos sus hijos, porque no pasamos ningún parámetro
+        console.log(copiaProfunda.outerHTML);
+        console.log(copiaSuperficial.outerHTML);
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        function f1() {
+            for (const d of document.getElementsByTagName("div")) {
+                console.log("ID: " + d.id);
+                console.log(d.childNodes[0].nodeValue);
+            }
+        }
+
+        function f2() {
+            for (const d of document.links) {
+                console.log("Enlace: " + d);
+            }
+
+        }
+
+        function verNodos(node) {
+            if (node.nodeType === Node.ELEMENT_NODE) {
+                console.log(node.nodeName);
+            }
+            if (node.nodeType === Node.TEXT_NODE && node.nodeValue.trim() !== '') {
+                console.log(`Text: ${node.nodeValue.trim()}`);
+            }
+            
+            for (const n of node.childNodes) {
+                if (n.nodeType === Node.ELEMENT_NODE) {
+                    console.log(n.nodeName);
+                }
+                if (n.nodeType === Node.TEXT_NODE && n.nodeValue.trim() !== '') {
+                    console.log(`Text: ${n.nodeValue.trim()}`);
+                }
+
+                for (const n2 of n.childNodes) {
+                    if (n2.nodeType === Node.ELEMENT_NODE) {
+                        console.log(n2.nodeName);
+                    }
+                    if (n2.nodeType === Node.TEXT_NODE && n2.nodeValue.trim() !== '') {
+                        console.log(`Text: ${n2.nodeValue.trim()}`);
+                    }
+                }
+            }
+        }
+
+
+        function verNodosRecursiva(n) {
+            if (n.nodeType === Node.ELEMENT_NODE) {
+                console.log(n.nodeName);
+            }
+
+            if (n.nodeType === Node.TEXT_NODE && n.nodeValue.trim() !== '') {
+                console.log(`Text: ${n.nodeValue.trim()}`);
+            }
+
+            for (const i of n.childNodes) {
+                verNodosRecursiva(i);
+            }
+        }
+    </script>
+
+    <div id="id0">Esto es un contenedor
+        <a href="https://uno.com">uno</a>
+        <div id="id1">Esto es un bloque
+            <a href="https://dos.com">Dos</a>
+            <input name="prueba1" />
+            <input name="prueba2" />
+        </div>
+    </div>
+
+    <button onclick="f1()">Mostrar datos div</button>
+    <button onclick="f2()">Mostrar enlaces</button>
+    <button onclick="verNodos(document.querySelector('#id0'))">Mostrar nodos</button>
+</body>
+
+</html>

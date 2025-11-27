@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="id0" style="border:solid 1px black">Esto es un contenedor</div>
+    <script>
+        const donde = document.querySelector('#id0'); 
+        const e1 = document.createElement('DIV');
+        e1.innerHTML = "<strong>Prueba1</strong>";
+        donde.append(e1); //Añade al final DENTRO del contenedor
+
+        const e2 = document.createElement('DIV');
+        e2.innerHTML = ("<strong>Prueba2</strong>");
+        donde.prepend(e2);  //Añade al inicio DENTRO del contenedor
+
+        const e3 = document.createElement('DIV');
+        e3.innerHTML = ("<strong>Prueba3</strong>");
+        donde.before(e3);  //Añade al inicio FUERA del contenedor
+
+        const e4 = document.createElement('DIV');
+        e4.innerHTML = ("<strong>Prueba4</strong>");
+        donde.after(e4);  //Añade al final FUERA del contenedor
+    </script>
+</body>
+
+</html>
