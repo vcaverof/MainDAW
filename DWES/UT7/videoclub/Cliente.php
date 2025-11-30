@@ -1,4 +1,21 @@
 <?php
+
+namespace Dwes\ProyectoVideoclub;
+
+// Incluimos recursos necesarios
+include_once "Soporte.php";
+include_once "Util/VideoclubException.php";
+include_once "Util/SoporteYaAlquiladoException.php";
+include_once "Util/CupoSuperadoException.php";
+include_once "Util/SoporteNoEncontradoException.php";
+include_once "Util/ClienteNoEncontradoException.php";
+
+// Usamos los namespaces para escribir menos código abajo
+use Dwes\ProyectoVideoclub\Util\SoporteYaAlquiladoException;
+use Dwes\ProyectoVideoclub\Util\CupoSuperadoException;
+use Dwes\ProyectoVideoclub\Util\SoporteNoEncontradoException;
+use Dwes\ProyectoVideoclub\Util\ClienteNoEncontradoException;
+
 class Cliente
 {
     public string $nombre;
@@ -7,7 +24,7 @@ class Cliente
     private int $numSoportesAlquilados;
     private int $maxAlquilerConcurrente;
 
-    public function __construct(string $nombre, int $numero, int $maxAlquilerConcurrente)
+    public function __construct(string $nombre, int $numero, int $maxAlquilerConcurrente = 3)
     {
         $this->nombre = $nombre;
         $this->numero = $numero;
@@ -16,50 +33,82 @@ class Cliente
         $this->numSoportesAlquilados = 0;
     }
 
-    public function alquilar(Soporte $soporte): bool
+    public function getNumero(): int
     {
-        if ($this->numSoportesAlquilados >= $this->maxAlquilerConcurrente) {
-            echo "El cliente {$this->nombre} ya alcanzó el máximo de alquileres";
-            return false;
-        }
-        if ($this->tieneAlquilado($soporte)) {
-            echo "El cliente {$this->nombre} ya tiene alquilado este soporte";
-            return false;
-        }
-
-        $this->soportesAlquilados[$soporte->getNumero()] = $soporte;
-        $this->numSoportesAlquilados++;
-        echo "Soporte alquilado correctamente";
-        return true;
+        return $this->numero;
     }
 
-    //Comprueba si el cliente tiene algun soporte contratado
+    public function getNumSoportesAlquilados(): int
+    {
+        return $this->numSoportesAlquilados;
+    }
+
+    
+    public function alquilar(Soporte $soporte): self
+    {
+        // 1. Comprobamos si el cliente YA tiene este soporte concreto
+        if ($this->tieneAlquilado($soporte)) {
+            throw new SoporteYaAlquiladoException("El cliente ya tiene alquilado el soporte " . $soporte->getNumero());
+        }
+
+        // 2. Comprobamos si supera el cupo
+        if ($this->numSoportesAlquilados >= $this->maxAlquilerConcurrente) {
+            throw new CupoSuperadoException("Cupo de alquileres superado.");
+        }
+
+        // 3. Comprobamos si el soporte está alquilado por OTRO cliente
+        // (Asumiendo que has añadido public $alquilado en Soporte.php como pide el PDF)
+        if ($soporte->alquilado) {
+            throw new SoporteYaAlquiladoException("El soporte ya está alquilado por otro socio.");
+        }
+
+        // --- Si pasa las validaciones, realizamos el alquiler ---
+
+        // Añadimos al array usando el ID como clave
+        $this->soportesAlquilados[$soporte->getNumero()] = $soporte;
+
+        // Incrementamos contador
+        $this->numSoportesAlquilados++;
+
+        // Marcamos el soporte como alquilado (Requisito PDF)
+        $soporte->alquilado = true;
+
+        return $this; // Permite encadenamiento
+    }
+
+    public function devolver(int $numSoporte): self
+    {
+        // Verificamos si lo tiene alquilado
+        if (!isset($this->soportesAlquilados[$numSoporte])) {
+            throw new SoporteNoEncontradoException("El soporte con número $numSoporte no está alquilado por este cliente.");
+        }
+
+        // Recuperamos el objeto para cambiarle el estado
+        $soporte = $this->soportesAlquilados[$numSoporte];
+
+        // Marcamos el soporte como NO alquilado (Requisito PDF)
+        $soporte->alquilado = false;
+
+        // Eliminamos del array y restamos contador
+        unset($this->soportesAlquilados[$numSoporte]);
+        $this->numSoportesAlquilados--;
+
+        return $this;
+    }
+
     public function tieneAlquilado(Soporte $soporte): bool
     {
         return isset($this->soportesAlquilados[$soporte->getNumero()]);
     }
 
-    public function devolver(int $numSoporte): bool
-    {
-        if (isset($this->soportesAlquilados[$numSoporte])) {
-            unset($this->soportesAlquilados[$numSoporte]);
-            $this->numSoportesAlquilados--;
-            echo "Soporte devuelto correctamente";
-            return true;
-        }
-
-        echo "El cliente {$this->nombre} no tiene alquilado el soporte con número {$numSoporte}";
-        return false;
-    }
-
-    public function listaAlquileres()
+    public function listaAlquileres(): void
     {
         if ($this->numSoportesAlquilados === 0) {
-            echo "El cliente {$this->nombre} no tiene soportes alquilados";
+            echo "El cliente {$this->nombre} no tiene soportes alquilados.\n";
             return;
         }
 
-        echo "Soportes alquilados por {$this->nombre}: \n";
+        echo "Soportes alquilados por {$this->nombre}:\n";
         foreach ($this->soportesAlquilados as $soporte) {
             echo $soporte->muestraResumen() . "\n";
         }

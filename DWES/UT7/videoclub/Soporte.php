@@ -1,9 +1,12 @@
 <?php
+namespace Dwes\ProyectoVideoclub;
+
 class Soporte
 {
     public string $titulo;
     protected int $numero;
     private float $precio;
+    public bool $alquilado = false;
 
     public function __construct(string $titulo, int $numero, float $precio)
     {
