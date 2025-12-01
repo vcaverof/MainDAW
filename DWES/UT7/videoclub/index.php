@@ -39,7 +39,7 @@ $vc->incluirCintaVideo("Los Cazafantasmas", 3.5, 107);
 
 // Creamos socios
 $vc->incluirSocio("Amancio Ortega", 1); // ID 1
-$vc->incluirSocio("Pablo Picasso", 2); // ID 2
+$vc->incluirSocio("Pablo Picasso", 2, 5); // ID 2
 
 echo "Productos y socios creados correctamente.<br><hr>";
 
