@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio 2</title>
+</head>
+
+<body>
+    <script>
+
+        //Array con los urls
+        const urls = [
+            "https://www.google.com",
+            "https://www.wikipedia.org",
+            "https://www.microsoft.com",
+            "https://www.github.com",
+            "https://www.stackoverflow.com"
+        ]
+
+        //Creamos la lista desordenada
+        const ul = document.createElement("ul");
+
+        //Recorremos el array de urls, y creamos un li y un a por cada url
+        urls.forEach(url => {
+            const li = document.createElement("li");
+            const a = document.createElement("a");
+
+            //Configuramos el enlace
+            a.href = url;
+            a.textContent = url;
+            a.target = "_blank"; //Abre una nueva pestaña
+
+            //Añadimos el enlace al li de la lista
+            li.appendChild(a); 
+
+            //Añadimos el li de la lista a la lista
+            ul.appendChild(li);
+        })
+
+        //Añadimos la lista al body del documento HTML
+        document.body.appendChild(ul);
+
+    </script>
+</body>
+
+</html>
