@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>dom_04 - Ejercicio: Obtener la etiqueta que aparece más veces</h1>
+    <hr id="linea1" />
+
+    <p id="parrafo1">Primer párrafo</p>
+    <p id="parrafo2">Segundo párrafo</p>
+    <p id="parrafo3">Tercer párrafo</p>
+    <p id="parrafo4">Cuarto párrafo</p>
+    <p id="parrafo5">Quinto párrafo</p>
+    <p id="parrafo6">Sexto párrafo</p>
+    <p id="parrafo7">Séptimo párrafo</p>
+    <p id="parrafo8">Octavo párrafo</p>
+    <p id="parrafo9">Noveno párrafo</p>
+    <p id="parrafo10">Décimo párrafo</p>
+    <hr id="linea2" />
+    <button onclick="mostrarInformacion();" id="boton1">Mostrar información</button>
+
+    <script>
+        function mostrarInformacion() {
+            //Extrae todos los tipos de etiquetas del documento, los mete en un array y lo mapea para quedarse solo con el tagName en minúsculas
+            const etiquetas = [...document.querySelectorAll("*")].map(e => e.tagName.toLowerCase());
+
+            //Cuenta las apariciones de cada etiqueta en el documento HTML
+            const cantidades = etiquetas.reduce((acc, tag) => {
+                acc[tag] = (acc[tag] || 0) + 1;
+                return acc;
+            }, {});
+
+            //Comprueba cual aparece más veces
+            let max = 0;
+            let maxTag = "";
+            for (let [key, value] of Object.entries(cantidades)) {
+                if (value > max) {
+                    max = value;
+                    maxTag = key;
+                }
+            }
+
+            alert(`Etiqueta: ${maxTag} - Cantidad: ${max}`);
+        }
+    </script>
+</body>
+
+</html>

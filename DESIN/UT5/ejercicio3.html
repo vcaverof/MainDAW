@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio 3</title>
+</head>
+
+<body>
+    <div id="principal"
+        style="border:solid 1px black; height: 300px; width: 700px; margin: 0 auto; background: orange;">
+        <script>
+            const mensajes = [
+                "Pepinillos de oferta",
+                "Pan de hamburguesa en 2 x 1",
+                "Clic aquí para ganar un Iphone 17 Pro Max",
+                "Viaje a Maldivas para 2 personas gratis!!",
+                "Regalos de navidad baratos",
+                "Coches de marca hasta un 20% de descuento"
+            ]
+
+            function generarColorRGBAleatorio() {
+                const r = Math.floor(Math.random() * 256);
+                const g = Math.floor(Math.random() * 256);
+                const b = Math.floor(Math.random() * 256);
+
+                return `rgb(${r}, ${g}, ${b})`;
+            }
+
+            function mostrarMensajes() {
+                const principal = document.getElementById("principal");
+                principal.innerHTML = ""; //VACIAR 
+
+                mensajes.forEach(mensaje => {
+                    const div = document.createElement("div");
+                    const left = Math.floor(Math.random() * 549);
+
+                    //Estilos del div
+                    div.style.width = "125px";
+                    div.style.border = "1px solid black";
+                    div.style.position = "relative";
+                    div.style.left = left + "px";
+                    div.style.backgroundColor = generarColorRGBAleatorio();
+                    
+                    div.textContent = mensaje;
+
+                    principal.appendChild(div);
+
+                });
+            }
+
+            setInterval(mostrarMensajes, 1000);
+
+        </script>
+    </div>
+</body>
+
+</html>
