@@ -13,12 +13,12 @@
     <input type="radio" formControlName="genero" value="masculino">Masculino
     <input type="radio" formControlName="genero" value="otro">Otro
   </p>
-  <div formGroupName="preferencias">Preferencias: 
+  <div formGroupName="preferencias">
     <p>Intereses:
-      <input type="checkbox" formControlName="intereses" value="musica">Música
-      <input type="checkbox" formControlName="intereses" value="deportes">Deportes
-      <input type="checkbox" formControlName="intereses" value="videojuegos">Videojuegos
-      <input type="checkbox" formControlName="intereses" value="lectura">Lectura
+      <input type="checkbox" formControlName="musica">Música
+      <input type="checkbox" formControlName="deportes">Deportes
+      <input type="checkbox" formControlName="videojuegos">Videojuegos
+      <input type="checkbox" formControlName="lectura">Lectura
     </p>
     <p>Nivel de experiencia en Angular:
       <select formControlName="nivelAngular">
@@ -31,13 +31,27 @@
   <p><button type="submit">Enviar</button></p>
 
   <div>
-  <p>Nombre: {{ nombre }}</p>
-  <p>Email: {{ email }}</p>
-  <p>Biografia: {{ biografia }}</p>
-  <p>Genero: {{ genero }} </p>
-  <p>Intereses: {{ intereses }}</p>
-  <p>Nivel Angular: {{ nivelAngular }}</p>
-</div>
+    <p>Nombre: {{ nombre }}</p>
+    <p>Email: {{ email }}</p>
+    <p>Biografia: {{ biografia }}</p>
+    <p>Genero: {{ genero }} </p>
+    <p>Intereses: {{ intereses?.join(', ') }}</p>
+    <p>Nivel Angular: {{ nivelAngular }}</p>
+  </div>
 
 </form>
+<button (click)="borrarUsuarios()">Borrar todos los usuarios del Local Storage</button>
 
+<hr>
+
+<h3>Usuarios registrados</h3>
+<div *ngFor="let usuario of usuariosRegistrados; let i = index">
+  <p><strong>Usuario {{ i + 1 }}</strong></p>
+  <p>Nombre: {{ usuario.nombre }}</p>
+  <p>Email: {{ usuario.email }}</p>
+  <p>Biografía: {{ usuario.biografia }}</p>
+  <p>Género: {{ usuario.genero }}</p>
+  <p>Intereses: {{ usuario.intereses?.join(', ') }}</p>
+  <p>Nivel Angular: {{ usuario.nivelAngular }}</p>
+  <hr />
+</div>

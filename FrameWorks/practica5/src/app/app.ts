@@ -1,10 +1,12 @@
 import { Component, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { RouterOutlet } from '@angular/router';
+import { CommonModule } from '@angular/common';
+
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, ReactiveFormsModule],
+  imports: [RouterOutlet, ReactiveFormsModule, CommonModule],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
@@ -13,8 +15,11 @@ export class App {
   email = "";
   biografia = "";
   genero = "";
-  intereses = "";
+  intereses: string[] = [];
   nivelAngular = "";
+
+  opcionesIntereses = ["Música", "Deportes", "Videojuegos", "Lectura"];
+  usuariosRegistrados: any[] = [];
 
   formUsuario = new FormGroup({
     nombre: new FormControl(''),
@@ -22,10 +27,20 @@ export class App {
     biografia: new FormControl(''),
     genero: new FormControl('femenino'),
     preferencias: new FormGroup({
-      intereses: new FormControl('false'),
+      musica: new FormControl(false),
+      deportes: new FormControl(false),
+      videojuegos: new FormControl(false),
+      lectura: new FormControl(false),
       nivelAngular: new FormControl('Basico'),
     })
   });
+
+  constructor() {
+    const data = localStorage.getItem("usuarios");
+    if (data) {
+      this.usuariosRegistrados = JSON.parse(data);
+    }
+  }
 
   submit() {
     if (this.formUsuario.value.nombre) {
@@ -48,13 +63,48 @@ export class App {
       this.genero = "Otro";
     }
 
-    if (this.formUsuario.value.preferencias?.intereses) {
-      this.intereses = this.formUsuario.value.preferencias.intereses; //IMRIME TRUE, NO EL VALOR DE LOS CHECKBOX
-    }
 
-    if(this.formUsuario.value.preferencias?.nivelAngular) {
+    // Recoger intereses seleccionados
+    const intereses: any[] = [];
+    if (this.formUsuario.value.preferencias?.musica) intereses.push("Música");
+    if (this.formUsuario.value.preferencias?.deportes) intereses.push("Deportes");
+    if (this.formUsuario.value.preferencias?.videojuegos) intereses.push("Videojuegos");
+    if (this.formUsuario.value.preferencias?.lectura) intereses.push("Lectura");
+
+    this.intereses = intereses;
+
+    if (this.formUsuario.value.preferencias?.nivelAngular) {
       this.nivelAngular = this.formUsuario.value.preferencias.nivelAngular.toString();
     }
+    const nuevoUsuario = {
+      nombre: this.formUsuario.value.nombre,
+      email: this.formUsuario.value.email,
+      biografia: this.formUsuario.value.biografia,
+      genero: this.formUsuario.value.genero,
+      intereses: intereses,
+      nivelAngular: this.formUsuario.value.preferencias?.nivelAngular,
+    };
 
+    // Guardar en array y en localStorage
+    this.usuariosRegistrados.push(nuevoUsuario);
+    localStorage.setItem('usuarios', JSON.stringify(this.usuariosRegistrados));
+
+    // Resetear formulario
+    this.formUsuario.reset({
+      genero: 'femenino',
+      preferencias: {
+        musica: false,
+        deportes: false,
+        videojuegos: false,
+        lectura: false,
+        nivelAngular: 'Basico'
+      }
+    });
   }
+
+  borrarUsuarios() {
+    this.usuariosRegistrados = [];
+    localStorage.removeItem('usuarios'); // elimina la clave completa
+  }
+
 }

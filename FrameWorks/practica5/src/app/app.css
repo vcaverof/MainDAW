@@ -1,0 +1,95 @@
+/* Estilos generales */
+form {
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 20px;
+  background: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  font-family: Arial, sans-serif;
+}
+
+/* Etiquetas y párrafos */
+form p {
+  margin-bottom: 15px;
+  color: #333;
+}
+
+/* Inputs de texto */
+input[type="text"], textarea, select {
+  width: 93%;
+  padding: 10px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+  transition: border-color 0.3s;
+}
+
+input[type="text"]:focus, textarea:focus, select:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+/* Radio buttons y checkboxes */
+input[type="radio"], input[type="checkbox"] {
+  margin-right: 8px;
+}
+
+p input[type="radio"] + label,
+p input[type="checkbox"] + label {
+  margin-right: 15px;
+}
+
+/* Botón principal */
+button[type="submit"] {
+  background: #007bff;
+  color: #fff;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 15px;
+  transition: background 0.3s;
+}
+
+button[type="submit"]:hover {
+  background: #0056b3;
+}
+
+/* Botón secundario */
+button {
+  margin-top: 10px;
+  background: #dc3545;
+  color: #fff;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.3s;
+}
+
+button:hover {
+  background: #a71d2a;
+}
+
+/* Sección de usuarios registrados */
+h3 {
+  text-align: center;
+  margin-top: 30px;
+  color: #444;
+}
+
+div[ngfor] {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 15px;
+  margin-bottom: 15px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+div[ngfor] p {
+  margin: 5px 0;
+}
