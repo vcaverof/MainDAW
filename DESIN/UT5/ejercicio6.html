@@ -26,7 +26,7 @@
 </head>
 
 <body>
-    <h1>dom_18 - Ejercicio: Añadir al párrafo final las clases de los párrafos sobre los que se hace click</h1>
+    <h1>dom_18 - Ejercicio: Añadir al párrafo final las clases de los párrafos sobre los que se hace click y quitar la clase si ya las tenían asignadas</h1>
     <hr />
     <p class="claseAzul" onclick="ponerClase(this);">Primer párrafo</p>
     <p class="claseArial" onclick="ponerClase(this);">Segundo párrafo</p>
@@ -42,6 +42,8 @@
             clases.forEach(element => {
                 if (clases.contains(element)) {
                    clases.remove(element);
+                } else {
+                    clases.add(element);
                 }
             });
 
