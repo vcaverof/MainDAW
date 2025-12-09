@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	<title>Tarea DWEC - Animales</title>
+	<link rel="stylesheet" href="estilo.css" />
+</head>
+
+<body>
+	<script>
+		const CANTIDAD = 8;
+		const animales = ["cerdo", "gato", "perro", "vaca", "zorro", "burro", "rana", "leon"];
+		const movimientos = ["rota", "baja", "grande", "pequenio", "def"];
+
+		const div = document.createElement("div");
+		div.id = "animales";
+
+		for (let i = 0; i < CANTIDAD; i++) {
+			let animal = document.createElement("div");
+			animal.id = animales[i];
+			animal.className = "animal";
+			animal.style = `background-image: url("images/${animal.id}.png")`;
+			animal.addEventListener('click', manejadora);
+			animal.addEventListener('click', load);
+			div.appendChild(animal);
+		}
+
+		const audio = document.createElement("audio");
+		audio.id = "audio";
+		audio.preload = "auto";
+		const source = document.createElement("source");
+		source.id = "source";
+		source.type = "audio/wav";
+		  //Añadir el animal que esté siendo pulsado
+
+		audio.appendChild(source);
+		div.appendChild(audio);
+
+		document.body.appendChild(div);
+
+		function manejadora(event) {
+			const evento = document.getElementById(event.target.id);
+			evento.classList.add(movimientos[Math.floor(Math.random() * 4.99)]);
+
+			//Si ya se ha pulsado, cambiamos el tipo de animacion
+			if (evento.classList.length > 2) {
+				evento.classList = "";
+				evento.classList.add("animal");
+				evento.classList.add(movimientos[Math.floor(Math.random() * 4.99)]);
+			}
+			
+		}
+
+		function load(event) {
+			const evento = document.getElementById(event.target.id);
+			source.src = `sounds/${evento.id}.wav`;
+		}
+	</script>
+</body>
+
+</html>
