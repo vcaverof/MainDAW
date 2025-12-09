@@ -10,53 +10,53 @@
 
 <body>
 	<script>
-		const CANTIDAD = 8;
 		const animales = ["cerdo", "gato", "perro", "vaca", "zorro", "burro", "rana", "leon"];
 		const movimientos = ["rota", "baja", "grande", "pequenio", "def"];
 
 		const div = document.createElement("div");
 		div.id = "animales";
+		document.body.appendChild(div);
 
-		for (let i = 0; i < CANTIDAD; i++) {
+		for (let i = 0; i < animales.length; i++) {
 			let animal = document.createElement("div");
 			animal.id = animales[i];
 			animal.className = "animal";
-			animal.style = `background-image: url("images/${animal.id}.png")`;
+			animal.style = `background-image: url("images/${animales[i]}.png")`;
 			animal.addEventListener('click', manejadora);
-			animal.addEventListener('click', load);
 			div.appendChild(animal);
 		}
 
 		const audio = document.createElement("audio");
 		audio.id = "audio";
 		audio.preload = "auto";
+
 		const source = document.createElement("source");
 		source.id = "source";
 		source.type = "audio/wav";
-		  //Añadir el animal que esté siendo pulsado
 
 		audio.appendChild(source);
 		div.appendChild(audio);
 
-		document.body.appendChild(div);
-
 		function manejadora(event) {
 			const evento = document.getElementById(event.target.id);
-			evento.classList.add(movimientos[Math.floor(Math.random() * 4.99)]);
+			evento.classList.add(movimientos[Math.floor(Math.random() * movimientos.length)]);
 
 			//Si ya se ha pulsado, cambiamos el tipo de animacion
 			if (evento.classList.length > 2) {
 				evento.classList = "";
 				evento.classList.add("animal");
-				evento.classList.add(movimientos[Math.floor(Math.random() * 4.99)]);
+				evento.classList.add(movimientos[Math.floor(Math.random() * movimientos.length)]);
 			}
-			
-		}
 
-		function load(event) {
-			const evento = document.getElementById(event.target.id);
+			// document.getElementById(event.target.id).className = "animal " + movimientos[Math.floor(Math.random() * movimientos.length)];
+
+			//Efecto de sonido
 			source.src = `sounds/${evento.id}.wav`;
-		}
+			audio.load();
+			audio.play();
+
+		} 
+
 	</script>
 </body>
 
