@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>DWEC06 - SOLUCION TAREA</title>
+  <link type="text/css" rel="stylesheet" href="estilos.css" />
+  <!-- <script type="text/javascript" src="dibujar.js"></script> -->
+</head>
+
+<body>
+  <p>TABLERO DE DIBUJO EN JAVASCRIPT</p>
+  <table width="500" border="1" id="paleta" summary="Tabla de selección de colores">
+    <caption>
+      Haga click en un color para comenzar a pintar
+    </caption>
+    <tr>
+      <td class="color1 seleccionado"></td>
+      <td class="color2"></td>
+      <td class="color3"></td>
+      <td class="color4"></td>
+      <td class="color5"></td>
+      <td class="color6"></td>
+    </tr>
+    <tr>
+      <td colspan="6" id="pincel">Estado del pincel</td>
+    </tr>
+  </table>
+  <p></p>
+  <div id="zonadibujo"></div>
+  <script>
+    //Dibujar tablero y añadirlo al div "zonadibujo"
+    const tabla = document.createElement("table");
+    tabla.className = "tablerodibujo";
+
+    for (let i = 0; i < 30; i++) {
+      const fila = document.createElement("tr");
+      for (let j = 0; j < 30; j++) {
+        const td = document.createElement("td");
+        td.style.border = "solid 1px black";
+        td.addEventListener('click', pintar);
+        fila.appendChild(td);
+      }
+      tabla.appendChild(fila);
+    }
+    document.getElementById("zonadibujo").appendChild(tabla);
+
+
+    function pintar(event) {
+      event.target.className = colorSeleccionado;
+    }
+
+
+  </script>
+</body>
+
+</html>

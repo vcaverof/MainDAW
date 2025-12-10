@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reloj que se mueve con el puntero</title>
     <style>
-        #imagen {
+        img {
             position: absolute;
             width: 100px;
             height: 100px;
@@ -26,11 +26,46 @@
 <body>
     <h1>Mueve el ratón y la imagen te seguirá</h1>
     <h2>Al hacer click, pinta un asterisco en cualquier parte de la pantalla</h2>
-    <img id="imagen" src="reloj.png" alt="imagen">
+    <img src="reloj.png" alt="imagen">
 
-
+    <h2>Lorem Ipsum</h2>
+    <h2>Lorem Ipsum</h2>
+    <h2>Lorem Ipsum</h2>
+    <h2>Lorem Ipsum</h2>
+    <h2>Lorem Ipsum</h2>
+    <h2>Lorem Ipsum</h2>
+    <h2>Lorem Ipsum</h2>
+    <h2>Lorem Ipsum</h2>
+    <h2>Lorem Ipsum</h2>
+    <h2>Lorem Ipsum</h2>
+    <h2>Lorem Ipsum</h2>
+    <h2>Lorem Ipsum</h2>
+    <h2>Lorem Ipsum</h2>
+    <h2>Lorem Ipsum</h2>
+    <h2>Lorem Ipsum</h2>
+    <h2>Lorem Ipsum</h2>
+    <h2>Lorem Ipsum</h2>
+    <h2>Lorem Ipsum</h2>
+    <h2>Lorem Ipsum</h2>
+    <h2>Lorem Ipsum</h2>
+    <h2>Lorem Ipsum</h2>
+    <h2>Lorem Ipsum</h2>
+    <h2>Lorem Ipsum</h2>
+    <h2>Lorem Ipsum</h2>
+    <h2>Lorem Ipsum</h2>
+    <h2>Lorem Ipsum</h2>
+    <h2>Lorem Ipsum</h2>
+    <h2>Lorem Ipsum</h2>
+    <h2>Lorem Ipsum</h2>
+    <h2>Lorem Ipsum</h2>
+    <h2>Lorem Ipsum</h2>
+    <h2>Lorem Ipsum</h2>
+    <h2>Lorem Ipsum</h2>
+    <h2>Lorem Ipsum</h2>
+    <h2>Lorem Ipsum</h2>
+    <h2>Lorem Ipsum</h2>
     <script>
-        const imagen = document.getElementById("imagen");
+        const imagen = document.querySelector("img");
 
         document.addEventListener("mousemove", (evento) => {
             // Ajustamos la posición de la imagen al puntero
@@ -40,16 +75,16 @@
 
         document.addEventListener("click", (evento) => {
             // Crear un elemento span con el asterisco
-            const estrella = document.createElement("span");
-            estrella.textContent = "*";
-            estrella.className = "asterisco";
+            const asterisco = document.createElement("span");
+            asterisco.textContent = "*";
+            asterisco.className = "asterisco";
 
             // Posicionar en el lugar del clic
-            estrella.style.left = evento.pageX + "px";
-            estrella.style.top = evento.pageY + "px";
+            asterisco.style.left = evento.pageX + "px";
+            asterisco.style.top = evento.pageY + "px";
 
             // Añadir al body
-            document.body.appendChild(estrella);
+            document.body.appendChild(asterisco);
         });
 
     </script>
