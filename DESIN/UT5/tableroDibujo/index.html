@@ -28,30 +28,7 @@
   </table>
   <p></p>
   <div id="zonadibujo"></div>
-  <script>
-    //Dibujar tablero y añadirlo al div "zonadibujo"
-    const tabla = document.createElement("table");
-    tabla.className = "tablerodibujo";
-
-    for (let i = 0; i < 30; i++) {
-      const fila = document.createElement("tr");
-      for (let j = 0; j < 30; j++) {
-        const td = document.createElement("td");
-        td.style.border = "solid 1px black";
-        td.addEventListener('click', pintar);
-        fila.appendChild(td);
-      }
-      tabla.appendChild(fila);
-    }
-    document.getElementById("zonadibujo").appendChild(tabla);
-
-
-    function pintar(event) {
-      event.target.className = colorSeleccionado;
-    }
-
-
-  </script>
+  <script src="main.js"></script>
 </body>
 
 </html>
