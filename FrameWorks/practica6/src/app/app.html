@@ -1,0 +1,188 @@
+<div class="container">
+  <div class="form-wrapper">
+    <h1>Registro de Eventos</h1>
+
+    <form [formGroup]="registroEventosForm" (ngSubmit)="onSubmit()">
+
+      <!-- DATOS DEL EVENTO -->
+      <div class="form-section" formGroupName="datosEvento">
+        <h2>Datos del Evento</h2>
+
+        <div class="form-group">
+          <label for="titulo">Título *</label>
+          <input type="text" id="titulo" formControlName="titulo" placeholder="Título del evento"
+            [class.invalid]="isFieldInvalid('datosEvento', 'titulo')">
+          <div class="error-message" *ngIf="isFieldInvalid('datosEvento', 'titulo')">
+            {{ getErrorMessage('datosEvento', 'titulo') }}
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="descripcion">Descripción *</label>
+          <textarea id="descripcion" formControlName="descripcion" rows="4" placeholder="Descripción del evento"
+            [class.invalid]="isFieldInvalid('datosEvento', 'descripcion')"></textarea>
+          <div class="error-message" *ngIf="isFieldInvalid('datosEvento', 'descripcion')">
+            {{ getErrorMessage('datosEvento', 'descripcion') }}
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="fecha">Fecha *</label>
+            <input type="date" id="fecha" formControlName="fecha"
+              [class.invalid]="isFieldInvalid('datosEvento', 'fecha')">
+            <div class="error-message" *ngIf="isFieldInvalid('datosEvento', 'fecha')">
+              {{ getErrorMessage('datosEvento', 'fecha') }}
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="aforo">Aforo *</label>
+            <input type="number" id="aforo" formControlName="aforo" placeholder="1-5000"
+              [class.invalid]="isFieldInvalid('datosEvento', 'aforo')">
+            <div class="error-message" *ngIf="isFieldInvalid('datosEvento', 'aforo')">
+              {{ getErrorMessage('datosEvento', 'aforo') }}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- UBICACIÓN DEL EVENTO -->
+      <div class="form-section" formGroupName="ubicacionEvento">
+        <h2>Ubicación del Evento</h2>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="pais">País *</label>
+            <select id="pais" formControlName="pais" [class.invalid]="isFieldInvalid('ubicacionEvento', 'pais')">
+              <option value="">Seleccione un país</option>
+              <option value="España">España</option>
+              <option value="Portugal">Portugal</option>
+              <option value="Francia">Francia</option>
+            </select>
+            <div class="error-message" *ngIf="isFieldInvalid('ubicacionEvento', 'pais')">
+              {{ getErrorMessage('ubicacionEvento', 'pais') }}
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="ciudad">Ciudad *</label>
+            <input type="text" id="ciudad" formControlName="ciudad" placeholder="Ciudad"
+              [class.invalid]="isFieldInvalid('ubicacionEvento', 'ciudad')">
+            <div class="error-message" *ngIf="isFieldInvalid('ubicacionEvento', 'ciudad')">
+              {{ getErrorMessage('ubicacionEvento', 'ciudad') }}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PREFERENCIAS DEL ORGANIZADOR -->
+      <div class="form-section" formGroupName="preferenciasOrganizador">
+        <h2>Preferencias del Organizador</h2>
+
+        <div class="form-group">
+          <label class="checkbox-label">
+            <input type="checkbox" formControlName="gratuito">
+            <span>Evento gratuito</span>
+          </label>
+        </div>
+
+        <div class="form-group">
+          <label>Modalidad *</label>
+          <div class="radio-group">
+            <label class="radio-label">
+              <input type="radio" formControlName="modalidad" value="presencial">
+              <span>Presencial</span>
+            </label>
+            <label class="radio-label">
+              <input type="radio" formControlName="modalidad" value="online">
+              <span>Online</span>
+            </label>
+            <label class="radio-label">
+              <input type="radio" formControlName="modalidad" value="mixto">
+              <span>Mixto</span>
+            </label>
+          </div>
+          <div class="error-message" *ngIf="isFieldInvalid('preferenciasOrganizador', 'modalidad')">
+            {{ getErrorMessage('preferenciasOrganizador', 'modalidad') }}
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="categoria">Categoría *</label>
+          <select id="categoria" formControlName="categoria"
+            [class.invalid]="isFieldInvalid('preferenciasOrganizador', 'categoria')">
+            <option value="">Seleccione una categoría</option>
+            <option value="obra de teatro">Obra de teatro</option>
+            <option value="película">Película</option>
+            <option value="monólogo">Monólogo</option>
+            <option value="espectáculo de magia">Espectáculo de magia</option>
+          </select>
+          <div class="error-message" *ngIf="isFieldInvalid('preferenciasOrganizador', 'categoria')">
+            {{ getErrorMessage('preferenciasOrganizador', 'categoria') }}
+          </div>
+        </div>
+      </div>
+
+      <!-- DATOS DEL ORGANIZADOR -->
+      <div class="form-section" formGroupName="datosOrganizador">
+        <h2>Datos del Organizador</h2>
+
+        <div class="form-group">
+          <label for="nombre">Nombre *</label>
+          <input type="text" id="nombre" formControlName="nombre" placeholder="Nombre del organizador"
+            [class.invalid]="isFieldInvalid('datosOrganizador', 'nombre')">
+          <div class="error-message" *ngIf="isFieldInvalid('datosOrganizador', 'nombre')">
+            {{ getErrorMessage('datosOrganizador', 'nombre') }}
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email *</label>
+          <input type="email" id="email" formControlName="email" placeholder="correo@ejemplo.com"
+            [class.invalid]="isFieldInvalid('datosOrganizador', 'email')">
+          <div class="error-message" *ngIf="isFieldInvalid('datosOrganizador', 'email')">
+            {{ getErrorMessage('datosOrganizador', 'email') }}
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="telefono">Teléfono * (formato: +34XXXXXXXXX)</label>
+          <input type="text" id="telefono" formControlName="telefono" placeholder="+34123456789"
+            [class.invalid]="isFieldInvalid('datosOrganizador', 'telefono')">
+          <div class="error-message" *ngIf="isFieldInvalid('datosOrganizador', 'telefono')">
+            {{ getErrorMessage('datosOrganizador', 'telefono') }}
+          </div>
+        </div>
+      </div>
+
+      <!-- ACEPTACIÓN -->
+      <div class="form-section" formGroupName="aceptacion">
+        <h2>Aceptación</h2>
+
+        <div class="form-group">
+          <label class="checkbox-label">
+            <input type="checkbox" formControlName="terminos">
+            <span>Acepto los términos y condiciones *</span>
+          </label>
+          <div class="error-message" *ngIf="isFieldInvalid('aceptacion', 'terminos')">
+            {{ getErrorMessage('aceptacion', 'terminos') }}
+          </div>
+        </div>
+      </div>
+
+      <!-- BOTÓN ENVIAR -->
+      <div class="submit-section">
+        <button type="submit" [disabled]="registroEventosForm.invalid" class="btn-submit">
+          Enviar Formulario
+        </button>
+      </div>
+    </form>
+
+    <!-- RESULTADO JSON -->
+    <div class="json-result" *ngIf="jsonResult">
+      <h3>Datos Enviados:</h3>
+      <pre>{{ jsonResult }}</pre>
+    </div>
+  </div>
+</div>
