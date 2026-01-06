@@ -1,0 +1,48 @@
+/* Contenedor general */
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f5f6fa;
+    margin: 0;
+    padding: 20px;
+}
+
+/* Título */
+h2 {
+    color: #2c3e50;
+    font-size: 24px;
+    margin-bottom: 15px;
+}
+
+/* Lista */
+ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    max-width: 500px;
+}
+
+/* Cada usuario */
+li {
+    background: white;
+    padding: 12px 16px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    border: 1px solid #dcdde1;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Texto dentro del li */
+li span {
+    font-weight: bold;
+    color: #34495e;
+}
+
+/* Hover */
+li:hover {
+    background: #f0f3f5;
+    cursor: pointer;
+    transition: 0.2s;
+}
