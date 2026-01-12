@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eventos Drag y Drop</title>
+</head>
+
+<body>
+    <div id="drag" draggable="true" style="width:100px;height:100px;background:orange;">
+        Arrástrame
+    </div>
+
+    <div id="dropzone" style="width:200px;height:200px;background:lightgreen;margin-top:20px;">
+        Zona de drop
+    </div>
+
+    <script>
+        const drag = document.getElementById("drag");
+        const dropzone = document.getElementById("dropzone");
+
+        drag.addEventListener("dragstart", (e) => {
+            console.log("dragstart");
+            e.dataTransfer.setData("text/plain", "Hola desde drag!");
+        });
+
+        dropzone.addEventListener("dragover", (e) => e.preventDefault());
+
+        dropzone.addEventListener("drop", (e) => {
+            e.preventDefault();
+            const data = e.dataTransfer.getData("text/plain");
+            console.log("drop: recibido ->", data);
+        });
+    </script>
+
+
+</body>
+
+</html>
