@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Ajedrez</title>
+
+    <style>
+        #tablero {
+            width: 400px;
+            height: 400px;
+            display: grid;
+            grid-template-columns: repeat(8, 1fr);
+            grid-template-rows: repeat(8, 1fr);
+            border: 2px solid black;
+        }
+
+        .casilla {
+            width: 50px;
+            height: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .blanca {
+            background: #eee;
+        }
+
+        .negra {
+            background: #555;
+        }
+
+        img {
+            width: 40px;
+            height: 40px;
+            cursor: grab;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h2>Tablero de ajedrez</h2>
+
+    <div id="tablero"></div>
+
+    <script>
+        // CREAR TABLERO
+    
+        const tablero = document.getElementById("tablero");
+
+        // Guardamos las casillas en un array simple
+        const casillas = [];
+
+        //f de filas y c de columnas
+        for (let f = 0; f < 8; f++) {
+            casillas[f] = [];
+            for (let c = 0; c < 8; c++) {
+                const div = document.createElement("div");
+                div.classList.add("casilla");
+                div.classList.add((f + c) % 2 === 0 ? "blanca" : "negra");
+
+                // Asignamos un id simple
+                div.id = "f" + f + "c" + c;
+
+                // Guardamos la referencia en el array
+                casillas[f][c] = div;
+
+                // Eventos de drop
+                div.addEventListener("dragover", e => e.preventDefault());
+                div.addEventListener("drop", soltar);
+
+                tablero.appendChild(div);
+            }
+        }
+
+        // COLOCAR PIEZAS 
+        function ponerPieza(tipo, imagen, f, c) {
+            const img = document.createElement("img");
+            img.src = imagen;
+            img.alt = tipo;
+            img.draggable = true;
+            img.addEventListener("dragstart", iniciar);
+
+            casillas[f][c].appendChild(img);
+        }
+
+        ponerPieza("caballo", "caballo.jpg", 0, 1);
+        ponerPieza("torre", "torre.jpg", 0, 0);
+        ponerPieza("alfil", "alfil.jpg", 0, 2);
+
+        // VARIABLES PARA EL MOVIMIENTO
+        let pieza = null;
+        let filaIni = null;
+        let colIni = null;
+
+        // DRAG & DROP SIN DATASET
+        function iniciar(e) {
+            pieza = e.target;
+
+            // Obtener fila y columna desde el id del padre
+            const id = pieza.parentElement.id; // parentElement == casilla donde estaba la pieza
+            filaIni = parseInt(id[1]);
+            colIni = parseInt(id[3]);
+        }
+
+        function soltar(e) {
+            const id = e.target.id || e.target.parentElement.id;
+            const filaFin = parseInt(id[1]);
+            const colFin = parseInt(id[3]);
+
+            const tipo = pieza.alt;
+
+            let valido = false;
+
+            if (tipo === "caballo") valido = moverCaballo(filaIni, colIni, filaFin, colFin);
+            if (tipo === "torre") valido = moverTorre(filaIni, colIni, filaFin, colFin);
+            if (tipo === "alfil") valido = moverAlfil(filaIni, colIni, filaFin, colFin);
+
+            if (valido) {
+                casillas[filaFin][colFin].appendChild(pieza);
+            } else {
+                alert("Movimiento inválido para " + tipo);
+            }
+        }
+
+        // MOVIMIENTOS
+        function moverCaballo(f1, c1, f2, c2) {
+            const df = Math.abs(f1 - f2);
+            const dc = Math.abs(c1 - c2);
+            return (df === 2 && dc === 1) || (df === 1 && dc === 2);
+        }
+
+        function moverTorre(f1, c1, f2, c2) {
+            return f1 === f2 || c1 === c2;
+        }
+
+        function moverAlfil(f1, c1, f2, c2) {
+            return Math.abs(f1 - f2) === Math.abs(c1 - c2);
+        }
+    </script>
+
+</body>
+
+</html>
