@@ -22,19 +22,16 @@
 
         drag.addEventListener("dragstart", (e) => {
             console.log("dragstart");
-            e.dataTransfer.setData("text/plain", "Hola desde drag!");
+            e.dataTransfer.setData("text", "Hola desde drag!");
         });
 
         dropzone.addEventListener("dragover", (e) => e.preventDefault());
 
         dropzone.addEventListener("drop", (e) => {
             e.preventDefault();
-            const data = e.dataTransfer.getData("text/plain");
+            const data = e.dataTransfer.getData("text");
             console.log("drop: recibido ->", data);
         });
     </script>
-
-
 </body>
-
 </html>
