@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>eventos_24 - Arrastrar y soltar: Mover al cuadro azul el texto y la imagen</title>
+    <style>
+        .c1 {
+            border: 5px solid red;
+            width: 100px;
+            height: 100px;
+            position: absolute;
+            top: 5cm;
+            left: 8cm;
+        }
+
+        .c2 {
+            border: 5px solid blue;
+            width: 100px;
+            height: 100px;
+            position: absolute;
+            top: 5cm;
+            left: 12cm;
+        }
+
+        .c3 {
+            border: 5px solid green;
+            width: 100px;
+            height: 100px;
+            position: absolute;
+            top: 5cm;
+            left: 16cm;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>eventos_24 - Arrastrar y soltar: Mover al cuadro azul el texto y la imagen</h1>
+    <hr />
+
+
+    <div class="c1" id="origen">
+        <span draggable="true" id="texto">EL TEXTO</span>
+        <img draggable="true" src="./ball.gif" id="pelota" />
+    </div>
+
+
+    <div class="c2" id="destino"></div>
+
+    <div class="c3" id="destino"></div>
+
+
+    <script type="text/javascript">
+        const dragOrigen = document.getElementById("origen");
+        const dropzone = document.getElementById("destino");
+
+        dragOrigen.addEventListener("dragstart", (e) => {
+            console.log("Objeto cogido")
+            e.dataTransfer.setData("text", e.target.id);
+        });
+
+        dropzone.addEventListener("dragover", (e) => e.preventDefault());
+
+        dropzone.addEventListener("drop", (e) => {
+            e.preventDefault();
+            const data = e.dataTransfer.getData("text");
+            console.log("Drop: recibido ->", data);screen
+            console.log(e.target.id);
+            // const element = document.getElementById();
+            // element.draggable = "false";
+            e.target.appendChild(document.getElementById(data));
+        });
+
+        //Logica a la inversa (Ejercicio 25)
+        // dropzone.addEventListener("dragstart", (e) => {
+        //     console.log("Objeto cogido")
+        //     e.dataTransfer.setData("text", e.target.id);
+        // });
+
+        // dragOrigen.addEventListener("dragover", (e) => e.preventDefault());
+
+        // dragOrigen.addEventListener("drop", (e) => {
+        //     e.preventDefault();
+        //     const data = e.dataTransfer.getData("text");
+        //     console.log("Drop: recibido ->", data);
+        //     e.target.appendChild(document.getElementById(data));
+        // });
+
+
+    </script>
+
+</body>
+
+</html>
