@@ -68,12 +68,12 @@
         dropzone1.addEventListener("drop", (e) => {
             e.preventDefault();
             const data = e.dataTransfer.getData("text");
-            if (data == "text") {
+            if (data == "texto") {
                 console.log("Drop: recibido ->", data); screen
-                destino1.appendChild(document.getElementById(data));
+                dropzone1.appendChild(document.getElementById(data));
             } else {
                 console.log("Drop: recibido ->", data); screen
-                destino2.appendChild(document.getElementById(data));
+                dropzone2.appendChild(document.getElementById(data));
             }
 
         });
