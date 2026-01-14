@@ -25,61 +25,121 @@
             border: 2px solid black;
             font-size: 2rem;
         }
+
+        #tiempo {
+            font-size: 1.5rem;
+            margin-top: 10px;
+        }
     </style>
 </head>
 
 <body>
-    <form method="post">
-        <button type="submit">Iniciar</button>
-    </form>
+    <button id="btnIniciar">Iniciar</button>
+
+    <div id="tiempo">Tiempo: 0</div>
 
     <div id="tablero"></div>
 
     <script>
         const tablero = document.getElementById("tablero");
+        const btnIniciar = document.getElementById("btnIniciar");
+        const tiempoDiv = document.getElementById("tiempo");
 
-        const casillas = [];
-        const solucion = [];
-        const juego = [];
 
-        for (let i = 0; i < 10; i++) {
-            const div = document.createElement("div");
-            div.className = "casilla";
-            const texto = div.textContent = Math.floor(Math.random() * 99 + 1);
-            const id = div.id = texto;
-            div.draggable = "true";
+        let juego = [];
+        let solucion = [];
+        let elementoIni = null;
 
-            div.addEventListener("dragstart", iniciar);
-            div.addEventListener("dragover", e => e.preventDefault());
-            div.addEventListener("drop", soltar);
+        //Temporizador
+        let segundos = 0;
+        let intervalo = null;
 
-            solucion[i] = parseInt(id);
-            solucion.sort((a, b) => a - b);
+        function iniciarTiempo() {
+            segundos = 0;
+            tiempoDiv.textContent = "Tiempo: 0";
 
-            juego[i] = parseInt(id);
-
-            tablero.appendChild(div);
+            intervalo = setInterval(() => {
+                segundos++;
+                tiempoDiv.textContent = "Tiempo: " + segundos;
+            }, 1000);
         }
 
-        let num = null;
-        console.log(solucion); //Objetivo
-        console.log(juego); //Inicio
+        //Generar tablero
+        function iniciarJuego() {
+
+            tablero.innerHTML = "";  //Limpiar el juego
+            juego = [];
+            solucion = [];
+
+
+            for (let i = 0; i < 10; i++) {
+                const div = document.createElement("div");
+                div.className = "casilla";
+
+                const numero = Math.floor(Math.random() * 99 + 1);
+                div.textContent = numero;
+                div.dataset.valor = numero;
+                div.draggable = "true";
+
+                div.addEventListener("dragstart", iniciar);
+                div.addEventListener("dragover", e => e.preventDefault());
+                div.addEventListener("drop", soltar);
+                div.addEventListener("dragend", finDrag);
+
+                solucion.push(numero);
+                juego.push(numero);
+
+                tablero.appendChild(div);
+            }
+
+            solucion.sort((a, b) => a - b);
+        }
 
         let posIni = 0;
-        let elementoIni = null;
 
         //DRAG & DROP
         function iniciar(e) {
-           
-
-
-          
+            elementoIni = e.target;
+            elementoIni.style.backgroundColor = "red";
         }
 
         function soltar(e, idDestino) {
             e.preventDefault();
-            
+
+            const elementoFin = e.target;
+
+            //Intercambiar valores
+            const aux = elementoIni.textContent;
+            elementoIni.textContent = elementoFin.textContent;
+            elementoFin.textContent = aux;
+
+            //Actualizar el array
+            const casillas = document.querySelectorAll(".casilla");
+            for (let i = 0; i < casillas.length; i++) {
+                juego[i] = parseInt(casillas[i].textContent);
+            }
+
+            //Comprobar si está ordenado
+            const ordenado = juego.every((num, i) => num === solucion[i]);
+
+            if (ordenado) {
+                clearInterval(intervalo);
+                alert("¡Correcto! Has ordenado los números.");
+            }
         }
+
+        function finDrag(e) {
+            // Siempre vuelve a verde, aunque sueltes fuera
+            e.target.style.backgroundColor = "rgb(57, 194, 57)";
+        }
+
+
+        btnIniciar.addEventListener("click", () => {
+            clearInterval(intervalo);
+            iniciarJuego();
+            iniciarTiempo();
+        })
+
     </script>
 </body>
 
