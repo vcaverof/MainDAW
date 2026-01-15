@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        input:required {
+            background-color: lightgreen;
+        }
+    </style>
+</head>
+<body>
+    <form name="formulario" method="post" action="#">
+        <label>Usuario:</label>
+        <input type="text" name="nombre" placeholder="Nombre" minlength="5" maxlength="20" required>
+
+        <label>Password:</label>
+        <input type="password" name="pass" placeholder="Contraseña" minlength="10" required>
+
+        <label>N.I.F:</label>
+        <input type="text" name="nif" placeholder="N.I.F" required pattern="^\d{7,8}[a-zA-Z]$">
+
+        <input type="submit" value="Enviar">
+    </form>
+
+    <script>
+        let fo = document.querySelector("form");
+        fo.addEventListener("submit", function(e) {
+            e.preventDefault();
+
+            let nombre = fo['nombre'];
+
+            
+            nombre.setCustomValidity("Error en el nombre xd");
+
+            nombre.checkValidity();
+        })
+    </script>
+</body>
+</html>

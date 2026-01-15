@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .in:required {
+            background-color: purple;
+        }
+
+        input:valid {
+            background-color: lightskyblue;
+        }
+
+        input:invalid {
+            background-color: orange;
+        }
+    </style>
+</head>
+
+<body>
+    <form id="cliente" action="#">
+        <label>Nombre: <input name="nombre" type="text" required></label>
+        <label>Telefono: <input name="telefono" type="tel" pattern="[0-9]{3}[0-9]{3}[0-9]{3}" required></label>
+        <label>Direccion: <input name="direccion" class="in" type="text" required></label>
+    </form>
+</body>
+
+</html>

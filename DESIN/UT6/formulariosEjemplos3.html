@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <form id="formulario" action="#">
+        <select name="colores">
+            <option value="" selected>-Seleccionar un color-</option>
+            <option value="rojo">Rojo</option>
+            <option value="verde">Verde</option>
+        </select>
+
+        <label for="myBrowser">Choose a browser from this list:</label>
+        <input list="browsers" id="myBrowser" name="myBrowser" />
+        <datalist id="browsers">
+            <option value="Chrome"></option>
+            <option value="Firefox"></option>
+            <option value="Opera"></option>
+            <option value="Safari"></option>
+            <option value="Microsoft Edge"></option>
+        </datalist>
+
+        <input type="submit" name="enviar" value="Enviar">
+    </form>
+
+    <script>
+        const fo = document.querySelector("#formulario");
+        fo.addEventListener('submit', function () {
+            let lista = fo['colores'];
+            let navegadores = fo['browsers'];
+
+            console.log(lista.selectedIndex); //0
+            console.log(`${lista[0].value} -> ${lista[0].selected}`);   // -> true
+            console.log(`${lista[1].value} -> ${lista[1].selected}`);   //rojo -> false
+            console.log(`${lista[2].value} -> ${lista[2].selected}`);   //verde -> false
+
+            console.log(navegadores.checked);
+        });
+
+    </script>
+</body>
+
+</html>

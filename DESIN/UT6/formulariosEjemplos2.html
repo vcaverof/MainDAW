@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <form id="cliente" action="#">
+        <label><input type="radio" name="pregunta" value="si" checked>Afirmativo</label>
+        <label><input type="radio" name="pregunta" value="no">Negativo</label>
+
+        <label><input type="checkbox" name="color" value="a" checked>Azul</label>
+        <label><input type="checkbox" name="color" value="v">Verde</label>
+        <label><input type="checkbox" name="color" value="r">Rojo</label>
+
+        <label><input type="checkbox" name="ciudad" value="valladolid"></label>
+
+        <input type="submit" name="enviar" value="Enviar">
+    </form>
+
+    <script>
+        const fo = document.querySelector("#cliente");
+        fo.addEventListener("submit", function () {
+            let rnl = fo['pregunta'];
+            let cb = fo['color'];
+            let ciu = fo['ciudad'];
+            console.log(rnl.value);
+            console.log(`${rnl[0].value} -> ${rnl[0].checked}`)     //si -> true
+            console.log(`${rnl[1].value} -> ${rnl[1].checked}`)     //no -> false
+            
+            console.log(`${cb[0].value} -> ${cb[0].checked}`);      //a -> true
+            console.log(`${cb[1].value} -> ${cb[1].checked}`);      //v -> false
+            console.log(`${cb[2].value} -> ${cb[2].checked}`);      //r -> false
+
+            console.log(`${ciu.value} -> ${ciu.checked}`);          // valladolid -> false
+            console.log(`${ciu[0].value} -> ${ciu[0].checked}`);    //error -> ciu[0] not defined
+
+        });
+    </script>
+</body>
+
+</html>
