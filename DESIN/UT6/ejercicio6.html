@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio 6: Formularios</title>
+    <style>
+        label {
+            display: block;
+            margin-top: 12px;
+        }
+
+        input {
+            width: 300px;
+            padding: 6px;
+        }
+
+        .error {
+            color: red;
+        }
+
+        .ok {
+            color: green;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Novalidate, funciona para que el navegador no utilice sus propias validaciones -->
+    <form method="post" novalidate> 
+        <label>Nombre:</label>
+        <input type="text" id="nombre" minlength="20" pattern="[A-Za-zÁÉÍÓÚÜÑáéíóúüñ\s]{20,}"
+            title="Escribe mínimo 20 caracteres" required>
+
+        <label>NIF:</label>
+        <input type="text" id="nif" pattern="\d{7,8}[a-zA-Z]" titel="Escribe el NIF de forma correcta" required>
+
+        <label>Edad:</label>
+        <input type="number" id="edad" min="18" max="65" title="Edad mínima: 18 años. Edad máxima: 65 años" required>
+
+        <label>Fecha de alta:</label>
+        <input type="date" id="fechaAlta" title="Selecciona solo días laborables" required>
+
+        <label>Email</label>
+        <input type="email" id="email" pattern="[A-Za-z0-9._%+\-]{3,}@[A-Za-z0-9.\-]{3,}\.(es|pt|fr)"
+            title="Dominions aceptados: .es, .pt y .fr" placeholder="Dominions aceptados: .es, .pt y .fr" required>
+
+        <button type="submit" id="enviar">Enviar formulario</button>
+
+        <p id="mensaje" class=""></p>
+    </form>
+
+    <script>
+        const fo = document.querySelector("form");
+        const mensaje = document.getElementById("mensaje");
+
+        fo.addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            mensaje.textContent = "";
+            mensaje.className = "";
+
+            //Validar el formulario
+            if (!fo.checkValidity()) {
+                mensaje.textContent += "Hay errores en el formulario. Revisa los campos";
+                mensaje.className = "error";
+                return;
+            }
+
+            //Acumulador de errores
+            let errores = [];
+
+            //Validar NIF
+            const nif = document.getElementById("nif").value;
+            const numero = nif.slice(0, -1); //Guardamos el número sin la letra del dni
+            const letra = nif.slice(-1); //Guardamos la letra del dni
+
+            const letras = "TRWAGMYFPDXBNJZSQVHLCKE"; //Orden de letras para comprobar dni (buscado en internet)
+            const letraCorrecta = letras[numero % 23];
+
+            if (letra !== letraCorrecta) {
+                errores.push("El NIF no es válido. Pruebe de nuevo.");
+            }
+
+            //Validación de la fecha de alta
+            const fecha = new Date(document.getElementById("fechaAlta").value);
+            const dia = fecha.getDay(); //Guardamos el dia. 0 -> Domingo, 1 -> Lunes....
+
+            if (dia === 0 || dia === 6) {
+                errores.push("La fecha no es correcta. Debe ser un día laborable.");
+            }
+
+            if (errores.length > 0) {
+                mensaje.innerHTML += errores.join("<br>");
+                mensaje.className = "error";
+                return;
+            }
+
+            //Tras validar todo
+            mensaje.textContent = "Formulario válido.";
+            mensaje.className = "ok";
+        })
+    </script>
+</body>
+
+</html>
