@@ -47,7 +47,7 @@ body {
     padding: 2px 4px;
     text-align: center;
 
-    position: fixed;    
+    position: fixed;
     /* Fijo en pantalla */
     bottom: 0;
     /* Pegado abajo */
@@ -138,4 +138,25 @@ select {
 
 button {
     cursor: pointer;
+}
+
+/*====== PAGINACION ======*/
+.pagination {
+    display: flex;
+    gap: 8px;
+    margin-top: 20px;
+}
+
+.pagination a,
+.pagination span {
+    padding: 6px 10px;
+    background: #ddd;
+    border-radius: 4px;
+    text-decoration: none;
+    color: #333;
+}
+
+.pagination .active span {
+    background: #3490dc;
+    color: white;
 }

@@ -26,5 +26,5 @@
 
     <br>
 
-    <a href="/chollos">Volver al listado</a>
+    <a href="/chollos" class="btn btn-ver">Volver al listado</a>
 @endsection

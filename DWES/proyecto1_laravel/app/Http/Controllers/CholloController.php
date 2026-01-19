@@ -11,7 +11,9 @@ class CholloController extends Controller
 {
     public function index()
     {
-        $chollos = Chollo::with('categoria')->get(); //Obtener todos los chollos con su categoria
+        $chollos = Chollo::with('categoria')
+        ->orderBy('created_at', 'desc')
+        ->paginate(5); //Obtener todos los chollos con su categoria paginados
 
         return view('chollos.index', compact('chollos'));
     }
@@ -120,5 +122,13 @@ class CholloController extends Controller
         $chollo->delete();
 
         return redirect('/chollos');
+    }
+
+    public function show_cat()
+    {
+        //Cargar el chollo con su categoria
+        $chollo = Chollo::with('categoria')->findOrFail($id);
+
+        return view('chollos.show', compact('chollo'));
     }
 }

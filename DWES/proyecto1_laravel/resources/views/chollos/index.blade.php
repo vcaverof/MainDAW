@@ -10,6 +10,10 @@
             <div class="chollo-card">
 
                 <div>
+
+                    @if ($chollo->imagen)
+                        <img src="{{ asset('storage/' . $chollo->imagen) }}" width="50">
+                    @endif
                     <h3>{{ $chollo->titulo }}</h3>
                     <p>{{ $chollo->precio_descuento }} € — {{ $chollo->categoria?->nombre }}</p>
 
@@ -27,5 +31,8 @@
                 </div>
             </div>
         @endforeach
+        <div style="margin-top: 20px;">
+            {{ $chollos->links('pagination::bootstrap-4') }}
+        </div>
     </ul>
 @endsection

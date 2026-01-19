@@ -43,10 +43,12 @@
     <!-- Menú superior -->
     <div class="navbar">
         <img src="/logo.png" alt="Logo">
+        <h3>Chollos</h3>
 
         <a href="/">Inicio</a>
         <a href="/nuevos">Nuevos</a>
         <a href="/destacados">Destacados</a>
+        <a href="/categorias">Categorias</a>
     </div>
 
     <!-- Contenido de cada vista -->

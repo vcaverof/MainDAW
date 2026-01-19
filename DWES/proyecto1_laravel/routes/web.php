@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CholloController;
 use App\Models\Chollo;
+use App\Models\Categoria;
 use Carbon\Carbon;
 
 /*
@@ -56,7 +57,7 @@ Route::get('/destacados', function () {
 
 //Ruta para el inicio
 Route::get('/', function () {
-    $chollos = Chollo::with('categoria')->orderBy('created_at', 'desc')->get();
+    $chollos = Chollo::with('categoria')->orderBy('created_at', 'desc')->paginate(5);
     return view('chollos.index', compact('chollos'));
 });
 
@@ -66,3 +67,34 @@ Route::get('/nuevos', function () {
     $chollos = Chollo::with('categoria')->where('created_at', '>=', $haceCincoHoras)->orderBy('created_at', 'desc')->get();
     return view('chollos.nuevos', compact('chollos'));
 });
+
+//Ruta para mostrar las categorias con su cantidad de chollos
+Route::get('/categorias', function() {
+    $categorias = Categoria::withCount('chollos')->get();
+    return view('categorias.index', compact('categorias'));
+})->name('categorias.index');
+
+//Ruta para cada categoria
+Route::get('/categorias/create', function() {
+    return view('categorias.create');
+})->name('categorias.create');
+
+Route::post('/categorias', function(Illuminate\Http\Request $request) {
+    $request->validate([
+        'nombre' => 'required|unique:categorias,nombre'
+    ]);
+
+    Categoria::create([
+        'nombre' => $request->nombre
+    ]);
+
+    return redirect()->route('categorias.index');
+})->name('categorias.store');
+
+//Rutas para eliminar categorias
+Route::delete('/categorias/{id}', function($id) {
+    $categoria = Categoria::findOrFail($id);
+    $categoria->delete();
+
+    return redirect()->route('categorias.index');
+})->name('categorias.destroy');
