@@ -9,6 +9,7 @@ import { Electronica } from './productos/electronica/electronica';
 import { Ropa } from './productos/ropa/ropa';
 import { Alimentos } from './productos/alimentos/alimentos';
 
+
 export const routes: Routes = [
     {
         path: 'inicio',
@@ -30,10 +31,6 @@ export const routes: Routes = [
                 path: 'alimentos',
                 component: Alimentos,
             },
-            {
-                path: ':id',
-                component: ProductoDetalle,
-            }
         ]
     },
     {

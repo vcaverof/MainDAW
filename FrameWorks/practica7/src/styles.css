@@ -204,3 +204,13 @@ form button {
 form button:hover {
     background: #3a78c2;
 }
+
+.datos-contacto {
+    max-width: 420px;
+    margin: 40px auto;
+    padding: 25px;
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+}

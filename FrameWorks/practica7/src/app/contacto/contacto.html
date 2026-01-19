@@ -1,12 +1,20 @@
-<form method="post">
+<form [formGroup]="formularioContacto" (ngSubmit)="submit()">
     <label>Nombre:</label>
-    <input type="text" name="nombre" placeholder="Introduce tu nombre" required>
+    <input type="text" formControlName="nombre" placeholder="Introduce tu nombre" required>
 
     <label>Email:</label>
-    <input type="email" name="email" placeholder="correo@dominio.com" required>
+    <input type="email" formControlName="email" placeholder="correo@dominio.com" required>
 
     <label>Mensaje</label>
-    <textarea name="mensaje" cols="30" rows="10" placeholder="Escribe un mensaje"></textarea>
+    <textarea cols="30" rows="10" formControlName="mensaje" placeholder="Escribe un mensaje"></textarea>
 
     <button type="submit">Enviar</button>
 </form>
+
+
+<div class="datos-contacto">
+    <h2>Datos del contacto creado</h2>
+    <p> {{ datos }} </p>
+</div>
+
+<router-outlet />
