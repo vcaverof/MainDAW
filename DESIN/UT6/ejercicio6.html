@@ -23,12 +23,17 @@
         .ok {
             color: green;
         }
+
+        .errorCampo {
+            border: 3px solid red;
+        }
     </style>
 </head>
 
 <body>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!-- Novalidate, funciona para que el navegador no utilice sus propias validaciones -->
-    <form method="post" novalidate> 
+    <!-- <form method="post" novalidate> 
         <label>Nombre:</label>
         <input type="text" id="nombre" minlength="20" pattern="[A-Za-zÁÉÍÓÚÜÑáéíóúüñ\s]{20,}"
             title="Escribe mínimo 20 caracteres" required>
@@ -44,27 +49,123 @@
 
         <label>Email</label>
         <input type="email" id="email" pattern="[A-Za-z0-9._%+\-]{3,}@[A-Za-z0-9.\-]{3,}\.(es|pt|fr)"
-            title="Dominions aceptados: .es, .pt y .fr" placeholder="Dominions aceptados: .es, .pt y .fr" required>
+            title="Dominions aceptados: .es, .pt y .fr" placeholder="Dominios aceptados: .es, .pt y .fr" required>
 
         <button type="submit" id="enviar">Enviar formulario</button>
 
         <p id="mensaje" class=""></p>
-    </form>
+    </form> -->
 
     <script>
-        const fo = document.querySelector("form");
-        const mensaje = document.getElementById("mensaje");
+        const body = document.querySelector("body");
+        const fo = document.createElement('form');
 
+        fo.method = "post";
+        fo.setAttribute("novalidate", "");
+
+        //Creación de label e input de nombre
+        const nombreLabel = document.createElement("label");
+        nombreLabel.textContent = "Nombre*:";
+        nombreLabel.setAttribute("for", "nombre");
+        const nombreInput = document.createElement("input");
+        nombreInput.setAttribute("type", "text");
+        nombreInput.setAttribute("id", "nombre");
+        nombreInput.setAttribute("minlength", "20");
+        nombreInput.setAttribute("pattern", "[A-Za-zÁÉÍÓÚÜÑáéíóúüñ\\s]{20,}");
+        nombreInput.setAttribute("title", "Escribe mínimo 20 caracteres");
+        nombreInput.setAttribute("required", "");
+
+        fo.appendChild(nombreLabel);
+        fo.appendChild(nombreInput);
+
+        //Creación de label e input de NIF
+        const nifLabel = document.createElement("label");
+        nifLabel.textContent = "NIF*:";
+        const nifInput = document.createElement("input");
+        nifInput.setAttribute("type", "text");
+        nifInput.setAttribute("id", "nif");
+        nifInput.setAttribute("pattern", "\[0-9]{8}[A-Z]");
+        nifInput.setAttribute("title", "Escribe el NIF de forma correcta");
+        nifInput.setAttribute("required", "");
+
+        fo.appendChild(nifLabel);
+        fo.appendChild(nifInput);
+
+        //Creación de label e input de edad
+        const edadLabel = document.createElement("label");
+        edadLabel.textContent = "Edad*:";
+        const edadInput = document.createElement("input");
+        edadInput.setAttribute("type", "number");
+        edadInput.setAttribute("id", "edad");
+        edadInput.setAttribute("min", "18");
+        edadInput.setAttribute("max", "65");
+        edadInput.setAttribute("title", "Edad mínima: 18 años. Edad máxima: 65 años");
+        edadInput.setAttribute("required", "");
+
+        fo.appendChild(edadLabel);
+        fo.appendChild(edadInput);
+
+        // //Creación de label e input de fecha de alta
+        const fechaAltaLabel = document.createElement("label");
+        fechaAltaLabel.textContent = "Fecha de alta*:";
+        const fechaAltaInput = document.createElement("input");
+        fechaAltaInput.setAttribute("type", "date");
+        fechaAltaInput.setAttribute("id", "fechaAlta");
+        fechaAltaInput.setAttribute("title", "Selecciona solo días laborables");
+        fechaAltaInput.setAttribute("required", "");
+
+        fo.appendChild(fechaAltaLabel);
+        fo.appendChild(fechaAltaInput);
+
+        // //Creación de label e input de email
+        const email = document.createElement("label");
+        email.textContent = "Email*:";
+        const emailInput = document.createElement("input");
+        emailInput.setAttribute("type", "text");
+        emailInput.setAttribute("id", "email");
+        emailInput.setAttribute("pattern", "[A-Za-z0-9._%+\\-]{3,}@[A-Za-z0-9.\\-]{3,}\\.(es|pt|fr)$");
+        emailInput.setAttribute("title", "Dominions aceptados: .es, .pt y .fr");
+        emailInput.setAttribute("placeholder", "Dominios aceptados: .es, .pt y .fr");
+        emailInput.setAttribute("required", "");
+
+        fo.appendChild(email);
+        fo.appendChild(emailInput);
+
+        const br = document.createElement("br");
+        fo.appendChild(br);
+
+        //Creación de label e input de email
+        const enviar = document.createElement("button");
+        enviar.setAttribute("type", "submit");
+        enviar.setAttribute("id", "enviar");
+        enviar.textContent = "Enviar";
+
+        fo.appendChild(enviar);
+
+        const mensaje = document.createElement("p");
+        mensaje.setAttribute("id", "mensaje");
+        mensaje.setAttribute("class", "");
+        // body.appendChild(mensaje);
+
+        body.appendChild(fo);
+
+
+        //Logica de validaciones
         fo.addEventListener("submit", function (e) {
             e.preventDefault();
 
-            mensaje.textContent = "";
-            mensaje.className = "";
+            // mensaje.textContent = "";
+            // mensaje.className = "";
 
             //Validar el formulario
             if (!fo.checkValidity()) {
-                mensaje.textContent += "Hay errores en el formulario. Revisa los campos";
-                mensaje.className = "error";
+                // mensaje.textContent += "Hay errores en el formulario. Revisa los campos";
+                // mensaje.className = "error";
+                Swal.fire({
+                    title: "Invalid form",
+                    text: "Hay errores en el formulario. Revisa los campos",
+                    icon: "error"
+                });
                 return;
             }
 
@@ -93,13 +194,24 @@
 
             if (errores.length > 0) {
                 mensaje.innerHTML += errores.join("<br>");
-                mensaje.className = "error";
+                // mensaje.className = "error";
+
+                Swal.fire({
+                    title: "Invalid form",
+                    text: errores,
+                    icon: "error"
+                });
                 return;
             }
 
             //Tras validar todo
-            mensaje.textContent = "Formulario válido.";
-            mensaje.className = "ok";
+            // mensaje.textContent = "Formulario válido.";
+            // mensaje.className = "ok";
+            Swal.fire({
+                title: "Valid form",
+                text: "El formulario es válido",
+                icon: "success"
+            });
         })
     </script>
 </body>
