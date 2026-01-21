@@ -68,15 +68,25 @@
     </form>
 
     <script>
-        const opciones = document.querySelectorAll("select");
-        const paris = document.getElementById("paris");
+        const selects = document.querySelectorAll("select");
 
-        console.log(opciones);
-        paris.addEventListener("change", function(e) {
-            e.preventDefault();
+        selects.forEach(select => {
+            select.addEventListener("change", function() {
+                const valor = this.value;
 
-            
-        })
+                //Comprobar si está vacío
+                if (valor === "") return;
+
+                //Revisar si otro select ya tiene el valor
+                for (const s of selects) {
+                    if (s !== this && s.value === valor) {
+                        alert("Ese numero ya está elegido en otra ciudad");
+                        this.value = "";
+                        return;
+                    }
+                }
+            })
+        });
 
     </script>
 </body>

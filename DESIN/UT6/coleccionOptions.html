@@ -1,16 +1,72 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
+
 <body>
-    <p>
-        Consultar numero o cantidad
-        Insertar nacionalidad frances con indice 4
-        Eliminar la nacionalidad con indice 2
-        Obtener la nacionalidad con indice 2
-    </p>
+
+    <!-- Consultar numero o cantidad - Insertar nacionalidad frances con indice 4 - Eliminar la nacionalidad con indice 2 - Obtener la nacionalidad con indice 2 -->
+
+    <form method="post" id="formulario">
+        <select id="nacionalidades">
+            <option value="es">Español</option>
+            <option value="it">Italiano</option>
+            <option value="fr">Canadiense</option>
+            <option value="ja">Japonés</option>
+            <option value="ch">Chino</option>
+        </select>
+
+        <button id="cantidad">Consultar numero o cantidad</button>
+        <button id="insertar">Insertar nacionalidad frances con indice 4</button>
+        <button id="eliminar">Eliminar la nacionalidad con indice 2</button>
+        <button id="obtener">Obtener la nacionalidad con indice 2</button>
+    </form>
+
+
+    <script>
+        const cantidad = document.getElementById("cantidad");
+        const insertar = document.getElementById("insertar");
+        const eliminar = document.getElementById("eliminar");
+        const obtener = document.getElementById("obtener");
+        const nacionalidades = document.getElementById("nacionalidades");
+
+        cantidad.addEventListener("click", function(e) {
+            e.preventDefault();
+
+            alert("Cantidad de nacionalidades: " + nacionalidades.length);
+        });
+
+        insertar.addEventListener("click", function(e) {
+            e.preventDefault();
+
+            let opcion = document.createElement("option");
+            opcion.innerHTML = "Francés";
+            opcion.setAttribute("value", "fr");
+            nacionalidades.insertBefore(opcion, nacionalidades[4]);
+
+            insertar.setAttribute("disabled", "");
+        });
+
+        eliminar.addEventListener("click", function(e) {
+            e.preventDefault();
+
+            nacionalidades.remove(2);
+        });
+
+        obtener.addEventListener("click", function(e) {
+            e.preventDefault();
+
+            alert("Nacionalidad con índice 2: " + nacionalidades[2].innerHTML);
+        })
+
+
+
+    </script>
+
 </body>
+
 </html>
