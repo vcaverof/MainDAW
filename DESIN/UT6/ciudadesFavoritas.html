@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ciudades favoritas</title>
+    <style>
+        form {
+            display: flex;
+            flex-direction: column;
+            padding: 10px;
+            gap: 15px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Formularios_12-Ejercicio: No coincidan dos elecciones de un campo select</h1>
+    <hr>
+    <h2>Selecciona por orden de preferencia tus ciudades favoritas</h2>
+    <form method="post" id="formulario">
+        <label><select id="paris">
+                <option value="" selected></option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>Paris</label>
+
+        <label><select id="londres">
+                <option value="" selected></option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>Londres</label>
+
+
+        <label><select id="roma">
+                <option value="" selected></option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>Roma</label>
+
+        <label><select id="madrid">
+                <option value="" selected></option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>Madrid</label>
+
+        <label><select id="berlin">
+                <option value="" selected></option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>Berlin</label>
+    </form>
+
+    <script>
+        const opciones = document.querySelectorAll("select");
+        const paris = document.getElementById("paris");
+
+        console.log(opciones);
+        paris.addEventListener("change", function(e) {
+            e.preventDefault();
+
+            
+        })
+
+    </script>
+</body>
+
+</html>

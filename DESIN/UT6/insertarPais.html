@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Insertar un pais nuevo o eliminar el ultimo o el seleccionado</title>
+    <style>
+        form {
+            display: flex;
+            flex-direction: column;
+            width: 150px;
+            padding: 10px;
+            gap: 5px;
+            align-items: flex-start;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Ejercicio 6: Insertar un pais nuevo o eliminar el ultimo o el seleccionado</h1>
+    <hr>
+    <form method="post" id="formulario">
+        <label>Nacionalidad</label>
+        <select id="paises">
+            <option value="es">Española</option>
+            <option value="po">Portuguesa</option>
+            <option value="fr">Francesa</option>
+            <option value="ch">China</option>
+            <option value="ca">Canadiense</option>
+            <option value="ja">Japonesa</option>
+        </select>
+
+        <input type="text" id="nuevoPais">
+        <button id="insertar">Insertar nacionalidad</button>
+
+        <hr>
+
+        <button id="eliminar">Eliminar</button>
+        <label><input type="radio" name="tipo" value="ultima" checked>Última</label>
+        <label><input type="radio" name="tipo" value="seleccionada">Seleccionada</label>
+    </form>
+
+    <script>
+        const insertar = document.getElementById("insertar");
+        const eliminar = document.getElementById("eliminar");
+        const radio = document.querySelectorAll("input[type=radio]");
+        const paises = document.getElementById("paises");
+
+        insertar.addEventListener("click", function (e) {
+            const nuevoPais = document.getElementById("nuevoPais").value;
+            e.preventDefault();
+
+            let opcion = document.createElement("option");
+            opcion.textContent = nuevoPais;
+            opcion.setAttribute("value", nuevoPais.slice(0, 2).toLowerCase());
+            paises.appendChild(opcion);
+        });
+
+        eliminar.addEventListener("click", function (e) {
+            e.preventDefault();
+
+            if (radio[0].checked) {
+                paises.lastElementChild.remove(); //IMPORTANTE => Con lastChild no funciona
+                return;
+            } else {
+                const index = paises.selectedIndex; //Opción seleccionada en el select
+                if (index !== -1) {
+                    paises.remove(index);
+                }
+            }
+        });
+
+        
+
+
+    </script>
+</body>
+
+</html>
