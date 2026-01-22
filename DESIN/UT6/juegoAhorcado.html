@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juego ahorcado</title>
+    <style>
+        #jugador1 {
+            border: 1px solid black;
+            width: 99vw;
+            visibility: visible;
+        }
+
+        #jugador2 {
+            border: 1px solid black;
+            width: 99vw;
+            margin-top: 10px;
+        }
+
+        #juego {
+            width: 99vw;
+            border: 1px solid black;
+            visibility: hidden;
+        }
+
+        #formPalabra {
+            display: flex;
+            flex-direction: column;
+            width: 150px;
+            gap: 5px;
+            padding: 15px;
+        }
+
+        #formJugar {
+            display: flex;
+            flex-direction: column;
+            width: 150px;
+            gap: 5px;
+            padding: 15px;
+            visibility: hidden;
+        }
+
+        #contador {
+            font-size: 2rem;
+            padding: 20px;
+            font-weight: bold;
+        }
+
+        #letrasUsadas {
+            font-size: 2rem;
+            padding: 20px;
+            font-weight: bold;
+        }
+
+        #containerOculto {
+            display: flex;
+            font-size: 2rem;
+            padding: 10px;
+            gap: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>formularios_18-Ejercicio: Juego del ahorcado</h1>
+    <hr>
+    <div id="jugador1">
+        <form mehot="post" id="formPalabra">
+            <h2>JUGADOR 1</h2>
+            <label>Introduce una palabra</label>
+            <input type="password" id="palabraCorrecta" minlength="3" placeholder="Minimo 3 letras" required>
+
+            <button>Introducir palabra</button>
+        </form>
+    </div>
+
+    <div id="juego">
+
+    </div>
+
+    <div id="jugador2">
+        <form method="post" id="formJugar">
+            <h2>JUGADOR 2</h2>
+
+            <label>Selecciona una letra</label>
+            <select id="letras">
+                <script> //Añadir las letras al select
+                    const abecedario = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'Ñ', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
+                    const letras = document.getElementById("letras");
+
+                    for (let letra of abecedario) {
+                        const opcion = document.createElement("option");
+                        opcion.innerHTML = letra;
+                        opcion.value = letra;
+
+                        letras.appendChild(opcion);
+                    }
+                </script>
+            </select>
+
+            <label>Introduce tu solución</label>
+            <input type="text" id="solucion">
+
+            <button type="submit">Enviar solución</button>
+        </form>
+
+    </div>
+
+    <script>
+        const foPalabra = document.getElementById("formPalabra");
+        const foJugar = document.getElementById("formJugar");
+        const letrasOpcion = document.getElementById("letras");
+
+        foPalabra.addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            const palabraCorrecta = document.getElementById("palabraCorrecta").value;
+            const juego = document.getElementById("juego");
+
+            foJugar.style.visibility = "visible";
+
+            //Creamos el contador y lo introducimos en la partida
+            const contador = document.createElement("p");
+            contador.id = "contador";
+            contador.innerHTML = "0";
+            juego.appendChild(contador);
+
+            //Párrafo donde vamos a ir metiendo las letras que eligen
+            const letrasUsadas = document.createElement("p");
+            letrasUsadas.id = "letrasUsadas";
+            juego.appendChild(letrasUsadas);
+
+            //Palabra oculta donde se van mostrando las letras acertadas
+            const arrayLetras = palabraCorrecta.split("");
+
+            const containerOculto = document.createElement("div");
+            containerOculto.id = "containerOculto";
+            for (let letra of arrayLetras) {
+                const letraOculta = document.createElement("p");
+                letraOculta.value = letra;
+                letraOculta.innerHTML = "_";
+
+                containerOculto.appendChild(letraOculta);
+            }
+
+            juego.appendChild(containerOculto);
+
+
+            //Cambiamos el form de introducir la palabra por el de juego
+            juego.style.visibility = "visible";
+            foPalabra.replaceWith(juego);
+
+        });
+
+        letrasOpcion.addEventListener("change", function (e) {
+            e.preventDefault();
+
+            
+        })
+
+
+    </script>
+</body>
+
+</html>

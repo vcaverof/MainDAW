@@ -8,7 +8,7 @@
 </head>
 
 <body>
-
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!-- Consultar numero o cantidad - Insertar nacionalidad frances con indice 4 - Eliminar la nacionalidad con indice 2 - Obtener la nacionalidad con indice 2 -->
 
     <form method="post" id="formulario">
@@ -34,13 +34,17 @@
         const obtener = document.getElementById("obtener");
         const nacionalidades = document.getElementById("nacionalidades");
 
-        cantidad.addEventListener("click", function(e) {
+        cantidad.addEventListener("click", function (e) {
             e.preventDefault();
 
-            alert("Cantidad de nacionalidades: " + nacionalidades.length);
+            Swal.fire({
+                title: "Cantidad de nacionalidades",
+                text: "Hay " + nacionalidades.length + " nacionalidades",
+                icon: "info"
+            });
         });
 
-        insertar.addEventListener("click", function(e) {
+        insertar.addEventListener("click", function (e) {
             e.preventDefault();
 
             let opcion = document.createElement("option");
@@ -51,16 +55,20 @@
             insertar.setAttribute("disabled", "");
         });
 
-        eliminar.addEventListener("click", function(e) {
+        eliminar.addEventListener("click", function (e) {
             e.preventDefault();
 
             nacionalidades.remove(2);
         });
 
-        obtener.addEventListener("click", function(e) {
+        obtener.addEventListener("click", function (e) {
             e.preventDefault();
 
-            alert("Nacionalidad con índice 2: " + nacionalidades[2].innerHTML);
+            Swal.fire({
+                title: "Nacionalidad con índice 2",
+                text: nacionalidades[2].innerHTML,
+                icon: "info"
+            });
         })
 
 
