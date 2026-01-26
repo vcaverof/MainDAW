@@ -31,6 +31,41 @@ export const routes: Routes = [
                 path: 'alimentos',
                 component: Alimentos,
             },
+            {
+                path: '1',
+                component: ProductoDetalle,
+                data: {
+                    id: 1,
+                    nombre: 'Televisor 4k',
+                    precio: 499,
+                    descripcion: 'TV UHD de 55 pulgadas',
+                    imagen: '/assets/tv.jpg'
+                }
+            },
+            {
+                path: '2',
+                component: ProductoDetalle,
+                data: {
+                    id: 2,
+                    nombre: 'Camiseta Azul',
+                    precio: 19,
+                    descripcion: 'Camiseta 100% algodon',
+                    imagen: '/assets/camiseta.jpg'
+                }
+            },
+            {
+                path: '3',
+                component: ProductoDetalle,
+                data: {
+                    id: 3,
+                    nombre: 'Manzanas',
+                    precio: 3,
+                    descripcion: 'Bolsa de 1kg de manzanas',
+                    imagen: 'assets/manzanas.jpg'
+                }
+            }
+
+
         ]
     },
     {

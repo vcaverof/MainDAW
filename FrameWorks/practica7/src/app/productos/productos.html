@@ -1,21 +1,18 @@
-<h1>Listado de productos</h1>
-<h3>Categorías</h3>
+<div class="productos-container">
+    <h2>Productos</h2>
 
-<ul>
-    <li><a routerLink="electronica">Electrónica</a></li>
-    <li><a routerLink="ropa">Ropa</a></li>
-    <li><a routerLink="alimentos">Alimentos</a></li>
-</ul>
+    <ul class="product-list">
+        <li><a routerLink="1">Televisor 4K (Electrónica)</a></li>
+        <li><a routerLink="2">Camiseta Azul (Ropa)</a></li>
+        <li><a routerLink="3">Manzanas (Alimentos)</a></li>
+    </ul>
 
-<h3>Productos destacados</h3>
-<ul>
-    <li *ngFor="let p of productos"> 
-        <a [routerLink]="['/productos', p.id]"> 
-            {{ p.nombre }} ({{ p.categoria }}) 
-        </a>
-    </li>
-</ul>
+    <h3>Categorías</h3>
+    <ul class="category-list">
+        <li><a routerLink="electronica">Electrónica</a></li>
+        <li><a routerLink="ropa">Ropa</a></li>
+        <li><a routerLink="alimentos">Alimentos</a></li>
+    </ul>
 
-<div>
-    <router-outlet />
+    <router-outlet></router-outlet>
 </div>

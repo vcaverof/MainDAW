@@ -1,12 +1,5 @@
 import { Component } from '@angular/core';
-
-interface ProductoDetalle {
-  id: number,
-  nombre: string,
-  precio: number,
-  descripcion: string,
-  imagen: string;
-}
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-producto-detalle',
@@ -16,5 +9,11 @@ interface ProductoDetalle {
 })
 
 export class ProductoDetalle {
+  producto: any;
 
+  constructor(private route: ActivatedRoute) {}
+
+  ngOnInit() {
+    this.producto = this.route.snapshot.data;
+  }
 }
