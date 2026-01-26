@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edificios</title>
+    <link rel="stylesheet" href="estilos.css" />
+</head>
+
+<body>
+    <div id="contenedor">
+
+    </div>
+
+    <script type="module">
+        import { Edificio } from "./Edificio.js";
+
+        const inquilinosImportar = [
+            { piso: 3, puerta: 0, nombre: "Gustavo Ramírez", genero: "hombre", miembros: 5, },
+            { piso: 2, puerta: 1, nombre: "María Pérez", genero: "mujer", miembros: 1 },
+            { piso: 2, puerta: 2, nombre: "Manuel González", genero: "hombre", miembros: 1, },
+            { piso: 2, puerta: 3, nombre: "Pepa Fernández", genero: "mujer", miembros: 3, },
+            { piso: 1, puerta: 1, nombre: "Asterio Gómez", genero: "hombre", miembros: 2, },
+            { piso: 3, puerta: 1, nombre: "Eleuterio Gómez", genero: "hombre", miembros: 6, },
+        ];
+
+
+        //Creación del edificio
+        let miEdificio = new Edificio("Uría", 2, "33012");
+        miEdificio.agregarPlantasYPuertas(1, 0);
+        miEdificio.agregarPlantasYPuertas(1, 2);
+        miEdificio.agregarPlantasYPuertas(1, 4);
+        miEdificio.agregarPlantasYPuertas(1, 1);
+
+        window.addEventListener("load", cargaPagina);
+
+        function creaEdificio(edificio) {
+            const contenedor = document.getElementById("contenedor");
+
+            //Creación del div edificio
+            const divEdificio = document.createElement("div");
+            divEdificio.classList.add("edificio");
+
+            //Titulo
+            const h1 = document.createElement("h1");
+            h1.textContent = `C/ ${edificio.calle} Nº ${edificio.numero}. ${edificio.cpostal}`;
+            divEdificio.appendChild(h1);
+
+            //Contenedor de pisos
+            const divPisos = document.createElement("div");
+            divPisos.classList.add("pisos");
+
+            [...edificio.plantas].reverse().forEach((planta, index) => {
+                const divPlanta = document.createElement("div");
+                divPlanta.classList.add("planta");
+
+                //Elegir tipo de columna en función de las puertas
+                let colClass = "";
+                switch (planta.length) {
+                    case 1: colClass = "col-4"; break;
+                    case 2: colClass = "col-2"; break;
+                    case 4: colClass = "col-1"; break;
+                    default: colClass = "col-1";
+                }
+
+                [...planta].reverse().forEach(puerta => {
+                    const divPropietario = document.createElement("div");
+                    divPropietario.classList.add("propietario", colClass);
+
+                    divPropietario.textContent = puerta === "Vacio" ? "Libre" : puerta.nombre;
+
+                    divPlanta.appendChild(divPropietario);
+                });
+
+                divPisos.appendChild(divPlanta);
+            });
+
+            divEdificio.appendChild(divPisos);
+            contenedor.appendChild(divEdificio);
+        }
+
+        function cargaInquilinos(edificio, lista) {
+            lista.map(inquilino => {
+                const propietario = {
+                    nombre: inquilino.nombre,
+                    genero: inquilino.genero,
+                    miembros: inquilino.miembros
+                };
+
+                edificio.agregarPropietario(
+                    propietario,
+                    inquilino.piso,
+                    inquilino.puerta
+                );
+            });
+        }
+
+        function cargaPagina() {
+            cargaInquilinos(miEdificio, inquilinosImportar);
+            creaEdificio(miEdificio);
+            // cargaManejadores();
+        }
+
+        // function cargaManejadores() {
+        // }
+
+    </script>
+</body>
+
+</html>
