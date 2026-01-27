@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <form action="pruebaGET.php" method="get">
+        <fieldset>
+            <legend>Prueba con GET</legend>
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" name="nombre">
+            <label for="edad">Edad:</label>
+            <input type="text" id="edad" name="edad">
+            <input type="submit" value="Enviar">
+        </fieldset>
+    </form>
+    <script>
+        const formulario = document.forms[0];
+
+        formulario.addEventListener('submit', function (e) {
+            e.preventDefault();
+            const nombre = document.getElementById("nombre").value;
+            
+            //......Validaciones.......
+            if (nombre !== "Laura") {
+                alert("No se enviará el formulario. No válido");
+                console.log(nombre);
+            } else {
+                alert("Se enviará el formulario");
+                e.target.submit();
+            }
+        })
+    </script>
+</body>
+
+</html>

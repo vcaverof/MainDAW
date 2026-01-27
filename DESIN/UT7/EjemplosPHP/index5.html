@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        const parametros = new URLSearchParams();
+        parametros.append("nombre", "Pepe García");
+        parametros.append("edad", 20);
+        parametros.append("nacionalidad", "española");
+        console.log(parametros.toString());
+        console.log(parametros.get("nacionalidad"));
+        parametros.set("nacionalidad", "francesa");
+        console.log(parametros.get("nacionalidad"));
+        parametros.delete("nacionalidad");
+        console.log(parametros.has("nacionalidad"));
+
+        alert("Se enviarán los datos...");
+        location.href = "http://localhost:8080/pruebaGET.php?" + parametros.toString();
+    </script>
+</body>
+
+</html>
