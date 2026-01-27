@@ -10,6 +10,12 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
+
+    public function citas()
+    {
+        return $this->hasMany(\App\Models\Cita::class, 'usuario_id');
+    }
+
     use HasApiTokens, HasFactory, Notifiable;
 
     /**

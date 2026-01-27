@@ -83,10 +83,12 @@ Route::middleware(['auth'])->group(function() {
     Route::get('/citas/create', [CitaController::class, 'create'])->name('citas.create');
     Route::post('/citas', [CitaController::class, 'store'])->name('citas.store');
 
-    Route::get('citas/{cita}/edit', [CitaController::class, 'edit'])->name('citas.edit');
-    Route::put('citas/{cita}', [CitaController::class, 'update'])->name('citas.update');
+    Route::get('/citas/{cita}/edit', [CitaController::class, 'edit'])->name('citas.edit');
+    Route::put('/citas/{cita}', [CitaController::class, 'update'])->name('citas.update');
+
+    Route::put('/citas/{cita}/cancel', [CitaController::class, 'cancel'])->name('citas.cancel');
+    Route::put('/citas/{cita}/reactivate', [CitaController::class, 'reactivate'])->name('citas.reactivate');
 
     Route::put('/cita/{cita}/toggle', [CitaController::class, 'toggle'])->name('citas.toggle');
-
 
 });
