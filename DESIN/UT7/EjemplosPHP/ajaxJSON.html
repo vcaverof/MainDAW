@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>Uso de FormData. Ejercicio Ajax3.html</h1>
+    <form action="pruebaPOST.php" method="post">
+        <fieldset>
+            <legend>Prueba con POST</legend>
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" name="nombre">
+            <label for="edad">Edad:</label>
+            <input type="text" id="edad" name="edad">
+            <input type="submit" value="Enviar">
+        </fieldset>
+    </form>
+
+    <h2 id="datos"></h2>
+    <script>
+        let xhr = new XMLHttpRequest();
+        xhr.addEventListener('load', function (e) {
+            if (xhr.status === 200) {
+                let datos = JSON.parse(xhr.responseText);
+                for (let persona of datos.personas) {
+                    document.querySelector("#datos").innerHTML += `Nombre: ${persona.nombre} - Edad: ${persona.edad}`;
+                }
+            } else {
+                alert(`Error: ${xhr.status} ${xhr.statusText}`);
+            }
+        });
+
+        document.forms[0].addEventListener("submit", function (e) {
+            e.preventDefault();
+            const nombre = document.getElementById("nombre").value;
+            const edad = document.getElementById("edad").value;
+
+            //Crear un nuevo FormData y enviarlo
+            let formulario = new FormData();
+            formulario.append("nombre", nombre);
+            formulario.append("edad", edad);
+            xhr.open("POST", "http://localhost:8080/pruebaPOST.php");
+            xhr.send(JSON.stringify({nombre: nombre, edad: edad}));
+        });
+
+    </script>
+</body>
+
+</html>
