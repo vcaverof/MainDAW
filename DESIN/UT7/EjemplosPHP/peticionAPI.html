@@ -17,39 +17,55 @@
         <button type="submit" id="cargarDatos" class="btn btn-primary mb-3">Cargar API</button>
     </form>
 
-
     <div id="resultado" class="container"></div>
 
     <script>
-        document.querySelector("form").addEventListener('submit', (e) => {
+        document.querySelector("form").addEventListener("submit", function (e) {
             e.preventDefault();
 
             const pokemonName = document.getElementById("pokemon").value.toLowerCase();
+            const url = `https://pokeapi.co/api/v2/pokemon/${pokemonName}`;
 
-            fetch(`https://pokeapi.co/api/v2/pokemon/`)
-                .then(response => response.json()) //Indicar que la respuesta es de tipo JSON
-                .then(data => { //Darle estilos a la respuesta con Bootstrap
+            const xhr = new XMLHttpRequest();
+            xhr.open("GET", url, true);
+
+            // Evento cuando la petición cambia de estado
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) { // 4 = DONE
+
+                    const data = JSON.parse(xhr.responseText);
 
                     const cardHTML = `
-                        <div class="card shadow-sm" style="width: 18rem;">
-                            <img src="${data.sprites.front_default}" class="card-img-top" alt="${data.name}">
-                            <div class="card-body">
-                                <h5 class="card-title text-capitalize">${data.name}</h5>
-                                <p class="card-text">
-                                    <strong>Altura:</strong> ${data.height}<br>
-                                    <strong>Peso:</strong> ${data.weight}<br>
-                                    <strong>Habilidades:</strong>
-                                    <ul>
-                                        ${data.abilities.map(a => `<li>${a.ability.name}</li>`).join('')}
-                                    </ul>
-                                </p>
+                            <div class="card shadow-sm" style="width: 18rem;">
+                                <img src="${data.sprites.front_default}" class="card-img-top" alt="${data.name}">
+                                <div class="card-body">
+                                    <h5 class="card-title text-capitalize">${data.name}</h5>
+                                    <p class="card-text">
+                                        <strong>Altura:</strong> ${data.height}<br>
+                                        <strong>Peso:</strong> ${data.weight}<br>
+                                        <strong>Habilidades:</strong>
+                                        <ul>
+                                            ${data.abilities.map(a => `<li>${a.ability.name}</li>`).join('')}
+                                        </ul>
+                                    </p>
+                                </div>
                             </div>
-                        </div>
-                    `;
+                        `;
 
-                    document.getElementById('resultado').innerHTML = cardHTML; //Introducir el resultado en el html
-                })
-                .catch(error => console.error('Error:', error));
+                    document.getElementById("resultado").innerHTML = cardHTML;
+
+                } else {
+                    document.getElementById("resultado").innerHTML =
+                        `<div class="alert alert-danger">No se encontró el Pokémon.</div>`;
+                }
+            };
+
+            // Evento de error
+            xhr.onerror = function () {
+                console.error("Error en la solicitud AJAX");
+            };
+
+            xhr.send();
         });
     </script>
 
