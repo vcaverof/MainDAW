@@ -10,27 +10,45 @@
 <body>
     <form method="post" enctype="multipart/form-data" action="http://localhost:8080/recibirfichero.php">
         <input type="file" name="mifichero" id="mifichero">
-        <input type="submit" value="enviar">
+        <button type="submit" id="enviar">Enviar</button>
     </form>
 
-    <h2 id="datos"></h2>
+
+    <div id="datos"></div>
 
     <script>
-        const url = "http://localhost:8080/recibirfichero.php";
-        let xhr = new XMLHttpRequest();
+        document.getElementById("enviar").addEventListener("click", function (e) {
+            e.preventDefault();
 
-        xhr.addEventListener("submit", function (e) {
-            if (xhr.status === 200) {
-                const img = document.createElement("img");
-                img.src = xhr.responseText;
-                document.getElementById("datos").appendChild(img);
-            } else {
-                alert(`Erros: ${xhr.status} ${xhr.statusText}`);
+            const fichero = document.getElementById("mifichero").files[0];
+
+            if (!fichero) {
+                document.getElementById("datos").innerText = "Selecciona primero una imagen";
             }
+
+            const formData = new FormData();
+            formData.append("mifichero", fichero);
+
+            let xhr = new XMLHttpRequest();
+
+            xhr.addEventListener("load", function (e) {
+                if (xhr.status === 200) {
+                    const img = document.createElement("img");
+                    img.src = URL.createObjectURL(fichero);
+
+                    img.style.height = "100px";
+
+                    document.body.appendChild(img);
+
+                } else {
+                    alert(`Error: ${xhr.status} ${xhr.statusText}`);
+                }
+            });
+
+            xhr.open("POST", "recibirfichero.php");
+            xhr.send(formData);
         });
 
-        xhr.open("POST", url);
-        xhr.send();
     </script>
 </body>
 

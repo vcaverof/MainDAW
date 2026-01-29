@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <input type="button" id="btn" value="Leer">
+
+    <script>
+        const xhr = new XMLHttpRequest();
+        xhr.addEventListener('load', function () {
+            if (xhr.status === 200) {
+                const img = document.createElement("img");
+                img.src = URL.createObjectURL(xhr.response);
+                img.style.height = "200px";
+                document.body.appendChild(img);
+            }
+        });
+
+        document.querySelector('#btn').addEventListener('click', () => {
+            xhr.open('GET', 'http://localhost:8080/assets/infografia.png');
+            xhr.responseType = "blob";
+            xhr.send();
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <input type="button" id="btn" value="Leer">
+    <div id="container"></div>
+
+    <script>
+        const xhr = new XMLHttpRequest();
+        xhr.addEventListener('load', function () {
+            if (xhr.status === 200) {
+                document.getElementById("container").innerHTML = xhr.response;
+            }
+        });
+
+        document.querySelector('#btn').addEventListener('click', () => {
+            xhr.open('GET', 'http://localhost:8080/assets/datos.html');
+            xhr.send();
+        });
+    </script>
+</body>
+
+</html>

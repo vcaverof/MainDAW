@@ -13,13 +13,7 @@
         const url = "http://localhost:8080/pruebaGET.php";
         let xhr = new XMLHttpRequest();
 
-        xhr.addEventListener("load", function(e) {
-            if(xhr.status === 200) {
-                document.querySelector("#datos").innerHTML = xhr.responseText;
-            } else {
-                alert(`Erros: ${xhr.status} ${xhr.statusText}`);
-            }
-        });
+       
 
         xhr.open("POST", url);
         xhr.send(parametros);
