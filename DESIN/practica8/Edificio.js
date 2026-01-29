@@ -52,27 +52,15 @@ export class Edificio {
 
         //Comprobamos que la planta y la puerta existan
         if (planta < 0 || planta >= this.plantas.length || puerta < 0 || puerta >= this.plantas[planta].length) {
-            console.warn(`❌ La planta ${planta} o la puerta ${puerta} no existen.`);
+            console.log(`La planta ${planta} o la puerta ${puerta} no existen.`);
             return;
         }
         if (this.plantas[planta][puerta] === "Vacio") {
             this.plantas[planta][puerta] = propietario;
-            console.log(`✔️ Propietario ${propietario.nombre} añadido en planta ${planta}, puerta ${puerta}`);
+            console.log(`Propietario ${propietario.nombre} añadido en planta ${planta}, puerta ${puerta}`);
         } else {
-            console.warn(`❌ La puerta ${puerta} de la planta ${planta} ya está ocupada.`);
+            console.log(`La puerta ${puerta} de la planta ${planta} ya está ocupada.`);
         }
 
-    }
-
-    getNumeroPlantas() {
-        return this.plantas.length;
-    }
-
-    getNumeroPuertas(planta) {
-        return this.plantas[planta].length;
-    }
-
-    getPropietario(planta, puerta) {
-        return this.plantas[planta][puerta];
     }
 }
