@@ -39,7 +39,7 @@ export const routes: Routes = [
                     nombre: 'Televisor 4k',
                     precio: 499,
                     descripcion: 'TV UHD de 55 pulgadas',
-                    imagen: '/assets/tv.jpg'
+                    imagen: '/tv.jpg'
                 }
             },
             {
@@ -50,7 +50,7 @@ export const routes: Routes = [
                     nombre: 'Camiseta Azul',
                     precio: 19,
                     descripcion: 'Camiseta 100% algodon',
-                    imagen: '/assets/camiseta.jpg'
+                    imagen: '/camiseta.jpg'
                 }
             },
             {
@@ -61,7 +61,7 @@ export const routes: Routes = [
                     nombre: 'Manzanas',
                     precio: 3,
                     descripcion: 'Bolsa de 1kg de manzanas',
-                    imagen: 'assets/manzanas.jpg'
+                    imagen: '/manzanas.jpg'
                 }
             }
 
