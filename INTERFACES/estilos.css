@@ -1,0 +1,142 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-family: "Calibri", "sans-serif";
+}
+
+.card-container {
+    height: 280px;
+    width: 400px;
+    background-image: url("https://img.freepik.com/vector-premium/fondo-color-degradado-azul-amarillo-abstracto-espacio-blanco-suave-borroso_120819-1853.jpg");
+    background-size: cover;
+    border-radius: 15px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card-grid {
+    height: 270px;
+    width: 380px;
+    display: grid;
+    grid-template-columns: 2fr 3fr;
+    grid-template-rows: 40px 180px 30px;
+    grid-template-areas:
+        "header header header"
+        "foto info info"
+        "footer footer footer";
+    gap: 10px;
+}
+
+.header img {
+    height: 40px;
+}
+
+.header p {
+    color: navy;
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+.foto img {
+    width: 140px;
+    height: 180px;
+    border-radius: 5px;
+}
+
+
+/* AREA NAMES DNI GRID*/
+.header {
+    grid-area: header;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.foto {
+    grid-area: foto;
+}
+
+.info {
+    height: 150px;
+    grid-area: info;
+    display: grid;
+    grid-template-areas:
+        "superpoder superpoder superpoder"
+        "nombre nombre nombre"
+        "dept dept dept"
+        "tlf ext foto2"
+        "mail mail mail"
+        "firma firma firma";
+    box-sizing: border-box;
+}
+
+.info>div {
+    height: 30px;
+    font-size: 0.8rem;
+}
+
+.info p,
+h3 {
+    margin: 0;
+}
+
+.firma {
+    display: flex;
+    justify-content: center;
+}
+
+.firma img {
+    margin-top: 10px;
+    height: 60px;
+}
+
+.footer {
+    grid-area: footer;
+    display: flex;
+}
+
+.footer p {
+    margin: 0;
+}
+
+/* AREA NAMES DNI INFO GRID*/
+
+.superpoder {
+    grid-area: superpoder;
+}
+
+.nombre {
+    grid-area: nombre;
+}
+
+.dept {
+    grid-area: dept;
+}
+
+.tlf {
+    grid-area: tlf;
+}
+
+.ext {
+    grid-area: ext;
+}
+
+.foto2 {
+    grid-area: foto2;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.foto2 img {
+    height: 50px;
+    width: 40px;
+    opacity: 50%;
+}
+
+.mail {
+    grid-area: mail;
+}
