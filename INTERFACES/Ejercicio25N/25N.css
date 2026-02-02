@@ -1,0 +1,25 @@
+article ul {
+    list-style-type: none;
+
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap:5px;
+
+    overflow: hidden;
+
+}
+
+article ul li {
+    height: 190px;
+    width: 120px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 15px;
+
+    background-color: rgb(122, 49, 122);
+    border: 1px solid black;
+    color: white;
+}
