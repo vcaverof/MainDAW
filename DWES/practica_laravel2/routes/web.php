@@ -22,7 +22,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
 
 
 /*
@@ -30,8 +30,8 @@ require __DIR__.'/auth.php';
 | Clientes CRUD Routes
 |--------------------------------------------------------------------------
 */
-Route::middleware('auth')->group(function() {
-     //Ruta principal de clientes
+Route::middleware('auth')->group(function () {
+    //Ruta principal de clientes
     Route::get('/clientes', [ClienteController::class, 'index'])->name('clientes.index');
 
     //Rutas para crear y almacenar los clientes
@@ -43,7 +43,7 @@ Route::middleware('auth')->group(function() {
     Route::put('/clientes/{cliente}', [ClienteController::class, 'update'])->name('clientes.update');
 
     //Ruta para archivar/reactivar los clientes (borrado lógico)
-    Route::put('/clientes/{cliente}/toggle', [ClienteController::class, 'toggle'])->name('clientes.toggle'); 
+    Route::put('/clientes/{cliente}/toggle', [ClienteController::class, 'toggle'])->name('clientes.toggle');
 });
 
 /*
@@ -52,8 +52,8 @@ Route::middleware('auth')->group(function() {
 |--------------------------------------------------------------------------
 */
 
-Route::middleware(['auth'])->group(function() {
-   
+Route::middleware(['auth'])->group(function () {
+
     //Ruta para mostrar todos los servicios de la base de datos
     Route::get('/servicios', [ServicioController::class, 'index'])->name('servicios.index');
 
@@ -67,7 +67,6 @@ Route::middleware(['auth'])->group(function() {
 
     //Ruta para controlar el estado del servicio (borrado lógico)
     Route::put('/servicios/{servicio}/toggle', [ServicioController::class, 'toggle'])->name('servicios.toggle');
-
 });
 
 /*
@@ -76,7 +75,7 @@ Route::middleware(['auth'])->group(function() {
 |--------------------------------------------------------------------------
 */
 
-Route::middleware(['auth'])->group(function() {
+Route::middleware(['auth'])->group(function () {
 
     Route::get('/citas', [CitaController::class, 'index'])->name('citas.index');
 
@@ -90,5 +89,4 @@ Route::middleware(['auth'])->group(function() {
     Route::put('/citas/{cita}/reactivate', [CitaController::class, 'reactivate'])->name('citas.reactivate');
 
     Route::put('/cita/{cita}/toggle', [CitaController::class, 'toggle'])->name('citas.toggle');
-
 });

@@ -47,7 +47,7 @@
         <input type="date" name="fecha" value="{{ old('fecha', $cita->fecha) }}"><br><br>
 
         <label>Hora:</label><br>
-        <input type="time" name="hora" value="{{ old('hora', $cita->hora) }}"><br><br>
+        <input type="time" name="hora" min="{{ date('H:i') }} value="{{ old('hora', $cita->hora) }}"><br><br>
 
         <label>Notas (opcional):</label><br>
         <textarea name="notas">{{ old('notas', $cita->notas) }}</textarea><br><br>

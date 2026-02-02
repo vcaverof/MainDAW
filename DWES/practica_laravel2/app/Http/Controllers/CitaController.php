@@ -13,6 +13,19 @@ class CitaController extends Controller
     {
         $usuario = auth()->user();
 
+        // Actualizar citas pasadas a "completada"
+        Cita::where('usuario_id', $usuario->id)
+            ->where('estado', 'activa')
+            ->where(function ($query) {
+                $query->where('fecha', '<', date('Y-m-d'))
+                    ->orWhere(function ($q) {
+                        $q->where('fecha', date('Y-m-d'))
+                            ->where('hora', '<', date('H:i'));
+                    });
+            })
+            ->update(['estado' => 'completada']);
+
+        // Ahora cargamos las citas ya actualizadas
         $citas = $usuario->citas()
             ->with(['cliente', 'servicio'])
             ->orderBy('fecha', 'desc')
@@ -22,8 +35,10 @@ class CitaController extends Controller
         return view('citas.index', compact('citas'));
     }
 
+
     public function create()
     {
+
         $clientes = Cliente::where('activo', true)->orderBy('nombre')->get();
         $servicios = Servicio::where('activo', true)->orderBy('nombre')->get();
 
@@ -36,6 +51,7 @@ class CitaController extends Controller
 
     public function store(Request $request)
     {
+        //1. Validación de campos
         $request->validate([
             'cliente_id' => 'required|exists:clientes,id',
             'servicio_id' => 'required|exists:servicios,id',
@@ -43,6 +59,21 @@ class CitaController extends Controller
             'hora' => 'required',
             'notas' => 'nullable|string',
         ]);
+
+        // 2. Validación de fecha y hora
+        $fecha = $request->fecha;
+        $hora = $request->hora;
+
+        $ahoraFecha = date('Y-m-d');
+        $ahoraHora = date('H:i');
+
+        // Si la fecha es hoy, la hora debe ser mayor a la actual
+        if ($fecha === $ahoraFecha && $hora <= $ahoraHora) {
+            return back()
+                ->withErrors(['hora' => 'No puedes reservar una hora que ya ha pasado'])
+                ->withInput();
+        }
+
 
         // Validación de solape: mismo cliente, misma fecha y hora, cita activa
         $solape = Cita::where('cliente_id', $request->cliente_id)
@@ -75,6 +106,10 @@ class CitaController extends Controller
 
     public function edit(Cita $cita)
     {
+        if ($cita->estado === 'completada') {
+            return redirect()->route('citas.index')->withErrors(['cita' => 'No se puede editar una cita completada']);
+        }
+
         $clientes = Cliente::where('activo', true)->orderBy('nombre')->get();
         $servicios = Servicio::where('activo', true)->orderBy('nombre')->get();
 
@@ -87,6 +122,12 @@ class CitaController extends Controller
 
     public function update(Request $request, Cita $cita)
     {
+
+        if ($cita->estado === 'completada') {
+            return redirect()->route('citas.index')->withErrors(['cita' => 'No se puede actualizar una cita completada']);
+        }
+
+        // Validacion de campos
         $request->validate([
             'cliente_id' => 'required|exists:clientes,id',
             'servicio_id' => 'required|exists:servicios,id',
@@ -94,6 +135,20 @@ class CitaController extends Controller
             'hora' => 'required',
             'notas' => 'nullable|string',
         ]);
+
+        // Validación de fecha y hora
+        $fecha = $request->fecha;
+        $hora = $request->hora;
+
+        $ahoraFecha = date('Y-m-d');
+        $ahoraHora = date('H:i');
+
+        // Si la fecha es hoy, la hora debe ser mayor a la actual
+        if ($fecha === $ahoraFecha && $hora <= $ahoraHora) {
+            return back()
+                ->withErrors(['hora' => 'No puedes reservar una hora que ya ha pasado'])
+                ->withInput();
+        }
 
         $solape = Cita::where('cliente_id', $request->cliente_id)
             ->where('fecha', $request->fecha)
@@ -124,6 +179,10 @@ class CitaController extends Controller
 
     public function cancel(Cita $cita)
     {
+        if ($cita->estado === 'completada') {
+            return redirect()->route('citas.index')->withErrors(['cita' => 'No se puede cancelar una cita completada']);
+        }
+
         if ($cita->estado === 'activa') {
             $cita->estado = 'cancelada';
             $cita->save();
@@ -132,17 +191,5 @@ class CitaController extends Controller
         return redirect()
             ->route('citas.index')
             ->with('success', 'Cita cancelada');
-    }
-
-    public function reactivate(Cita $cita)
-    {
-        if ($cita->estado === 'cancelada') {
-            $cita->estado = 'activa';
-            $cita->save();
-        }
-
-        return redirect()
-            ->route('citas.index')
-            ->with('success', 'Cita reactivada');
     }
 }
