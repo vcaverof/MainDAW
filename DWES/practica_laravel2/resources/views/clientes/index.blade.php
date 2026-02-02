@@ -26,8 +26,19 @@
                 <td>{{ $cliente->telefono }}</td>
                 <td>{{ $cliente->activo ? 'Si' : 'No' }}</td>
                 <td>
-                    <a href="{{ route('clientes.edit', $cliente) }}">Editar</a>
-                    <form action="{{ route('clientes.toggle', $cliente) }}" method="post" style="display:inline;">
+                    {{-- Ver ficha --}}
+                    <a href="{{ route('clientes.show', $cliente) }}">
+                        Ver
+                    </a>
+
+                    {{-- Editar --}}
+                    <a href="{{ route('clientes.edit', $cliente) }}" style="margin-left: 10px;">
+                        Editar
+                    </a>
+
+                    {{-- Archivar / Reactivar --}}
+                    <form action="{{ route('clientes.toggle', $cliente) }}" method="POST"
+                        style="display:inline; margin-left: 10px;">
                         @csrf
                         @method('PUT')
                         <button type="submit">

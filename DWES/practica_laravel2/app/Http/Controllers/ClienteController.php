@@ -15,6 +15,25 @@ class ClienteController extends Controller
         return view('clientes.index', compact('clientes'));
     }
 
+    //Mostrar los detalles del cliente
+    public function show(Cliente $cliente)
+    {
+        // Citas ordenadas de más reciente a más antigua
+        $citas = $cliente->citas()
+            ->with(['servicio', 'usuario'])
+            ->orderBy('fecha', 'desc')
+            ->orderBy('hora', 'desc')
+            ->get();
+
+        // Mini-estadísticas
+        $total = $citas->count();
+        $activas = $citas->where('estado', 'activa')->count();
+        $canceladas = $citas->where('estado', 'cancelada')->count();
+
+        return view('clientes.show', compact('cliente', 'citas', 'total', 'activas', 'canceladas'));
+    }
+
+
     //Crear cliente mediante formulario
     public function create()
     {

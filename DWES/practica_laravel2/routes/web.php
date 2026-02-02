@@ -24,6 +24,16 @@ Route::middleware('auth')->group(function () {
 
 require __DIR__ . '/auth.php';
 
+/*
+|--------------------------------------------------------------------------
+| Home Route
+|--------------------------------------------------------------------------
+*/
+
+Route::get('/', function () {
+    return view('home');
+})->name('home');
+
 
 /*
 |--------------------------------------------------------------------------
@@ -90,3 +100,12 @@ Route::middleware(['auth'])->group(function () {
 
     Route::put('/cita/{cita}/toggle', [CitaController::class, 'toggle'])->name('citas.toggle');
 });
+
+
+/*
+|--------------------------------------------------------------------------
+| Detalles del cliente Routes
+|--------------------------------------------------------------------------
+*/
+
+Route::get('/clientes/{cliente}', [ClienteController::class, 'show'])->name('clientes.show');
