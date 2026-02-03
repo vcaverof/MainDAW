@@ -29,6 +29,8 @@
 
         let xhr = new XMLHttpRequest();
         xhr.addEventListener('load', function (e) {
+            e.preventDefault();
+
             if (xhr.status === 200) {
                 document.querySelector("#datos").innerHTML = xhr.responseText;
             } else {

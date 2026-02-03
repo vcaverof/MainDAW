@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Insertar en Albumes</title>
+</head>
+
+<body>
+    <form method="post">
+        <fieldset>
+            <legend>Albumes</legend>
+
+            <label for="usuario_id">ID usuario</label>
+            <input type="text" id="usuario_id" name="usuario_id">
+
+            <label>Titulo</label>
+            <input type="text" id="titulo" name="titulo">
+
+            <button type="submit" value="enviar">Insertar</button>
+        </fieldset>
+    </form>
+
+    <script>
+        const form = document.querySelector("form");
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            //Obtener los datos del formulario
+            let formData = new FormData(document.forms[0]);
+            formData.append("albumId", usuario_id);
+            formData.append("titulo", titulo);
+            
+
+            //Crear instancia de XMLHttpRequest
+            let xhr = new XMLHttpRequest();
+
+            xhr.open("POST", 'http://localhost:3000/albums');
+
+            //Establecer cabecera de JSON
+            xhr.setRequestHeader("Content-Type", "application/json; charset=utf-8");
+
+            //Definir la respuesta
+            xhr.onreadystatechange = function() {
+                if(xhr.readyState === 4 && xhr.status === 200) {
+                    console.log("Datos enviados con exito: " + xhr.responseText);
+                }
+            };
+
+            //Enviar el objeto convertido a cadena JSON
+            xhr.send(JSON.stringify(formData));
+
+        })
+    </script>
+</body>
+
+</html>
