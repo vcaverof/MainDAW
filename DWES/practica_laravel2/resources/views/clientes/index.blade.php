@@ -5,10 +5,12 @@
 
     {{-- Mensaje de éxito --}}
     @if (session('success'))
-        <p style="color: green;">{{ session('success') }}</p>
+        <p style="color: green;">{{ session('success') }}</p><br>
     @endif
 
-    <a href="{{ route('clientes.create') }}">Crear cliente</a>
+    <a href="{{ route('clientes.create') }}" class="btn btn-primary">
+        Crear nuevo cliente
+    </a>
 
     <table border="1" cellpadding="5" cellspacing="0" style="margin-top: 20px;">
         <tr>
@@ -26,19 +28,22 @@
                 <td>{{ $cliente->telefono }}</td>
                 <td>{{ $cliente->activo ? 'Si' : 'No' }}</td>
                 <td>
-                    {{-- Ver ficha --}}
-                    <a href="{{ route('clientes.show', $cliente) }}">
-                        Ver
-                    </a>
+                    <form action="{{ route('clientes.show', $cliente) }}" method="GET" style="display:inline;">
+                        @csrf
+                        @method('GET')
+                        <button type="submit" class="btn btn-secondary">Ver</button>
+                    </form>
 
                     {{-- Editar --}}
-                    <a href="{{ route('clientes.edit', $cliente) }}" style="margin-left: 10px;">
-                        Editar
-                    </a>
+                    <form action="{{ route('clientes.edit', $cliente) }}" method="GET" style="display:inline;">
+                        @csrf
+                        @method('GET')
+                        <button type="submit" class="btn btn-secondary">Editar</button>
+                    </form>
 
                     {{-- Archivar / Reactivar --}}
                     <form action="{{ route('clientes.toggle', $cliente) }}" method="POST"
-                        style="display:inline; margin-left: 10px;">
+                        style="display:inline;">
                         @csrf
                         @method('PUT')
                         <button type="submit">

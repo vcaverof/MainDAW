@@ -16,10 +16,12 @@
 
 
     @if (session('success'))
-        <p style="color: green;">{{ session('success') }}</p>
+        <p style="color: green;">{{ session('success') }}</p><br>
     @endif
 
-    <a href="{{ route('citas.create') }}">Crear nueva cita</a>
+    <a href="{{ route('citas.create') }}" class="btn btn-primary">
+        Crear nueva cita
+    </a>
 
     <table border="1" cellpadding="5" cellspacing="0" style="margin-top: 20px;">
         <tr>
@@ -51,7 +53,7 @@
                         <form action="{{ route('citas.edit', $cita) }}" method="GET" style="display:inline;">
                             @csrf
                             @method('GET')
-                            <button type="submit">Editar</button>
+                            <button type="submit" class="btn btn-secondary">Editar</button>
                         </form>
                         <form action="{{ route('citas.cancel', $cita) }}" method="POST" style="display:inline;">
                             @csrf

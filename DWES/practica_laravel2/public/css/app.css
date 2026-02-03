@@ -44,6 +44,8 @@ button,
     border: none;
     border-radius: 4px;
     cursor: pointer;
+    text-decoration: none;
+    text-align: center;   
 }
 
 .btn-primary {
@@ -66,8 +68,8 @@ button,
 }
 
 .btn-secondary {
-    background: #6c757d;
-    color: white;
+    background: #1edf95;
+    color:white;
 }
 
 /* ====== TABLAS ====== */

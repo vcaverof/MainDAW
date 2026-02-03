@@ -21,15 +21,15 @@
             @method('PUT')
         @endif
 
-        <label>Nombre:</label>
-        <input type="text" name="nombre" value="{{ old('nombre', $cliente->nombre) }}">
+        <label>Nombre:</label><br>
+        <input type="text" name="nombre" value="{{ old('nombre', $cliente->nombre) }}"><br><br>
 
-        <label>Email:</label>
-        <input type="text" name="email" value="{{ old('email', $cliente->email) }}">
+        <label>Email:</label><br>
+        <input type="text" name="email" value="{{ old('email', $cliente->email) }}"><br><br>
 
-        <label>Teléfono:</label>
-        <input type="text" name="telefono" value="{{ old('telefono', $cliente->telefono) }}">
+        <label>Teléfono:</label><br>
+        <input type="text" name="telefono" value="{{ old('telefono', $cliente->telefono) }}"><br><br>
 
-        <button type="submit">Guardar</button>
+        <button type="submit" class="bnt btn-primary">Guardar</button>
     </form>
 @endsection

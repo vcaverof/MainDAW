@@ -4,10 +4,12 @@
     <h1>Servicios</h1>
 
     @if (session('success'))
-        <p style="color: green;">{{ session('success') }}</p>
+        <p style="color: green;">{{ session('success') }}</p><br>
     @endif
 
-    <a href="{{ route('servicios.create') }}">Crear servicio</a>
+    <a href="{{ route('servicios.create') }}" class="btn btn-primary">
+        Crear nuevo servicio
+    </a>
 
     <table border="1" cellpadding="5" cellspacing="0" style="margin-top: 20px;">
         <tr>
@@ -25,7 +27,11 @@
                 <td>{{ $servicio->precio }}</td>
                 <td>{{ $servicio->activo ? 'Sí' : 'No' }}</td>
                 <td>
-                    <a href="{{ route('servicios.edit', $servicio) }}">Editar</a>
+                    <form action="{{ route('servicios.edit', $servicio) }}" method="GET" style="display:inline;">
+                        @csrf
+                        @method('GET')
+                        <button type="submit" class="btn btn-secondary">Editar</button>
+                    </form>
 
                     <form action="{{ route('servicios.toggle', $servicio) }}" method="POST" style="display:inline;">
                         @csrf

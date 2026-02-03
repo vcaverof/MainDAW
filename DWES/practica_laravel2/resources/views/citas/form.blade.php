@@ -52,7 +52,7 @@
         <label>Notas (opcional):</label><br>
         <textarea name="notas">{{ old('notas', $cita->notas) }}</textarea><br><br>
 
-        <button type="submit">Guardar</button>
+        <button type="submit" class="btn-primary">Guardar</button>
     </form>
 
 @endsection

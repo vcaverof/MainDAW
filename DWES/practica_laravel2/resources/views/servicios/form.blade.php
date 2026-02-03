@@ -31,7 +31,7 @@
         <label>Precio (€):</label><br>
         <input type="text" name="precio" value="{{ old('precio', $servicio->precio) }}"><br><br>
 
-        <button type="submit">Guardar</button>
+        <button type="submit" class="btn btn-primary">Guardar</button>
     </form>
 
 @endsection
