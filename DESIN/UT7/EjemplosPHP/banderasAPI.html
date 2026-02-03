@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Banderas API</title>
+</head>
+
+<body>
+    <div id="banderas-container"
+        style="display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 20px; padding: 20px;">
+    </div>
+
+    <script>
+        let xhr = new XMLHttpRequest();
+        xhr.open('GET', 'https://restcountries.com/v3.1/all?fields=flags,name', true);
+
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                let countries = JSON.parse(xhr.responseText);
+                let container = document.getElementById('banderas-container');
+
+                countries.forEach(function (country) {
+                    let card = document.createElement('div');
+                    card.style.textAlign = 'center';
+
+                    let p = document.createElement('p');
+                    p.textContent = country.name.common;
+
+                    let img = document.createElement('img');
+                    img.src = country.flags.png;
+                    img.alt = 'Bandera de ' + country.name.common;
+                    img.style.width = '100%';
+                    img.style.boxShadow = '0 2px 5px rgba(0,0,0,0.2)';
+
+                    card.appendChild(p);
+                    card.appendChild(img);
+                    container.appendChild(card);
+                });
+            }
+        };
+
+        xhr.send();
+    </script>
+
+</body>
+
+</html>

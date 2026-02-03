@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="datos"></div>
+    <script>
+        const xhr1 = new XMLHttpRequest();
+        xhr1.addEventListener("load", function (e) {
+            e.preventDefault();
+            if (xhr1.status === 200) {
+                const result1 = JSON.parse(xhr1.response);
+                console.log(result1);
+
+                for (let usuario of result1) {
+                    const persona = document.createElement("p");
+                    if (usuario.completed === false) {
+                        persona.innerHTML = `Usuario: ${usuario.userId} Titulo: ${usuario.title}. <strong>No completado</strong>`
+                    } else {
+                        persona.innerHTML = `Usuario: ${usuario.userId} Titulo: ${usuario.title}. <strong>Completado</strong>`
+                    }
+
+                    document.getElementById("datos").appendChild(persona);
+                }
+            }
+        });
+        xhr1.open('GET', 'http://localhost:3000/todos');
+        xhr1.send();
+    </script>
+</body>
+
+</html>
