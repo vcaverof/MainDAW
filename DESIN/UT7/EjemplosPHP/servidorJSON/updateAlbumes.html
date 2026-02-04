@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        fieldset {
+            display: flex;
+            flex-direction: column;
+            width: 300px;
+            gap: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <form>
+        <fieldset>
+            <legend>Usuario a modificar</legend>
+
+            <label>ID:</label>
+            <input type="text" id="id" name="id">
+
+            <label>Nombre:</label>
+            <input type="text" id="name" name="name">
+
+            <label>Nombre de usuario:</label>
+            <input type="text" id="username" name="username">
+
+            <label>Email:</label>
+            <input type="email" id="email" name="email">
+
+            <button type="submit" id="modificar">Modificar</button>
+        </fieldset>
+    </form>
+
+    <script>
+        document.forms[0].addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            const id = document.getElementById("id").value;
+
+            let data = {
+                name: document.getElementById("name").value,
+                username: document.getElementById("username").value,
+                email: document.getElementById("email").value
+            };
+
+            let xhr = new XMLHttpRequest();
+            xhr.open("PATCH", "http://localhost:3000/users/" + id);
+
+            xhr.setRequestHeader("Content-Type", "application/json; charset=utf-8");
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4) {
+                    console.log("Respuesta:", xhr.responseText);
+                }
+            };
+
+            xhr.send(JSON.stringify(data));
+        });
+    </script>
+
+</body>
+
+</html>

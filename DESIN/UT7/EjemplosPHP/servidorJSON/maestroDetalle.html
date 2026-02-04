@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio 2. Maestro detalle simple</title>
+    <style>
+        body {
+            display: flex;
+            gap: 15px;
+        }
+
+        .container {
+            width: 45%;
+        }
+
+        #detalles {
+            width: 45%;
+            padding-left: 20px;
+        }
+
+        .detalles {
+            width: 45%;
+            padding: 20px;
+            background: #f7f7f7;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            font-family: Arial, sans-serif;
+        }
+
+        .detalles h2 {
+            margin-top: 0;
+            margin-bottom: 20px;
+            font-size: 22px;
+            color: #333;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        form input {
+            width: 95%;
+        }
+
+        table,
+        td,
+        tr {
+            border: 1px solid black;
+            border-collapse: collapse;
+            padding: 5px;
+        }
+
+        thead {
+            background-color: black;
+            color: white;
+        }
+
+        tr:hover {
+            background-color: #eee;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <table id="info">
+            <thead>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Accion</th>
+            </thead>
+        </table>
+    </div>
+    <div class="detalles " id="detalles"></div>
+
+    <script>
+        //PARTE IZQUIERDA DEL EJERCICIO
+        const xhr = new XMLHttpRequest();
+        xhr.open('GET', 'http://localhost:3000/users');
+        xhr.setRequestHeader("Content-Type", "application/json; charset=utf-8");
+
+        xhr.addEventListener("load", function (e) {
+            e.preventDefault();
+            if (xhr.status === 200) {
+                const result1 = JSON.parse(xhr.response);
+                console.log(result1);
+                const tbody = document.createElement("tbody");
+
+                for (let usuario of result1) {
+                    const tr = document.createElement("tr");
+
+                    // Celdas normales
+                    const tdId = document.createElement("td");
+                    tdId.textContent = usuario.id;
+
+                    const tdName = document.createElement("td");
+                    tdName.textContent = usuario.name;
+
+                    const tdUser = document.createElement("td");
+                    tdUser.textContent = usuario.username;
+
+                    const tdEmail = document.createElement("td");
+                    tdEmail.textContent = usuario.email;
+
+                    // Celda de acciones
+                    const tdAccion = document.createElement("td");
+
+                    const btnBorrar = document.createElement("button");
+                    btnBorrar.textContent = "Borrar";
+                    btnBorrar.addEventListener("click", (e) => {
+                        e.stopPropagation(); // evita que se dispare cargarDetalles
+                        borrarUsuario(usuario.id);
+                    });
+
+                    const btnModificar = document.createElement("button");
+                    btnModificar.textContent = "Modificar";
+                    btnModificar.addEventListener("click", (e) => {
+                        e.stopPropagation();
+                        modificarUsuario(usuario.id);
+                    });
+
+                    tdAccion.appendChild(btnBorrar);
+                    tdAccion.appendChild(btnModificar);
+
+                    // Añadir celdas al tr
+                    tr.appendChild(tdId);
+                    tr.appendChild(tdName);
+                    tr.appendChild(tdUser);
+                    tr.appendChild(tdEmail);
+                    tr.appendChild(tdAccion);
+
+                    // Evento para cargar detalles
+                    tr.addEventListener("click", () => cargarDetalles(usuario.id));
+
+                    tbody.appendChild(tr);
+                }
+                document.getElementById("info").appendChild(tbody);
+            }
+        });
+        xhr.send();
+
+        function cargarDetalles(id) {
+            fetch(`http://localhost:3000/users/${id}`)
+                .then(res => res.json())
+                .then(usuario => {
+                    mostrarDetalle(usuario);
+                });
+        }
+
+        function mostrarDetalle(usuario) {
+            const detalle = document.getElementById("detalles");
+
+            detalle.innerHTML = ` 
+            <h2>Detalles del usuario</h2> 
+            <form method="post">
+                <label>ID</label> 
+                <input type="text" value="${usuario.id}" disabled> 
+           
+                <label>Nombre</label> 
+                <input type="text" value="${usuario.name}" disabled> 
+           
+                <label>Username</label> 
+                <input type="text" value="${usuario.username}" disabled> 
+          
+                <label>Email</label>
+                <input type="text" value="${usuario.email}" disabled> 
+
+                <button>Insertar</button>
+            </form> `;
+        }
+
+        async function borrarUsuario(id) {
+            try {
+                const response = await fetch(`http://localhost:3000/users/${id}`, {
+                    method: "DELETE",
+                    headers: {
+                        "Content-Type": "application/json; charset=utf-8"
+                    }
+                });
+
+                // Si el servidor devuelve JSON
+                const data = await response.json();
+                console.log("Respuesta:", data);
+
+            } catch (error) {
+                console.error("Error:", error);
+            }
+        }
+
+
+        //Hacer con fetch
+        function modificarUsuario(id) {
+            const detalle = document.getElementById("detalles");
+
+            detalle.innerHTML = ` 
+            <h2>Detalles del usuario</h2> 
+            <form method="post" id=modificarForm>
+                <label>ID</label> 
+                <input type="text" id="id" disabled> 
+           
+                <label>Nombre</label> 
+                <input type="text" id="name"> 
+           
+                <label>Username</label> 
+                <input type="text" id="username"> 
+          
+                <label>Email</label>
+                <input type="text" id="email"> 
+
+                <button id="modificar" type="submit">Modificar</button>
+            </form> `;
+
+            document.getElementById("modificarForm").addEventListener("submit", function (e) {
+                e.preventDefault();
+                const data = {
+                    id: document.getElementById("id").value,
+                    name: document.getElementById("name").value,
+                    username: document.getElementById("username").value,
+                    email: document.getElementById("email").value
+                };
+
+                fetch(`http://localhost:3000/users/${id}`, {
+                    method: "PATCH",
+                    headers: {
+                        "Content-Type": "application/json; charset=utf-8"
+                    },
+                    body: JSON.stringify(data)
+                })
+                    .then(response => response.json())
+                    .then(result => {
+                        console.log("Respuesta:", result);
+                    })
+                    .catch(error => {
+                        console.error("Error:", error);
+                    });
+            });
+
+            //Hacer con async/await y ventana modal
+            function insertarUsuario() {
+
+            }
+    </script>
+</body>
+
+</html>
