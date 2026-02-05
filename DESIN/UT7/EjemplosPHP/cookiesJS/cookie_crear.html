@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear cookies desde JS</title>
+</head>
+
+<body>
+    <script>
+        document.cookie = 'usuario=Pepe';
+        document.cookie = 'nombre=' + encodeURIComponent('Pepe Perez');
+
+        //La siguiente cookie caduca en 10 dias desde la fecha actual
+        const expires = new Date();
+        expires.setTime(expires.getTime() + 10 * 24 * 60 * 60 * 3600);
+        document.cookie = 'telefono1=983434343; expires=' + expires.toUTCString();
+
+        //La siguiente cookie caduca en 1 minuto desde la fecha actual
+        document.cookie = 'telefono2=983202020; max-age=' + (60);
+    </script>
+</body>
+
+</html>

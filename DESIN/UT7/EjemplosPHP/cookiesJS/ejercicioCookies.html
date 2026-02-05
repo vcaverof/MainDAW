@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio de cookies</title>
+</head>
+
+<body>
+    <button type="button" id="verTodas">Ver todas las cookies</button>
+    <button type="button" id="crearCookie">Crear cookie</button>
+    <button type="button" id="modificarCookie">Modificar cookie</button>
+    <button type="button" id="leerCookie">Leer cookie</button>
+    <button type="button" id="borrarCookie">Borrar cookie</button>
+
+    <script>
+        const verTodas = document.getElementById("verTodas");
+        const crearCookie = document.getElementById("crearCookie");
+
+        verTodas.addEventListener("click", function (e) {
+            e.preventDefault();
+            verCookies();
+        });
+
+        crearCookie.addEventListener("click", function (e) {
+            e.preventDefault();
+            crearModifCookie();
+        });
+
+
+        function verCookies(name) {
+            const cookieArray = document.cookie.split(";");
+            for (let i = 0; i < cookieArray.length; i++) {
+                const cookiePar = cookieArray[i].split("=");
+                if (name === cookiePar[0].trim()) {
+                    console.log(decodeURIComponent(cookiePar[1]));
+                }
+            }
+            return null;
+        }
+
+        function crearModifCookie() {
+            let nombre = prompt("Introduce el nombre de la cookie");
+            let valor = prompt("Introduce el valor de la cookie");
+            let dias = prompt("Introduce la cantidad de días de vida de la cookie");
+            setCookie(nombre, valor, dias);
+            return;
+        }
+
+        function setCookie(name, value, daysToLive) {
+            let cookie = name + '=' + encodeURIComponent(value);
+            if (typeof daysToLive === "number") {
+                cookie += '; max-age=' + (daysToLive);
+                document.cookie = cookie;
+            }
+            return;
+        }
+
+        function borrarCookie() {
+            let borrarNombre = prompt("Introduce el nombre de la cookie que deseas borrar");
+            deleteCookie(borrarNombre);
+        }
+
+        function deleteCookie(nombre) {
+            let cookie = getCookie(nombre);
+            cookie.daysToLive = 0;
+        }
+    </script>
+</body>
+
+</html>

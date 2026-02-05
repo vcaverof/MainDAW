@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cookies con funciones</title>
+</head>
+
+<body>
+    <script>
+        function setCookie(name, value, daysToLive) {
+            let cookie = name + '=' + encodeURIComponent(value);
+            if (typeof daysToLive === "number") {
+                cookie += '; max-age=' + (daysToLive * 24 * 60 * 60);
+                document.cookie = cookie;
+            }
+        }
+
+        function getCookie(name) {
+            const cookieArray = document.cookie.split(";");
+            for (let i = 0; i < cookieArray.length; i++) {
+                const cookiePar = cookieArray[i].split("=");
+                if (name === cookiePar[0].trim()) {
+                   return decodeURIComponent(cookiePar[1]);
+                }
+            }
+            return null;
+        }
+
+        setCookie('nombre', 'Pepe', 30);
+        let nombre = getCookie('nombre');
+        console.log(nombre);
+
+    </script>
+</body>
+
+</html>
