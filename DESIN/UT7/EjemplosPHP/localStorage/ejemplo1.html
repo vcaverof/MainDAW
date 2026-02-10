@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <p id="info"></p>
+    <script>
+        localStorage.setItem("jugador1", "Fermin");
+        console.log(localStorage.getItem("jugador1"));
+
+        function mostrarTodosLosDatos() {
+            const info = document.getElementById("info");
+            info.innerHTML = "";
+
+            for(let i = 0; i <localStorage.length; i++) {
+                let clave = localStorage.key(i);
+                let contenido = localStorage.getItem(clave)
+                info.innerHTML = `${clave} - ${contenido}`;
+            }
+        }
+        mostrarTodosLosDatos();
+
+        function eliminar(clave) {
+            localStorage.removeItem(clave);
+        }
+
+        //Borrar todo localStorage.clear()
+    </script>
+</body>
+
+</html>

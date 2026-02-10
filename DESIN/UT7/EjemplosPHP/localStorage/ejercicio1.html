@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio 1</title>
+</head>
+
+<body>
+
+    <!-- Página que contenga un contador, que se incremente/decremente al pulsar los botones correspondientes: -->
+    <!-- Mostrar un mensaje con el nombre del usuario si este se ha logueado en la pagina, diferenciando si es su primera visita
+      o ya ha entrado en más ocasiones -->
+    <!-- Utilizar funcion que lleve el control de las veces que el usuario ha accedido a la página -->
+    <!-- Crear funcion para hacer logout y restablecer los valores anteriores -->
+
+    <button id="incrementar">Incrementar</button>
+    <button id="decrementar">Decrementar</button>
+    <button id="logout">Log Out</button>
+
+    <p id="info"></p>
+    <script>
+        const info = document.getElementById("info");
+        const inc = document.getElementById("incrementar");
+
+        const nombre = prompt("¿Como te llamas?");
+        localStorage.setItem(nombre, 0);
+
+        if(localStorage.getItem(nombre) > 0) {
+            info.innerHTML = "Bienvenido de nuevo " + nombre;
+        } else {
+            info.innerHTML = "Tu primera visita " + nombre;
+        }
+
+        function incrementar(clave) {
+            const valor = localStorage.getItem(clave);
+            valor++;
+
+            localStorage.setItem(nombre, valor);
+        }
+
+        inc.addEventListener('click', function(e) {
+            e.preventDefault();
+            incrementar(nombre);
+        })
+        
+        
+
+
+    </script>
+</body>
+
+</html>

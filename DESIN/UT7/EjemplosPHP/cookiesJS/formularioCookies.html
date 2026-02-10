@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario</title>
+    <style>
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            width: 300px;
+        }
+    </style>
+</head>
+
+<body>
+    <form method="post" action="#" novalidate>
+        <label>Nombre:</label>
+        <input type="text" name="nombre" id="nombre" required>
+
+        <label>Apellidos:</label>
+        <input type="text" name="apellidos" id="apellidos" required>
+
+        <label>Fecha de nacimiento:</label>
+        <input type="date" name="fechaNac">
+
+        <label>DNI:</label>
+        <input type="text" name="dni" id="dni" required>
+
+        <label>Email:</label>
+        <input type="email" name="email" id="email" required>
+
+        <label>Contraseña:</label>
+        <input type="password" name="pass" id="pass" required>
+
+        <label>Contraseña (repetición):</label>
+        <input type="password" name="passRep" id="passRep" required>
+
+        <label>Género:</label>
+        <label><input type="radio" name="genero" value="hombre">Hombre</label>
+        <label><input type="radio" name="genero" value="mujer">Mujer</label>
+
+        <label>
+            <input type="checkbox" name="boletin">Suscribirme al boletín de novedades
+        </label>
+
+        <label>
+            <input type="checkbox" name="ofertas">Informarme sobre ofertas
+        </label>
+
+        <label>Producto favorito</label>
+        <select>
+            <option value="" selected disabled>Elige uno...</option>
+            <option value="producto1">Producto 1</option>
+            <option value="producto2">Producto 2</option>
+            <option value="producto3">Producto 3</option>
+        </select>
+
+        <label>Comentario</label>
+        <textarea name="comentario" rows="10" cols="70" placeholder="Introduce un comentario"></textarea>
+
+        <button type="submit" id="btn">Enviar datos</button>
+    </form>
+    <div id="datos"></div>
+
+    <script>
+        const formulario = document.forms[0];
+        const datos = document.getElementById("datos");
+        const nombre = document.getElementById("nombre");
+        const apellidos = document.getElementById("apellidos");
+        const dni = document.getElementById("dni");
+        const email = document.getElementById("email");
+        const pass = document.getElementById("pass");
+        const passRep = document.getElementById("passRep");
+        const btn = document.getElementById("btn");
+
+        formulario.addEventListener("submit", function (e) {
+            e.preventDefault();
+            formulario.checkValidity();
+
+            function getCookie(name) {
+                const cookieArray = document.cookie.split(";");
+                for (let i = 0; i < cookieArray.length; i++) {
+                    const cookiePar = cookieArray[i].split("=");
+                    if (name === cookiePar[0].trim()) {
+                        return decodeURIComponent(cookiePar[1]);
+                    }
+                }
+                return null;
+            }
+
+            const contador = getCookie("contador");
+            let intentos = parseInt(getCookie("contador"));
+            intentos++;
+            setCookie("contador", intentos, 3600);
+            
+            const p = document.createElement("p");
+            p.innerHTML = "Intentos realizados: " + contador;
+            datos.appendChild(p);
+        });
+
+        if (!formulario.checkValidity()) {
+            nombre.addEventListener('invalid', function (e) {
+                e.preventDefault();
+                console.log("El nombre es obligatorio");
+                nombre.style.border = "3px dotted red";
+            });
+
+            apellidos.addEventListener('invalid', function (e) {
+                e.preventDefault();
+                console.log("Los apellidos son obligatorio");
+                apellidos.style.border = "3px dotted red";
+            });
+
+            dni.addEventListener('invalid', function (e) {
+                e.preventDefault();
+                console.log("El DNI es obligatorio");
+                dni.style.border = "3px dotted red";
+            });
+
+            email.addEventListener('invalid', function (e) {
+                e.preventDefault();
+                console.log("El email es obligatorio");
+                email.style.border = "3px dotted red";
+            });
+
+            pass.addEventListener('invalid', function (e) {
+                e.preventDefault();
+                console.log("La contraseña es obligatoria");
+                pass.style.border = "3px dotted red";
+            });
+
+            passRep.addEventListener('invalid', function (e) {
+                e.preventDefault();
+                console.log("La contraseña (repetida) es obligatoria");
+                passRep.style.border = "3px dotted red";
+            });
+        }
+
+        function setCookie(name, value, daysToLive) {
+            let cookie = name + '=' + encodeURIComponent(value);
+            if (typeof daysToLive === "number") {
+                cookie += '; max-age=' + (daysToLive * 24 * 60 * 60);
+                document.cookie = cookie;
+            }
+        }
+
+        setCookie("contador", 0, 3600);
+    </script>
+</body>
+
+</html>
