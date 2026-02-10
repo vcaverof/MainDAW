@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 2560 1600" enable-background="new 0 0 2560 1600" xml:space="preserve">
+<pattern  width="152" height="151" patternUnits="userSpaceOnUse" id="New_Pattern" viewBox="38 -151 152 151" overflow="visible">
+	<g>
+		<rect x="38" y="-151" fill="none" width="152" height="151"/>
+		<g>
+			<polygon fill="none" stroke="#000000" stroke-linejoin="round" stroke-miterlimit="10" points="152.5,-0.5 227.5,-0.5 
+				227.5,-150.5 			"/>
+			<polygon fill="none" stroke="#000000" stroke-linejoin="round" stroke-miterlimit="10" points="227.5,-150.5 152.5,-150.5 
+				152.5,-0.5 			"/>
+		</g>
+		<g>
+			<polygon fill="none" stroke="#000000" stroke-linejoin="round" stroke-miterlimit="10" points="76.5,-0.5 151.5,-0.5 
+				151.5,-150.5 			"/>
+			<polygon fill="none" stroke="#000000" stroke-linejoin="round" stroke-miterlimit="10" points="151.5,-150.5 76.5,-150.5 
+				76.5,-0.5 			"/>
+		</g>
+		<g>
+			<polygon fill="none" stroke="#000000" stroke-linejoin="round" stroke-miterlimit="10" points="0.5,-0.5 75.5,-0.5 75.5,-150.5 
+							"/>
+			<polygon fill="none" stroke="#000000" stroke-linejoin="round" stroke-miterlimit="10" points="75.5,-150.5 0.5,-150.5 0.5,-0.5 
+							"/>
+		</g>
+	</g>
+</pattern>
+<pattern  id="SVGID_1_" xlink:href="#New_Pattern" patternTransform="matrix(1 0 0 1 -119 5)">
+</pattern>
+<rect fill="url(#SVGID_1_)" width="2560" height="1600"/>
+</svg>

@@ -1,0 +1,266 @@
+body {
+    background-color: rgb(26, 25, 31);
+    font-family: "Montserrat";
+    font-size: clamp(0.6rem, 0.8rem, 1.5rem);
+    margin: 0;
+    padding: 0;
+}
+
+main {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.highlight {
+    color: #F5A623;
+}
+
+.button {
+    min-width: 50px;
+    max-width: 150px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 4px 4px white;
+}
+
+.button a {
+    width: 100%;
+    padding: 6px;
+    text-decoration: none;
+    text-align: center;
+}
+
+.button:hover {
+    box-shadow: none;
+}
+
+.button .orange {
+    background-color: #F5A623;
+    border: 2px solid white;
+    color: black;
+}
+
+.button .green {
+    background-color: #4A9155;
+    border: 2px solid black;
+    color: white;
+}
+
+.button .blue {
+    background-color: #1C6CB3;
+    border: 2px solid black;
+    color: white;
+}
+
+.button .alpha {
+    background-color: rgba(0, 0, 0, 0);
+    border: 2px solid black;
+    color: white;
+}
+
+header {
+    padding: 0px 15px;
+    box-sizing: border-box;
+    background-color: rgb(26, 35, 51);
+    border-bottom: 2px solid #F5A623;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-width: 100%;
+    position: sticky;
+    top: 0;
+}
+
+.logo {
+    max-height: 100px;
+    display: flex;
+    gap: 15px;
+    flex-flow: column wrap;
+}
+
+.logo h1,
+p {
+    padding: 0;
+    margin: 0;
+}
+
+.logo h1 {
+    margin-top: 10px;
+    font-size: 1.3rem;
+}
+
+
+.logo img,
+header img {
+    height: 100px;
+    width: 100px;
+}
+
+
+nav {
+    display: flex;
+    margin-right: 15px;
+}
+
+nav ol {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+}
+
+nav li a {
+    text-decoration: none;
+    color: white;
+}
+
+nav ol li:hover {
+    cursor: pointer;
+    border-bottom: 1px solid #F5A623;
+}
+
+
+@media screen and (max-width: 1000px) {
+    .logo p:last-child {
+        display: none;
+    }
+
+    .banner {
+        display: none;
+    }
+}
+
+
+/* --- HERO ---*/
+
+.hero {
+    background-color: rgb(26, 35, 51);
+    background-image: url("./images/247703.png");
+    display: flex;
+    flex-direction: column;
+    min-height: 70vh;
+    max-width: 85%;
+    margin-top: 30px;
+    padding: 20px;
+    border-bottom: 3px solid #F5A623;
+    border-right: 3px solid #F5A623;
+    box-shadow: 0px 0px 15px 5px rgba(0, 0, 0, 0.2);
+}
+
+.hero h2 {
+    font-size: 4.3rem;
+    text-transform: capitalize;
+    margin: 20px 0px 20px 0px;
+}
+
+.hero p:nth-child(3) {
+    border-left: 5px solid #F5A623;
+    padding-left: 15px;
+    margin-bottom: 25px;
+    color: white;
+}
+
+.hero div:nth-child(4) {
+    display: flex;
+    gap: 25px;
+    margin-bottom: 25px;
+}
+
+.stats {
+    padding: 15px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    background-color: black;
+    background-image: url("./images/fp.png");
+    background-size: 250px;
+    background-repeat: no-repeat;
+    background-position-x: center;
+    background-position-y: center;
+    flex-grow: 1;
+}
+
+.screen {
+    max-width: 100px;
+    display: flex;
+    flex-flow: column wrap;
+    background-color: rgb(26, 35, 51);
+    color: white;
+    border: 1px solid white;
+    box-shadow: 4px 4px white;
+    padding: 8px;
+}
+
+.screen p:first-child {
+    font-size: 0.5rem;
+    margin-bottom: 2px;
+}
+
+.screen p:nth-child(2) span {
+    font-weight: bolder;
+    font-size: 1.5rem;
+}
+
+.screen p:nth-child(2) {
+    font-size: 0.5rem;
+}
+
+
+/* --- BANNER ---*/
+
+.banner {
+    width: 100%;
+    background-color: #1C6CB3;
+    border-bottom: 2px solid white;
+}
+
+.banner ul {
+    display: flex;
+    gap: 25px;
+    overflow: hidden;
+}
+
+.banner ul li {
+    color: white;
+    list-style-type: none;
+}
+
+/* --- FOOTER ---*/
+
+footer {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    background-color: black;
+    color: white;
+    padding: 15px;
+}
+
+footer div dl {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+footer div:first-child {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.footer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap:15px;
+}
+
+.cards ol {
+    display: flex;
+}
