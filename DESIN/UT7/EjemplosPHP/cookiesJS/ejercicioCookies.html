@@ -17,6 +17,9 @@
     <script>
         const verTodas = document.getElementById("verTodas");
         const crearCookie = document.getElementById("crearCookie");
+        const modificarCookie = document.getElementById("modificarCookie");
+        const leerCookie = document.getElementById("leerCookie");
+        const borrar = document.getElementById("borrarCookie");
 
         verTodas.addEventListener("click", function (e) {
             e.preventDefault();
@@ -28,43 +31,63 @@
             crearModifCookie();
         });
 
+        modificarCookie.addEventListener('click', function(e) {
+            e.preventDefault();
+            crearModifCookie();
+        });
 
-        function verCookies(name) {
+        leerCookie.addEventListener('click', function(e) {
+            e.preventDefault();
+            leerUnaCookie();
+        })
+
+        borrar.addEventListener('click', function (e) {
+            e.preventDefault();
+            borrarCookie();
+        });
+
+
+        function verCookies(name = null) {
             const cookieArray = document.cookie.split(";");
-            for (let i = 0; i < cookieArray.length; i++) {
-                const cookiePar = cookieArray[i].split("=");
-                if (name === cookiePar[0].trim()) {
-                    console.log(decodeURIComponent(cookiePar[1]));
-                }
+
+            if (cookieArray.length === 1 && cookieArray[0] === "") {
+                console.log("No hay cookies");
+                return;
             }
-            return null;
+
+            cookieArray.forEach(cookie => {
+                const [key, value] = cookie.split("=");
+                if (!name || key.trim() === name) {
+                    console.log(key.trim() + " = " + decodeURIComponent(value));
+                }
+            });
         }
 
         function crearModifCookie() {
             let nombre = prompt("Introduce el nombre de la cookie");
             let valor = prompt("Introduce el valor de la cookie");
-            let dias = prompt("Introduce la cantidad de días de vida de la cookie");
+            let dias = parseInt(prompt("Introduce la cantidad de días de vida de la cookie"));
             setCookie(nombre, valor, dias);
             return;
         }
 
         function setCookie(name, value, daysToLive) {
-            let cookie = name + '=' + encodeURIComponent(value);
+            let cookie = `${name}=${encodeURIComponent(value)}`;
             if (typeof daysToLive === "number") {
-                cookie += '; max-age=' + (daysToLive);
-                document.cookie = cookie;
+                cookie += `; max-age=${daysToLive * 24 * 60 * 60}`; // días → segundos
             }
-            return;
+            document.cookie = cookie;
+        }
+
+        function leerUnaCookie() {
+            let nombre = prompt("Introduce el nombre de la cookie a leer");
+            verCookies(nombre);
         }
 
         function borrarCookie() {
             let borrarNombre = prompt("Introduce el nombre de la cookie que deseas borrar");
-            deleteCookie(borrarNombre);
-        }
-
-        function deleteCookie(nombre) {
-            let cookie = getCookie(nombre);
-            cookie.daysToLive = 0;
+            document.cookie = `${borrarNombre}=; max-age=0`;
+            console.log("Cookie borrada:", borrarNombre);
         }
     </script>
 </body>
