@@ -1,0 +1,47 @@
+<h2>Registrar una película</h2>
+
+<form [formGroup]="formulario" (ngSubmit)="enviar()">
+    <label>Título</label>
+    <input type="text" formControlName="titulo">
+
+    <div *ngIf="formulario.get('titulo')?.invalid && formulario.get('titulo')?.touched">
+        <p class="danger" *ngIf="formulario.get('titulo')?.errors?.['required']">El titulo es obligatorio</p>
+        <p class="danger" *ngIf="formulario.get('titulo')?.errors?.['minlength']">El titulo debe tener más de 10
+            caracteres</p>
+        <p class="danger" *ngIf="formulario.get('titulo')?.errors?.['maxlength']">El titulo debe tener 50 caracteres
+            como máximo</p>
+    </div>
+
+
+    <label>Director</label>
+    <input type="text" formControlName="director">
+
+    <div *ngIf="formulario.get('director')?.invalid && formulario.get('director')?.touched">
+        <p class="danger" *ngIf="formulario.get('director')?.errors?.['required']">El director es obligatorio</p>
+        <p class="danger" *ngIf="formulario.get('director')?.errors?.['minlength']">El director debe tener más de 10
+            caracteres</p>
+        <p class="danger" *ngIf="formulario.get('director')?.errors?.['maxlength']">El director debe tener 50 caracteres
+            como máximo</p>
+    </div>
+
+    <label>Año</label>
+    <input type="number" formControlName="anio">
+
+    <p class="danger" *ngIf="formulario.get('anio')?.errors?.['min']">El año debe ser un número positivo</p>
+
+    <label>Género</label>
+    <select formControlName="genero">
+        <option value="" selected disabled>Selecciona un género</option>
+        <option value="Thriller">Thriller</option>
+        <option value="Accion">Acción</option>
+        <option value="Fantasia">Fantasía</option>
+        <option value="Romantica">Romántica</option>
+        <option value="Terror">Terror</option>
+        <option value="Comedia">Comedia</option>
+    </select>
+
+    <p class="danger" *ngIf="formulario.get('genero')?.invalid && formulario.get('genero')?.touched">El género es
+        obligatorio</p>
+
+    <button type="submit" [disabled]="formulario.invalid">Registrar</button>
+</form>
