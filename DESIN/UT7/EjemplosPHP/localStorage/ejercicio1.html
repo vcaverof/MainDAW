@@ -34,7 +34,7 @@
         }
 
         function incrementar(clave) {
-            const valor = localStorage.getItem(clave);
+            let valor = parseInt(localStorage.getItem(clave));
             valor++;
 
             localStorage.setItem(nombre, valor);

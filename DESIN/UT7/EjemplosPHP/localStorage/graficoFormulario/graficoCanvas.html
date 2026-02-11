@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grafico canvas</title>
+</head>
+
+<body>
+    <canvas id="canvas" style="border:1px solid black;">
+    </canvas>
+    <script>
+        const datosGuardados = localStorage.getItem("datosGuardados");
+        const datos = JSON.parse(datosGuardados);
+
+        const myCanvas = document.getElementById('canvas');
+        myCanvas.height = myCanvas.width = 800;
+        let ctx = myCanvas.getContext("2d");
+
+        // Configurar fuente y color
+        ctx.font = '20px Arial';
+        ctx.fillStyle = 'black';
+
+        // Dibujar texto relleno (texto, x, y)
+        ctx.fillText(datos.nombre, 10, 30);
+
+        //Rellenar rectangulos
+        ctx.fillStyle = datos.color;
+        ctx.fillRect(50, 0, datos.valor, 50); // x, y, ancho, alto
+
+    </script>
+</body>
+
+</html>
