@@ -1,9 +1,8 @@
 import { Component } from '@angular/core';
+import { Pelicula } from '../models/pelicula.model';
 import { PeliculasService } from '../peliculas-service';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
-import { RouterModule } from '@angular/router';
-import { Pelicula } from '../models/pelicula.model';
+import { RouterLink, RouterModule} from '@angular/router';
 
 @Component({
   selector: 'app-listado-peliculas',

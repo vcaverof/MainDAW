@@ -4,12 +4,26 @@
     <label>Titulo</label>
     <input type="text" formControlName="titulo">
 
+    <div *ngIf="formulario.get('titulo')?.invalid && formulario.get('titulo')?.touched">
+        <p *ngIf="formulario.get('titulo')?.errors?.['required']">El titulo es obligatorio</p>
+        <p *ngIf="formulario.get('titulo')?.errors?.['minlength']">El titulo debe tener 5 caracteres como minimo</p>
+    </div>
+
     <label>Director</label>
     <input type="text" formControlName="director">
+
+    <div *ngIf="formulario.get('director')?.invalid && formulario.get('director')?.touched">
+        <p *ngIf="formulario.get('director')?.errors?.['required']">El director es obligatorio</p>
+    </div>
 
     <label>Año</label>
     <input type="text" formControlName="anio">
 
+    <div *ngIf="formulario.get('anio')?.invalid && formulario.get('anio')?.touched">
+        <p *ngIf="formulario.get('anio')?.errors?.['required']">El año es obligatorio</p>
+         <p *ngIf="formulario.get('anio')?.errors?.['min']">El año debe ser superior a 1900</p>
+    </div>
+    
     <label>Genero</label>
     <select formControlName="genero">
         <option value="" selected disabled>--Selecciona un genero--</option>
