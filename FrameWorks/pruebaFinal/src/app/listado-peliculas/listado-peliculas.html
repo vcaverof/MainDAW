@@ -1,0 +1,27 @@
+<h2>Listado de películas</h2>
+<div *ngFor="let p of peliculas">
+    {{ p.titulo }} - {{ p.director }}
+</div>
+
+<hr>
+
+<table border="1" cellspacign="5" cellpadding="5">
+    <thead>
+        <th>Titulo</th>
+        <th>Director</th>
+        <th>Año/th>
+        <th>Género</th>
+        <th>Link</th>
+        <th>Accion</th>
+    </thead>
+    <tbody>
+        <tr *ngFor="let p of peliculas">
+            <td>{{ p.titulo }}</td>
+            <td>{{ p.director }}</td>
+            <td>{{ p.anio }}</td>
+            <td>{{ p.genero }}</td>
+            <td><a [routerLink]="['/peliculas', p.id]">Detalles</a></td>
+            <td><button (click)="borrar(p.id)">Borrar</button></td>
+        </tr>
+    </tbody>
+</table>

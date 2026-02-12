@@ -1,0 +1,8 @@
+<div *ngIf="pelicula">
+    <h2>{{ pelicula.titulo }}</h2>
+    <p>Director: {{ pelicula.director }}</p>
+    <p>Año: {{ pelicula.anio }}</p>
+    <p>Género: {{ pelicula.genero }}</p>
+</div>
+
+<p *ngIf="!pelicula">La pelicula no existe</p>

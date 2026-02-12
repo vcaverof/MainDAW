@@ -1,0 +1,23 @@
+<h2>Agregar película</h2>
+
+<form [formGroup]="formulario" (ngSubmit)="enviar()">
+    <label>Titulo</label>
+    <input type="text" formControlName="titulo">
+
+    <label>Director</label>
+    <input type="text" formControlName="director">
+
+    <label>Año</label>
+    <input type="text" formControlName="anio">
+
+    <label>Genero</label>
+    <select formControlName="genero">
+        <option value="" selected disabled>--Selecciona un genero--</option>
+        <option value="Fantasia">Fantasía</option>
+        <option value="Accion">Acción</option>
+        <option value="Aventura">Aventura</option>
+        <option value="Comedia">Comedia</option>
+    </select>
+
+    <button type="submit" [disabled]="formulario.invalid">Registrar</button>
+</form>
