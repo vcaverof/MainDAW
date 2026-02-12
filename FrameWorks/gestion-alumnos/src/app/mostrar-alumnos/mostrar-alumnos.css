@@ -1,0 +1,41 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    justify-content: center;
+    align-items: center;
+    margin-top: 50px;
+}
+
+table {
+    border-collapse: collapse;
+    width: 700px;
+}
+
+table thead,
+tbody,
+tr,
+td,
+th {
+    padding: 15px;
+}
+
+table thead {
+    background-color: lightblue;
+}
+
+.detalles {
+    text-align: center;
+}
+
+.detalles a {
+    background-color: lightblue;
+    padding: 10px 30px;
+    text-decoration: none;
+    color: black;
+    border-radius: 10px;
+}
+
+.detalles a:hover {
+    background-color: rgb(98, 195, 228);
+}

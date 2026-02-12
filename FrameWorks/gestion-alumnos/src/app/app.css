@@ -1,0 +1,29 @@
+* {
+    font-family: 'Calibri';
+}
+
+.menu {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    background-color: rgb(115, 174, 241);
+}
+
+.menu nav {
+    display: flex;
+    gap: 20px;
+}
+
+.menu nav a {
+    text-decoration: none;
+    background-color: rgb(61, 118, 184);
+    padding: 20px;
+    color: white;
+}
+
+.menu nav a:hover {
+  background-color: rgb(32, 89, 155);
+  cursor: pointer; 
+}

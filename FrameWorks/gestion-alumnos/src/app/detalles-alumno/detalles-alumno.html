@@ -1,0 +1,24 @@
+<div class="container">
+    <table border="1">
+        <thead>
+            <th>Nombre</th>
+            <th>Email</th>
+            <th>Edad</th>
+            <th>Curso</th>
+            <th>Becado</th>
+            <th>Calle</th>
+            <th>Ciudad</th>
+        </thead>
+        <tbody>
+            <tr *ngIf="alumno">
+                <td>{{ alumno.nombre }}</td>
+                <td>{{ alumno.email }}</td>
+                <td>{{ alumno.edad }}</td>
+                <td>{{ alumno.curso }}</td>
+                <td>{{ alumno.becado }}</td>
+                <td>{{ alumno.direccion.calle }}</td>
+                <td>{{ alumno.direccion.ciudad }}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,25 @@
+* {
+    font-family: 'Calibri';
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 70vh;
+}
+
+.danger {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(228, 120, 120);
+    padding: 50px;
+    border-radius: 20px;
+}
+
+.danger p {
+    font-size: 1.2rem;
+}

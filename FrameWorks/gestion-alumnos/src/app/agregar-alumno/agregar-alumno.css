@@ -1,0 +1,51 @@
+form,
+form div {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background-color: lightblue;
+    padding: 40px;
+    border-radius: 15px;
+
+}
+
+form {
+    width: 500px;
+    border: 1px solid black;
+}
+
+
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.container div {
+    margin: 0;
+    padding: 0;
+}
+
+.danger {
+    background-color: rgb(223, 168, 168);
+    color: red;
+    padding: 10px;
+    border: 2px solid red;
+    border-radius: 8px;
+}
+
+.btn {
+    background-color: rgb(145, 145, 219);
+    padding: 10px;
+    color: white;
+    border-radius: 10px;
+}
+
+.btn:hover {
+    background-color: rgb(112, 112, 233);
+}
+
+.btn:disabled {
+    background-color: lightgrey;
+}

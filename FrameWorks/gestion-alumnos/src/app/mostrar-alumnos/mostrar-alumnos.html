@@ -1,0 +1,16 @@
+<div class="container">
+    <table border="1">
+        <thead>
+            <th>Nombre</th>
+            <th>Curso</th>
+            <th>Detalles</th>
+        </thead>
+        <tbody>
+            <tr *ngFor="let al of alumnos">
+                <td>{{ al.nombre }}</td>
+                <td>{{ al.curso }}</td>
+                <td class="detalles"><a [routerLink]="['/alumnos', al.id, 'info']">Detalles</a></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
