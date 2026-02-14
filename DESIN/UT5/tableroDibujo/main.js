@@ -1,6 +1,6 @@
 
 let colorSeleccionado = "color1"; //Colos seleccionado por defecto
-let pincelActivo = false;
+let pincelActivo = false; //Controla si el pincel está activo o no
 
 function activarPincel(event) {
     pincelActivo = !pincelActivo;
@@ -17,7 +17,7 @@ function pintar(event) {
     }
 }
 
-//Dibujar tablero y añadirlo al div "zonadibujo"
+///Generar tablero de 30px por 30px, con celdas de 10px por 10px y añadirlo al div "zonadibujo"
 const tabla = document.createElement("table");
 tabla.className = "tablerodibujo";
 
@@ -26,7 +26,7 @@ for (let i = 0; i < 30; i++) {
     for (let j = 0; j < 30; j++) {
         const td = document.createElement("td");
         td.style.border = "solid 1px black";
-        
+
         //Eventos
         td.addEventListener('click', activarPincel);
         td.addEventListener('mouseover', pintar);
@@ -40,13 +40,23 @@ document.getElementById("zonadibujo").appendChild(tabla);
 //Seleccionar color
 document.getElementById("paleta").addEventListener('click', seleccionarColor);
 
-function seleccionarColor(event) {
-    if (event.target.tagName === "TD") {
-        const colores = document.querySelectorAll("#paleta td");
-        colores.forEach(color => color.classList.remove("seleccionado"));
 
-        event.target.classList.add("seleccionado");
+function seleccionarColor(event) {
+
+    //IMPORTANTE - tagName siempre devuelve el nombre en mayúsculas
+    if (event.target.tagName === 'TD') {
+        const colores = document.querySelectorAll('#paleta td');
+
+        //Reiniciar el estado de seleccionado en todos los colores
+        colores.forEach(color => color.classList.remove('seleccionado'));
+
+        //Marcar como seleccionado el color que recibee el evento
+        event.target.classList.add('seleccionado');
+
+        //classList en 0, sería la clase que indica el color de cada td
+        //En este caso, el color del td que recibe el evento (event.target)
         colorSeleccionado = event.target.classList[0];
+
     }
 }
 
