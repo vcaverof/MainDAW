@@ -1,7 +1,20 @@
 <h1>Eventos disponibles</h1>
+
 <button onclick="irMisEventos()">Mis eventos</button>
 <button onclick="irEventosDisponibles()">Eventos disponibles</button>
+<button id="adminBtn" onclick="irAdmin()">Panel admin</button>
+
 <button onclick="logout()">Cerrar sesión</button>
+
+<hr>
+
+<label for="municipio">Filtrar por municipio:</label>
+<select id="municipio"></select>
+
+<button onclick="filtrar()">Filtrar</button>
+<button onclick="quitarFiltro()">Quitar filtro</button>
+
+
 <div id="lista"></div>
 
 <script src="js/api.js"></script>
@@ -9,9 +22,59 @@
 <script>
     async function cargarEventos() {
         const eventos = await apiGet("/eventos");
+        mostrarEventos(eventos);
+    }
 
+    async function apuntarse(id) {
+        await apiPost(`/eventos/${id}/apuntarse`);
+        alert("Te has apuntado");
+    }
+
+    //FUNCIONES DE NAVEGACIÓN
+    function irMisEventos() {
+        window.location.href = "mis-eventos.html";
+    }
+
+    function irEventosDisponibles() {
+        window.location.href = "eventos-disponibles.html";
+    }
+
+    function irBuscadorEventos() {
+        window.location.href = "buscar-eventos.html";
+    }
+
+    async function cargarMunicipios() {
+        const municipios = await apiGet("/municipios");
+
+        const select = document.getElementById("municipio");
+        select.innerHTML = "";
+
+        municipios.forEach(m => {
+            select.innerHTML += `<option value="${m.id}">${m.nombre}</option>`;
+        });
+    }
+
+    //FUNCIONES DE FILTRADO DE EVENTOS
+    async function filtrar() {
+        const id = document.getElementById("municipio").value;
+
+        const eventos = await apiGet(`/eventos/municipio/${id}`);
+        mostrarEventos(eventos);
+    }
+
+    async function quitarFiltro() {
+        const eventos = await apiGet("/eventos");
+        mostrarEventos(eventos);
+    }
+
+    function mostrarEventos(eventos) {
         const contenedor = document.getElementById("lista");
         contenedor.innerHTML = "";
+
+        if (eventos.length === 0) {
+            contenedor.innerHTML = "<p>No hay eventos para este municipio.</p>";
+            return;
+        }
 
         eventos.forEach(e => {
             contenedor.innerHTML += `
@@ -27,24 +90,32 @@
         });
     }
 
-    async function apuntarse(id) {
-        await apiPost(`/eventos/${id}/apuntarse`);
-        alert("Te has apuntado");
-    }
-
-    function irMisEventos() {
-        window.location.href = "mis-eventos.html";
-    }
-
-    function irEventosDisponibles() {
-        window.location.href = "eventos-disponibles.html";
-    }
-
+    //FUNCIÓN PARA CERRAR SESIÓN
     async function logout() {
         await apiPost("/logout");
         localStorage.removeItem("token");
         window.location.href = "login.html";
     }
 
-    cargarEventos();
+    //FUNCIONES PARA EL ADMINISTRADOR (SOLO VISIBLES PARA ADMIN)
+    function irAdmin() {
+        window.location.href = "admin.html";
+    }
+
+    function mostrarBotonAdmin() {
+        const user = JSON.parse(localStorage.getItem("user"));
+        if (!user || user.rol_id !== 1) {
+            document.getElementById("adminBtn").style.display = "none";
+        }
+    }
+
+    mostrarBotonAdmin();
+
+    async function iniciar() {
+        await cargarMunicipios();
+        await cargarEventos();
+    }
+
+    iniciar();
+
 </script>

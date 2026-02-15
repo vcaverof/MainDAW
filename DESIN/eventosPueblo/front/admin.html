@@ -1,0 +1,109 @@
+<h1>Panel de administración</h1>
+
+<button onclick="irEventos()">Volver a eventos</button>
+<button onclick="logout()">Cerrar sesión</button>
+
+<hr>
+
+<h2>Crear nuevo evento</h2>
+
+<form onsubmit="crearEvento(event)">
+    <input type="text" id="nombre" placeholder="Nombre" required><br>
+    <textarea id="descripcion" placeholder="Descripción" required></textarea><br>
+    <input type="date" id="fecha" required><br>
+
+    <label>Municipio:</label>
+    <select id="municipio"></select><br><br>
+
+    <button type="submit">Crear evento</button>
+</form>
+
+<hr>
+
+<h2>Eventos existentes</h2>
+<div id="lista"></div>
+
+<script src="js/api.js"></script>
+<script>
+    function requireAdmin() {
+        const user = JSON.parse(localStorage.getItem("user"));
+        if (!user || user.rol_id !== 1) {
+            alert("No tienes permisos para acceder aquí");
+            window.location.href = "eventos.html";
+        }
+    }
+
+    async function cargarMunicipios() {
+        const municipios = await apiGet("/municipios");
+        const select = document.getElementById("municipio");
+
+        municipios.forEach(m => {
+            select.innerHTML += `<option value="${m.id}">${m.nombre}</option>`;
+        });
+    }
+
+    async function cargarEventos() {
+        const eventos = await apiGet("/eventos");
+        const contenedor = document.getElementById("lista");
+        contenedor.innerHTML = "";
+
+        eventos.forEach(e => {
+            contenedor.innerHTML += `
+            <div>
+                <h3>${e.nombre}</h3>
+                <p>${e.descripcion}</p>
+                <p>Fecha: ${e.fecha}</p>
+                <p>Municipio: ${e.municipio.nombre}</p>
+
+                <button onclick="editar(${e.id})">Editar</button>
+                <button onclick="eliminar(${e.id})">Eliminar</button>
+            </div>
+            <hr>
+        `;
+        });
+    }
+
+    async function crearEvento(ev) {
+        ev.preventDefault();
+
+        const data = {
+            nombre: document.getElementById("nombre").value,
+            descripcion: document.getElementById("descripcion").value,
+            fecha: document.getElementById("fecha").value,
+            municipio_id: document.getElementById("municipio").value
+        };
+
+        await apiPost("/eventos", data);
+        alert("Evento creado");
+        cargarEventos();
+    }
+
+    async function eliminar(id) {
+        if (!confirm("¿Seguro que quieres eliminar este evento?")) return;
+
+        await apiDelete(`/eventos/${id}`);
+        cargarEventos();
+    }
+
+    function editar(id) {
+        window.location.href = `editar-evento.html?id=${id}`;
+    }
+
+    function irEventos() {
+        window.location.href = "eventos.html";
+    }
+
+    async function logout() {
+        await apiPost("/logout");
+        localStorage.clear();
+        window.location.href = "login.html";
+    }
+
+    async function iniciar() {
+        requireAdmin();
+        await cargarMunicipios();
+        await cargarEventos();
+    }
+
+    iniciar();
+</script>

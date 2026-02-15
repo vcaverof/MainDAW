@@ -9,9 +9,10 @@
         const password = document.getElementById("password").value;
 
         const res = await apiPost("/login", { username, password });
-
+        console.log("Respuesta del backend:", res);
         if (res.token) {
             localStorage.setItem("token", res.token);
+            localStorage.setItem("user", JSON.stringify(res.user));
             window.location.href = "eventos.html";
         } else {
             alert("Credenciales incorrectas");
