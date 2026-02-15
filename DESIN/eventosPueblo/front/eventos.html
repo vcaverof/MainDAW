@@ -1,0 +1,50 @@
+<h1>Eventos disponibles</h1>
+<button onclick="irMisEventos()">Mis eventos</button>
+<button onclick="irEventosDisponibles()">Eventos disponibles</button>
+<button onclick="logout()">Cerrar sesión</button>
+<div id="lista"></div>
+
+<script src="js/api.js"></script>
+
+<script>
+    async function cargarEventos() {
+        const eventos = await apiGet("/eventos");
+
+        const contenedor = document.getElementById("lista");
+        contenedor.innerHTML = "";
+
+        eventos.forEach(e => {
+            contenedor.innerHTML += `
+            <div>
+                <h3>${e.nombre}</h3>
+                <p>${e.descripcion}</p>
+                <p>Fecha: ${e.fecha}</p>
+                <p>Municipio: ${e.municipio.nombre}</p>
+                <button onclick="apuntarse(${e.id})">Apuntarse</button>
+            </div>
+            <hr>
+        `;
+        });
+    }
+
+    async function apuntarse(id) {
+        await apiPost(`/eventos/${id}/apuntarse`);
+        alert("Te has apuntado");
+    }
+
+    function irMisEventos() {
+        window.location.href = "mis-eventos.html";
+    }
+
+    function irEventosDisponibles() {
+        window.location.href = "eventos-disponibles.html";
+    }
+
+    async function logout() {
+        await apiPost("/logout");
+        localStorage.removeItem("token");
+        window.location.href = "login.html";
+    }
+
+    cargarEventos();
+</script>

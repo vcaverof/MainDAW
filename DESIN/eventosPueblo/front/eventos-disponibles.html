@@ -1,0 +1,60 @@
+<h1>Eventos disponibles</h1>
+
+<button onclick="irEventos()">Ver todos los eventos</button>
+<button onclick="irMisEventos()">Mis eventos</button>
+<button onclick="logout()">Cerrar sesión</button>
+
+<hr>
+
+<div id="lista"></div>
+
+<script src="js/api.js"></script>
+<script>
+    async function cargarEventosDisponibles() {
+        const eventos = await apiGet("/eventos-disponibles");
+        console.log(eventos);
+
+        const contenedor = document.getElementById("lista");
+        contenedor.innerHTML = "";
+
+        if (eventos.length === 0) {
+            contenedor.innerHTML = "<p>No hay eventos disponibles ahora mismo.</p>";
+            return;
+        }
+
+        eventos.forEach(e => {
+            contenedor.innerHTML += `
+            <div>
+                <h3>${e.nombre}</h3>
+                <p>${e.descripcion}</p>
+                <p>Fecha: ${e.fecha}</p>
+                <p>Municipio: ${e.municipio.nombre}</p>
+                <button onclick="apuntarse(${e.id})">Apuntarse</button>
+            </div>
+            <hr>
+        `;
+        });
+    }
+
+    async function apuntarse(id) {
+        await apiPost(`/eventos/${id}/apuntarse`);
+        alert("Te has apuntado");
+        cargarEventosDisponibles();
+    }
+
+    function irEventos() {
+        window.location.href = "eventos.html";
+    }
+
+    function irMisEventos() {
+        window.location.href = "mis-eventos.html";
+    }
+
+    async function logout() {
+        await apiPost("/logout");
+        localStorage.removeItem("token");
+        window.location.href = "login.html";
+    }
+
+    cargarEventosDisponibles();
+</script>

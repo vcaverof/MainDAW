@@ -1,0 +1,54 @@
+<h1>Mis eventos</h1>
+
+<button onclick="volverEventos()">Ver todos los eventos</button>
+<button onclick="logout()">Cerrar sesión</button>
+
+<hr>
+
+<div id="lista"></div>
+
+<script src="js/api.js"></script>
+<script>
+    async function cargarMisEventos() {
+        const eventos = await apiGet("/mis-eventos");
+        console.log(eventos);
+
+        const contenedor = document.getElementById("lista");
+        contenedor.innerHTML = "";
+
+        if (eventos.length === 0) {
+            contenedor.innerHTML = "<p>No estás apuntado a ningún evento.</p>";
+            return;
+        }
+
+        eventos.forEach(e => {
+            contenedor.innerHTML += `
+            <div>
+                <h3>${e.nombre}</h3>
+                <p>${e.descripcion}</p>
+                <p>Fecha: ${e.fecha}</p>
+                <p>Municipio: ${e.municipio.nombre}</p>
+                <button onclick="desapuntarse(${e.id})">Desapuntarse</button>
+            </div>
+            <hr>
+        `;
+        });
+    }
+
+    async function desapuntarse(id) {
+        await apiDelete(`/eventos/${id}/desapuntarse`);
+        cargarMisEventos();
+    }
+
+    function volverEventos() {
+        window.location.href = "eventos.html";
+    }
+
+    async function logout() {
+        await apiPost("/logout");
+        localStorage.removeItem("token");
+        window.location.href = "login.html";
+    }
+
+    cargarMisEventos();
+</script>
