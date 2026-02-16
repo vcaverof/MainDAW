@@ -14,23 +14,22 @@
     <p id="parrafo1" onclick="clonar(this);">Primer párrafo</p>
     <p id="parrafo2" onclick="clonar(this);">Segundo párrafo</p>
     <p id="parrafo3" onclick="clonar(this);">Tercer párrafo</p>
+
+    <script type="text/javascript">
+        let principio = true;
+
+        function clonar(parrafo) {
+            let copia = parrafo.cloneNode(true);
+
+            if (principio) {
+                document.body.insertBefore(copia, document.querySelector('p'));
+            } else {
+                document.body.appendChild(copia);
+            }
+            principio = !principio;
+        }
+
+    </script>
 </body>
 
 </html>
-
-<script type="text/javascript">
-    let principio = true;
-
-    function clonar(parrafo) {
-        let copia = parrafo.cloneNode(true);
-        let nodoBody = document.children[0].children[1];
-
-        if (principio) {
-           nodoBody.insertBefore(copia, document.getElementsByTagName("p"));
-        } else {
-            nodoBody.appendChild(copia);
-        }
-        principio = !principio;
-    }
-
-</script>

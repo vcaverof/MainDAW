@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        div {
+            border: 2px solid red;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>dom_42 - insertAdjacentElement</h1>
+    <hr />
+    <div id="cuadro">
+        <p id="parrafo1">Primer párrafo</p>
+        <p id="parrafo2">Segundo párrafo</p>
+        <p id="parrafo3">Tercer párrafo</p>
+    </div>
+
+    <br /><br />
+    <button onclick="insertarAntesPrincipio();">Insertar antes del principio</button>
+    <button onclick="insertarDespuesPrincipio();">Insertar después del principio</button>
+    <button onclick="insertarAntesFinal();">Insertar antes del final</button>
+    <button onclick="insertarDespuesFinal();">Insertar después del final</button>
+</body>
+
+<script>
+    const cuadro = document.getElementById('cuadro');
+    const button = document.querySelector('button');
+
+    function insertarAntesPrincipio() {
+        let texto = document.createElement('p');
+        texto.textContent = 'ANTES DEL PRINCIPIO';
+        texto.style.fontWeight = 'bold';
+
+        cuadro.insertAdjacentElement('beforebegin', texto);
+    }
+
+    function insertarDespuesPrincipio() {
+        let texto = document.createElement('p');
+        texto.textContent = 'DESPUÉS DEL PRINCIPIO';
+        texto.style.fontWeight = 'bold';
+
+        cuadro.insertAdjacentElement('afterbegin', texto);
+    }
+
+    function insertarAntesFinal() {
+        let texto = document.createElement('p');
+        texto.textContent = 'ANTES DEL FINAL';
+        texto.style.fontWeight = 'bold';
+
+        cuadro.insertAdjacentElement('beforeend', texto);
+    }
+
+    function insertarDespuesFinal() {
+        let texto = document.createElement('p');
+        texto.textContent = 'DESPUÉS DEL FINAL';
+        texto.style.fontWeight = 'bold';
+
+        cuadro.insertAdjacentElement('afterend', texto);
+    }
+</script>
+
+</html>

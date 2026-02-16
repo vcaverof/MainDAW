@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-    <meta charset="utf-8">
-    <title>dom_40 - Ejercicio: Hacer que una serie de párrafos se muestren de uno en uno un número determinado de
-        segundos</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
 </head>
 
-<body onload="ponerParrafoInicial();">
+<body>
     <h1>dom_40 - Ejercicio: Hacer que una serie de párrafos se muestren de uno en uno un número determinado de segundos
     </h1>
     <hr />
@@ -23,11 +23,26 @@
     </div>
     <br />
 
+    <script>
+        const spans = document.querySelectorAll('div span');
+        const parrafo = document.getElementById('parrafo');
 
-    <script type="text/javascript">
-        function ponerParrafoInicial() {
-            let textos = document.getElementsByTagName("span");
-            let parrafo = document.getElementById("parrafo");
-            parrafo.textContent = texto[0].textContent;
+        let indice = 0;
+        const segundos = 2000;
+
+        function mostrarSiguiente() {
+            if (indice >= spans.length) {
+                indice = 0;
+            }
+            parrafo.textContent = spans[indice].textContent;
+            indice++;
+
+            setTimeout(mostrarSiguiente, segundos);
         }
+
+        mostrarSiguiente();
+
     </script>
+</body>
+
+</html>
