@@ -26,6 +26,10 @@
                 <button onclick="quitarFiltro()" class="px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded-md transition">
                     Quitar filtro
                 </button>
+
+                <button onclick="eventosDisponibles()" class="px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded-md transition">
+                    Disponibles
+                </button>
             </div>
         </div>
 
@@ -100,6 +104,11 @@
                 </div>
                 `;
             });
+        }
+
+        async function eventosDisponibles() {
+            await apiGet('/eventos-disponibles');
+            window.location.href = 'eventos-disponibles.html';
         }
 
         async function logout() {

@@ -42,3 +42,18 @@ async function apiDelete(endpoint) {
 
     return res.json();
 }
+
+async function apiPut(endpoint, data = {}) {
+    const token = localStorage.getItem('token');
+
+    const res = await fetch(`${API_URL}${endpoint}`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`,
+        },
+        body: JSON.stringify(data)
+    });
+
+    return res.json();
+}

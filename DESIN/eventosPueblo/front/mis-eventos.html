@@ -59,6 +59,12 @@
             cargarMisEventos();
         }
 
+        async function logout() {
+            await apiPost("/logout");
+            localStorage.clear();
+            window.location.href = "login.html";
+        }
+        
         cargarMisEventos();
     </script>
 

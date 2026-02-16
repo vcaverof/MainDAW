@@ -33,21 +33,14 @@
     <p class="claseSize" onclick="ponerClase(this);">Tercer párrafo</p>
     <p class="claseTexto" onclick="ponerClase(this);">Cuarto párrafo</p>
     <hr />
-    <div>Texto que está dentro de un DIV de prueba</div>
+    <div id="cuadro">Texto que está dentro de un DIV de prueba</div>
     <button onclick="borrar()">Borrar clases</button>
 
     <script>
-        function ponerClase(parrafo) {
-            const clases = document.querySelector("div").classList;
-            clases.forEach(element => {
-                if (clases.contains(element)) {
-                   clases.remove(element);
-                } else {
-                    clases.add(element);
-                }
-            });
-
-           clases.add(parrafo.className);
+        function ponerClase(actual) {
+            const clases = document.getElementById('cuadro');
+            clases.className += " " + actual.className;
+            
         }
 
         function borrar() {
