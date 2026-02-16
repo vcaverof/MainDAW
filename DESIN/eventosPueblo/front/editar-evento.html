@@ -1,93 +1,135 @@
-<h1>Editar evento</h1>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="./js/main.js"></script>
 
-<button onclick="volverAdmin()">Volver al panel admin</button>
-<button onclick="logout()">Cerrar sesión</button>
 
-<hr>
+<div class="bg-gray-50 text-gray-800">
 
-<form onsubmit="guardarCambios(event)">
-    <label>Nombre:</label><br>
-    <input type="text" id="nombre" required><br><br>
+    <!-- NAVBAR -->
+    <div id="navbar"></div>
 
-    <label>Descripción:</label><br>
-    <textarea id="descripcion" required></textarea><br><br>
+    <div class="max-w-4xl mx-auto mt-10 px-6">
 
-    <label>Fecha:</label><br>
-    <input type="date" id="fecha" required><br><br>
+        <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+            <h2 class="text-2xl font-semibold mb-6">Editar evento</h2>
 
-    <label>Municipio:</label><br>
-    <select id="municipio"></select><br><br>
+            <form onsubmit="guardarCambios(event)" class="space-y-4">
 
-    <button type="submit">Guardar cambios</button>
-</form>
+                <div>
+                    <label class="font-medium">Nombre:</label>
+                    <input type="text" id="nombre" required
+                        class="w-full border border-gray-300 rounded-md px-3 py-2 mt-1 focus:ring-2 focus:ring-green-300 focus:outline-none">
+                </div>
 
-<script src="js/api.js"></script>
-<script>
-    let eventoId = null;
+                <div>
+                    <label class="font-medium">Descripción:</label>
+                    <textarea id="descripcion" required
+                        class="w-full border border-gray-300 rounded-md px-3 py-2 mt-1 focus:ring-2 focus:ring-green-300 focus:outline-none"></textarea>
+                </div>
 
-    function requireAdmin() {
-        const user = JSON.parse(localStorage.getItem("user"));
-        if (!user || user.rol_id !== 1) {
-            alert("No tienes permisos para acceder aquí");
-            window.location.href = "eventos.html";
+                <div>
+                    <label class="font-medium">Fecha:</label>
+                    <input type="date" id="fecha" required
+                        class="w-full border border-gray-300 rounded-md px-3 py-2 mt-1 focus:ring-2 focus:ring-green-300 focus:outline-none">
+                </div>
+
+                <div>
+                    <label class="font-medium">Municipio:</label>
+                    <select id="municipio"
+                        class="w-full border border-gray-300 rounded-md px-3 py-2 mt-1 bg-white focus:ring-2 focus:ring-green-300 focus:outline-none">
+                    </select>
+                </div>
+
+                <div class="flex gap-4 mt-6">
+                    <button type="submit" class="px-4 py-2 bg-green-200 hover:bg-green-300 rounded-md transition">
+                        Guardar cambios
+                    </button>
+
+                    <button type="button" onclick="volverAdmin()"
+                        class="px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded-md transition">
+                        Cancelar
+                    </button>
+                </div>
+
+            </form>
+        </div>
+
+    </div>
+
+    <!-- CARGA DEL NAVBAR -->
+    <script>
+        cargarNavbar();
+    </script>
+
+    <script src="js/api.js"></script>
+
+    <script>
+        let eventoId = null;
+
+        function requireAdmin() {
+            const user = JSON.parse(localStorage.getItem("user"));
+            if (!user || user.rol_id !== 1) {
+                alert("No tienes permisos para acceder aquí");
+                window.location.href = "eventos.html";
+            }
         }
-    }
 
-    function obtenerIdEvento() {
-        const params = new URLSearchParams(window.location.search);
-        return params.get("id");
-    }
+        function obtenerIdEvento() {
+            const params = new URLSearchParams(window.location.search);
+            return params.get("id");
+        }
 
-    async function cargarMunicipios() {
-        const municipios = await apiGet("/municipios");
-        const select = document.getElementById("municipio");
+        async function cargarMunicipios() {
+            const municipios = await apiGet("/municipios");
+            const select = document.getElementById("municipio");
 
-        municipios.forEach(m => {
-            select.innerHTML += `<option value="${m.id}">${m.nombre}</option>`;
-        });
-    }
+            municipios.forEach(m => {
+                select.innerHTML += `<option value="${m.id}">${m.nombre}</option>`;
+            });
+        }
 
-    async function cargarEvento() {
-        const evento = await apiGet(`/eventos/${eventoId}`);
+        async function cargarEvento() {
+            const evento = await apiGet(`/eventos/${eventoId}`);
 
-        document.getElementById("nombre").value = evento.nombre;
-        document.getElementById("descripcion").value = evento.descripcion;
-        document.getElementById("fecha").value = evento.fecha;
-        document.getElementById("municipio").value = evento.municipio_id;
-    }
+            document.getElementById("nombre").value = evento.nombre;
+            document.getElementById("descripcion").value = evento.descripcion;
+            document.getElementById("fecha").value = evento.fecha;
+            document.getElementById("municipio").value = evento.municipio_id;
+        }
 
-    async function guardarCambios(ev) {
-        ev.preventDefault();
+        async function guardarCambios(ev) {
+            ev.preventDefault();
 
-        const data = {
-            nombre: document.getElementById("nombre").value,
-            descripcion: document.getElementById("descripcion").value,
-            fecha: document.getElementById("fecha").value,
-            municipio_id: document.getElementById("municipio").value
-        };
+            const data = {
+                nombre: document.getElementById("nombre").value,
+                descripcion: document.getElementById("descripcion").value,
+                fecha: document.getElementById("fecha").value,
+                municipio_id: document.getElementById("municipio").value
+            };
 
-        await apiPut(`/eventos/${eventoId}`, data);
+            await apiPut(`/eventos/${eventoId}`, data);
 
-        alert("Cambios guardados correctamente");
-        window.location.href = "admin.html";
-    }
+            alert("Cambios guardados correctamente");
+            window.location.href = "admin.html";
+        }
 
-    function volverAdmin() {
-        window.location.href = "admin.html";
-    }
+        function volverAdmin() {
+            window.location.href = "admin.html";
+        }
 
-    async function logout() {
-        await apiPost("/logout");
-        localStorage.clear();
-        window.location.href = "login.html";
-    }
+        async function logout() {
+            await apiPost("/logout");
+            localStorage.clear();
+            window.location.href = "login.html";
+        }
 
-    async function iniciar() {
-        requireAdmin();
-        eventoId = obtenerIdEvento();
-        await cargarMunicipios();
-        await cargarEvento();
-    }
+        async function iniciar() {
+            requireAdmin();
+            eventoId = obtenerIdEvento();
+            await cargarMunicipios();
+            await cargarEvento();
+        }
 
-    iniciar();
-</script>
+        iniciar();
+    </script>
+
+</div>

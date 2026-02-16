@@ -1,60 +1,79 @@
-<h1>Eventos disponibles</h1>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="./js/main.js"></script>
 
-<button onclick="irEventos()">Ver todos los eventos</button>
-<button onclick="irMisEventos()">Mis eventos</button>
-<button onclick="logout()">Cerrar sesión</button>
+<div class="bg-gray-50 text-gray-800">
 
-<hr>
+    <!-- NAVBAR -->
+    <div id="navbar"></div>
 
-<div id="lista"></div>
+    <div class="max-w-5xl mx-auto mt-10 px-6">
 
-<script src="js/api.js"></script>
-<script>
-    async function cargarEventosDisponibles() {
-        const eventos = await apiGet("/eventos-disponibles");
-        console.log(eventos);
+        <h2 class="text-2xl font-semibold mb-6">Eventos disponibles</h2>
 
-        const contenedor = document.getElementById("lista");
-        contenedor.innerHTML = "";
+        <!-- LISTA DE EVENTOS -->
+        <div id="lista" class="space-y-6"></div>
 
-        if (eventos.length === 0) {
-            contenedor.innerHTML = "<p>No hay eventos disponibles ahora mismo.</p>";
-            return;
+    </div>
+
+    <!-- CARGA DEL NAVBAR -->
+    <script>
+        cargarNavbar();
+    </script>
+
+    <script src="js/api.js"></script>
+
+    <script>
+        async function cargarEventosDisponibles() {
+            const eventos = await apiGet("/eventos-disponibles");
+
+            const contenedor = document.getElementById("lista");
+            contenedor.innerHTML = "";
+
+            if (eventos.length === 0) {
+                contenedor.innerHTML = `
+                    <p class="text-gray-500 text-center">No hay eventos disponibles ahora mismo.</p>
+                `;
+                return;
+            }
+
+            eventos.forEach(e => {
+                contenedor.innerHTML += `
+                <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+                    <h3 class="text-lg font-semibold mb-2">${e.nombre}</h3>
+                    <p class="text-gray-700 mb-2">${e.descripcion}</p>
+                    <p class="text-gray-600"><strong>Fecha:</strong> ${e.fecha}</p>
+                    <p class="text-gray-600 mb-4"><strong>Municipio:</strong> ${e.municipio.nombre}</p>
+
+                    <button onclick="apuntarse(${e.id})"
+                        class="px-4 py-2 bg-green-200 hover:bg-green-300 rounded-md transition">
+                        Apuntarse
+                    </button>
+                </div>
+                `;
+            });
         }
 
-        eventos.forEach(e => {
-            contenedor.innerHTML += `
-            <div>
-                <h3>${e.nombre}</h3>
-                <p>${e.descripcion}</p>
-                <p>Fecha: ${e.fecha}</p>
-                <p>Municipio: ${e.municipio.nombre}</p>
-                <button onclick="apuntarse(${e.id})">Apuntarse</button>
-            </div>
-            <hr>
-        `;
-        });
-    }
+        async function apuntarse(id) {
+            await apiPost(`/eventos/${id}/apuntarse`);
+            alert("Te has apuntado");
+            cargarEventosDisponibles();
+        }
 
-    async function apuntarse(id) {
-        await apiPost(`/eventos/${id}/apuntarse`);
-        alert("Te has apuntado");
+        function irEventos() {
+            window.location.href = "eventos.html";
+        }
+
+        function irMisEventos() {
+            window.location.href = "mis-eventos.html";
+        }
+
+        async function logout() {
+            await apiPost("/logout");
+            localStorage.removeItem("token");
+            window.location.href = "login.html";
+        }
+
         cargarEventosDisponibles();
-    }
+    </script>
 
-    function irEventos() {
-        window.location.href = "eventos.html";
-    }
-
-    function irMisEventos() {
-        window.location.href = "mis-eventos.html";
-    }
-
-    async function logout() {
-        await apiPost("/logout");
-        localStorage.removeItem("token");
-        window.location.href = "login.html";
-    }
-
-    cargarEventosDisponibles();
-</script>
+</div>

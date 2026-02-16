@@ -1,0 +1,26 @@
+<nav class="w-full bg-white border-b border-gray-200 shadow-sm">
+    <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+
+        <!-- Logo + Texto -->
+        <div class="flex items-center gap-3">
+            <img src="./img/icono.svg" alt="Logo" class="w-6 h-6 object-contain">
+
+            <span class="text-xl font-semibold text-gray-800 tracking-tight">
+                MiWeb
+            </span>
+        </div>
+
+        <!-- Enlaces -->
+        <div class="flex items-center gap-6 text-gray-700">
+            <a href="index.html" class="hover:text-green-500 transition-colors">Inicio</a>
+            <a href="eventos.html" class="hover:text-green-500 transition-colors">Eventos</a>
+            <a href="admin.html" id="adminBtn" class="hover:text-green-500 transition-colors">Admin</a>
+            <a href="perfil.html" class="hover:text-green-500 transition-colors">Mi perfil</a>
+
+            <button onclick="logout()"
+                class="px-3 py-1 rounded-md bg-green-200 hover:bg-green-300 text-gray-800 transition-colors">
+                Cerrar sesión
+            </button>
+        </div>
+    </div>
+</nav>

@@ -1,109 +1,147 @@
-<h1>Panel de administración</h1>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="./js/main.js"></script>
 
-<button onclick="irEventos()">Volver a eventos</button>
-<button onclick="logout()">Cerrar sesión</button>
 
-<hr>
+<div class="bg-gray-50 text-gray-800">
 
-<h2>Crear nuevo evento</h2>
+    <!-- NAVBAR -->
+    <div id="navbar"></div>
 
-<form onsubmit="crearEvento(event)">
-    <input type="text" id="nombre" placeholder="Nombre" required><br>
-    <textarea id="descripcion" placeholder="Descripción" required></textarea><br>
-    <input type="date" id="fecha" required><br>
+    <div class="max-w-5xl mx-auto mt-10 px-6">
 
-    <label>Municipio:</label>
-    <select id="municipio"></select><br><br>
+        <!-- CREAR EVENTO -->
+        <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200 mb-10">
+            <h2 class="text-2xl font-semibold mb-6">Crear nuevo evento</h2>
 
-    <button type="submit">Crear evento</button>
-</form>
+            <form onsubmit="crearEvento(event)" class="space-y-4">
 
-<hr>
+                <input type="text" id="nombre" placeholder="Nombre"
+                    class="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-green-300 focus:outline-none"
+                    required>
 
-<h2>Eventos existentes</h2>
-<div id="lista"></div>
+                <textarea id="descripcion" placeholder="Descripción"
+                    class="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-green-300 focus:outline-none"
+                    required></textarea>
 
-<script src="js/api.js"></script>
-<script>
-    function requireAdmin() {
-        const user = JSON.parse(localStorage.getItem("user"));
-        if (!user || user.rol_id !== 1) {
-            alert("No tienes permisos para acceder aquí");
-            window.location.href = "eventos.html";
+                <input type="date" id="fecha"
+                    class="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-green-300 focus:outline-none"
+                    required>
+
+                <div>
+                    <label class="font-medium">Municipio:</label>
+                    <select id="municipio"
+                        class="w-full border border-gray-300 rounded-md px-3 py-2 mt-1 bg-white focus:ring-2 focus:ring-green-300 focus:outline-none">
+                    </select>
+                </div>
+
+                <button type="submit" class="px-4 py-2 bg-green-200 hover:bg-green-300 rounded-md transition">
+                    Crear evento
+                </button>
+            </form>
+        </div>
+
+        <!-- LISTA DE EVENTOS -->
+        <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+            <h2 class="text-2xl font-semibold mb-6">Eventos existentes</h2>
+
+            <div id="lista" class="space-y-6"></div>
+        </div>
+
+    </div>
+
+    <!-- CARGA DEL NAVBAR -->
+    <script>
+        cargarNavbar();
+    </script>
+
+    <script src="js/api.js"></script>
+
+    <script>
+        function requireAdmin() {
+            const user = JSON.parse(localStorage.getItem("user"));
+            if (!user || user.rol_id !== 1) {
+                alert("No tienes permisos para acceder aquí");
+                window.location.href = "eventos.html";
+            }
         }
-    }
 
-    async function cargarMunicipios() {
-        const municipios = await apiGet("/municipios");
-        const select = document.getElementById("municipio");
+        async function cargarMunicipios() {
+            const municipios = await apiGet("/municipios");
+            const select = document.getElementById("municipio");
 
-        municipios.forEach(m => {
-            select.innerHTML += `<option value="${m.id}">${m.nombre}</option>`;
-        });
-    }
+            municipios.forEach(m => {
+                select.innerHTML += `<option value="${m.id}">${m.nombre}</option>`;
+            });
+        }
 
-    async function cargarEventos() {
-        const eventos = await apiGet("/eventos");
-        const contenedor = document.getElementById("lista");
-        contenedor.innerHTML = "";
+        async function cargarEventos() {
+            const eventos = await apiGet("/eventos");
+            const contenedor = document.getElementById("lista");
+            contenedor.innerHTML = "";
 
-        eventos.forEach(e => {
-            contenedor.innerHTML += `
-            <div>
-                <h3>${e.nombre}</h3>
-                <p>${e.descripcion}</p>
-                <p>Fecha: ${e.fecha}</p>
-                <p>Municipio: ${e.municipio.nombre}</p>
+            eventos.forEach(e => {
+                contenedor.innerHTML += `
+                <div class="border border-gray-200 rounded-lg p-5 shadow-sm bg-white">
+                    <h3 class="text-lg font-semibold mb-2">${e.nombre}</h3>
+                    <p class="text-gray-700 mb-2">${e.descripcion}</p>
+                    <p class="text-gray-600"><strong>Fecha:</strong> ${e.fecha}</p>
+                    <p class="text-gray-600 mb-4"><strong>Municipio:</strong> ${e.municipio.nombre}</p>
 
-                <button onclick="editar(${e.id})">Editar</button>
-                <button onclick="eliminar(${e.id})">Eliminar</button>
-            </div>
-            <hr>
-        `;
-        });
-    }
+                    <div class="flex gap-3">
+                        <button onclick="editar(${e.id})"
+                            class="px-4 py-2 bg-green-200 hover:bg-green-300 rounded-md transition">
+                            Editar
+                        </button>
 
-    async function crearEvento(ev) {
-        ev.preventDefault();
+                        <button onclick="eliminar(${e.id})"
+                            class="px-4 py-2 bg-red-200 hover:bg-red-300 rounded-md transition">
+                            Eliminar
+                        </button>
+                    </div>
+                </div>
+                `;
+            });
+        }
 
-        const data = {
-            nombre: document.getElementById("nombre").value,
-            descripcion: document.getElementById("descripcion").value,
-            fecha: document.getElementById("fecha").value,
-            municipio_id: document.getElementById("municipio").value
-        };
+        async function crearEvento(ev) {
+            ev.preventDefault();
 
-        await apiPost("/eventos", data);
-        alert("Evento creado");
-        cargarEventos();
-    }
+            const data = {
+                nombre: document.getElementById("nombre").value,
+                descripcion: document.getElementById("descripcion").value,
+                fecha: document.getElementById("fecha").value,
+                municipio_id: document.getElementById("municipio").value
+            };
 
-    async function eliminar(id) {
-        if (!confirm("¿Seguro que quieres eliminar este evento?")) return;
+            await apiPost("/eventos", data);
+            alert("Evento creado");
+            cargarEventos();
+        }
 
-        await apiDelete(`/eventos/${id}`);
-        cargarEventos();
-    }
+        async function eliminar(id) {
+            if (!confirm("¿Seguro que quieres eliminar este evento?")) return;
 
-    function editar(id) {
-        window.location.href = `editar-evento.html?id=${id}`;
-    }
+            await apiDelete(`/eventos/${id}`);
+            cargarEventos();
+        }
 
-    function irEventos() {
-        window.location.href = "eventos.html";
-    }
+        function editar(id) {
+            window.location.href = `editar-evento.html?id=${id}`;
+        }
 
-    async function logout() {
-        await apiPost("/logout");
-        localStorage.clear();
-        window.location.href = "login.html";
-    }
+        async function logout() {
+            await apiPost("/logout");
+            localStorage.clear();
+            window.location.href = "login.html";
+        }
 
-    async function iniciar() {
-        requireAdmin();
-        await cargarMunicipios();
-        await cargarEventos();
-    }
+        async function iniciar() {
+            requireAdmin();
+            await cargarMunicipios();
+            await cargarEventos();
+        }
 
-    iniciar();
-</script>
+        iniciar();
+    </script>
+
+</div>

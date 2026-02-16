@@ -1,54 +1,65 @@
-<h1>Mis eventos</h1>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="./js/main.js"></script>
 
-<button onclick="volverEventos()">Ver todos los eventos</button>
-<button onclick="logout()">Cerrar sesión</button>
 
-<hr>
+<div class="bg-gray-50 text-gray-800">
 
-<div id="lista"></div>
+    <!-- NAVBAR -->
+    <div id="navbar"></div>
 
-<script src="js/api.js"></script>
-<script>
-    async function cargarMisEventos() {
-        const eventos = await apiGet("/mis-eventos");
-        console.log(eventos);
+    <div class="max-w-5xl mx-auto mt-10 px-6">
 
-        const contenedor = document.getElementById("lista");
-        contenedor.innerHTML = "";
+        <h2 class="text-2xl font-semibold mb-6">Mis eventos</h2>
 
-        if (eventos.length === 0) {
-            contenedor.innerHTML = "<p>No estás apuntado a ningún evento.</p>";
-            return;
+        <!-- LISTA DE EVENTOS -->
+        <div id="lista" class="space-y-6"></div>
+
+    </div>
+
+    <!-- CARGA DEL NAVBAR -->
+    <script>
+        cargarNavbar();
+    </script>
+
+    <script src="js/api.js"></script>
+
+    <script>
+        async function cargarMisEventos() {
+            const eventos = await apiGet("/mis-eventos");
+
+            const contenedor = document.getElementById("lista");
+            contenedor.innerHTML = "";
+
+            if (eventos.length === 0) {
+                contenedor.innerHTML = `
+                    <p class="text-gray-500 text-center">No estás apuntado a ningún evento.</p>
+                `;
+                return;
+            }
+
+            eventos.forEach(e => {
+                contenedor.innerHTML += `
+                <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+                    <h3 class="text-lg font-semibold mb-2">${e.nombre}</h3>
+                    <p class="text-gray-700 mb-2">${e.descripcion}</p>
+                    <p class="text-gray-600"><strong>Fecha:</strong> ${e.fecha}</p>
+                    <p class="text-gray-600 mb-4"><strong>Municipio:</strong> ${e.municipio.nombre}</p>
+
+                    <button onclick="desapuntarse(${e.id})"
+                        class="px-4 py-2 bg-red-200 hover:bg-red-300 rounded-md transition">
+                        Desapuntarse
+                    </button>
+                </div>
+                `;
+            });
         }
 
-        eventos.forEach(e => {
-            contenedor.innerHTML += `
-            <div>
-                <h3>${e.nombre}</h3>
-                <p>${e.descripcion}</p>
-                <p>Fecha: ${e.fecha}</p>
-                <p>Municipio: ${e.municipio.nombre}</p>
-                <button onclick="desapuntarse(${e.id})">Desapuntarse</button>
-            </div>
-            <hr>
-        `;
-        });
-    }
+        async function desapuntarse(id) {
+            await apiDelete(`/eventos/${id}/desapuntarse`);
+            cargarMisEventos();
+        }
 
-    async function desapuntarse(id) {
-        await apiDelete(`/eventos/${id}/desapuntarse`);
         cargarMisEventos();
-    }
+    </script>
 
-    function volverEventos() {
-        window.location.href = "eventos.html";
-    }
-
-    async function logout() {
-        await apiPost("/logout");
-        localStorage.removeItem("token");
-        window.location.href = "login.html";
-    }
-
-    cargarMisEventos();
-</script>
+</div>
