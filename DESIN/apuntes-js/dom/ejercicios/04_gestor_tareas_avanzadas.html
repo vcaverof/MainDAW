@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio 4 - Gestor interactivo de tareas avanzadas</title>
+    <style>
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            width: 200px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app"></div>
+
+    <script>
+        const app = document.getElementById("app");
+
+        // Función auxiliar para crear elementos
+        const crear = (tag, props = {}, children = []) => {
+            const el = document.createElement(tag);
+            Object.assign(el, props);
+            children.forEach(c => el.appendChild(c));
+            return el;
+        };
+
+        window.addEventListener("load", () => {
+
+            const fragment = new DocumentFragment();
+
+
+            // Crear formulario
+            const form = crear("form");
+
+            // Título
+            form.append(
+                crear("label", { textContent: "Título" }),
+                crear("input", { type: "text", name: "titulo" })
+            );
+
+            // Descripción
+            form.append(
+                crear("label", { textContent: "Descripción" }),
+                crear("textarea", { name: "descripcion" })
+            );
+
+            // Prioridades
+            const prioridades = crear("select", { name: "prioridad" });
+            ["Alta", "Media", "Baja"].forEach(p => prioridades.append(crear("option", { value: p.toLowerCase(), textContent: p })));
+
+            form.append(
+                crear("label", { textContent: "Prioridad" }),
+                prioridades
+            );
+
+            // Botón crear
+            form.append(
+                crear("button", { className: 'btnCrear', textContent: "Crear tarea", type: "button" })
+            );
+
+            // Buscador
+            form.append(
+                crear("label", { textContent: "Buscador" }),
+                crear("input", { type: "text", id: "buscador", placeholder: "Buscar notas..." })
+            );
+
+            fragment.append(form);
+            app.append(fragment);
+        });
+
+
+        app.addEventListener('click', function (e) {
+
+            //Evento ddel botón CREAR TAREA
+            if (e.target.classList.contains('btnCrear')) {
+
+                const form = e.target.closest('form');
+                const card = crear('div', { className: 'card' });
+
+                card.append(
+                    crear('h3', { textContent: form.elements["titulo"].value }),
+                    crear('p', { textContent: form.elements['descripcion'].value }),
+                    crear('span', { textContent: form.elements['categoria'].value }),
+                    crear('div', { style: 'height: 30px; width: 30px; background-color: red;' }),
+                    crear('p', { className: 'contador', textContent: 'Expira en: 20s' }),
+                    crear("button", { className: 'eliminar', textContent: "Eliminar tarea", type: "button" }),
+                    crear("button", { className: 'editar', textContent: "Editar tarea", type: "button" }),
+                    crear("button", { className: 'duplicar', textContent: "Duplicar tarea", type: "button" }),
+                    crear("button", { className: 'moverArriba', textContent: "Mover tarea arriba", type: "button" }),
+                    crear("button", { className: 'moverAbajo', textContent: "Mover tarea abajo", type: "button" })
+                );
+
+                app.appendChild(card);
+                iniciarContador(card);
+            }
+
+            //ELIMINAR
+            if (e.target.classList.contains('eliminar')) {
+                const card = e.target.closest('.card');
+                card.remove();
+            }
+
+            //EDITAR / GUARDAR
+            if (e.target.classList.contains('editar')) {
+                const card = e.target.closest('.card');
+
+                //Si esta en modo EDITAR -> pasamos a modo GUARDAR
+                if (e.target.textContent === 'Editar tarea') {
+
+                    const h3 = card.querySelector('h3');
+                    const p = card.querySelector('p');
+
+                    //Guardamos el texto actual
+                    const tituloActual = h3.textContent;
+                    const descActual = p.textContent;
+
+                    //Sustituimos por inputs
+                    const inputTitulo = crear('input', { type: 'text', value: tituloActual, className: 'editTitulo' });
+                    const inputDesc = crear('input', { type: 'text', value: descActual, className: 'editDesc' });
+
+                    h3.replaceWith(inputTitulo);
+                    p.replaceWith(inputDesc);
+
+                    //Cambiamos el botón
+                    e.target.textContent = 'Guardar';
+                } else {
+                    //Si estamos en modo GUARDAR - volvemos a modo EDITAR
+                    const inputTitulo = card.querySelector('.editTitulo');
+                    const inputDesc = card.querySelector('.editDesc');
+
+                    const nuevoH3 = crear('h3', { textContent: inputTitulo.value });
+                    const nuevoP = crear('p', { textContent: inputDesc.value });
+
+                    inputTitulo.replaceWith(nuevoH3);
+                    inputDesc.replaceWith(nuevoP);
+
+                    // Volvemos a poner el botón en modo EDITAR 
+                    e.target.textContent = "Editar tarea";
+                }
+            }
+
+            //DUPLICAR
+            if (e.target.classList.contains('duplicar')) {
+                const card = e.target.closest('.card');
+                let clon = card.cloneNode(true);
+                app.appendChild(clon);
+                iniciarContador(clon);
+            }
+
+            //MOVER ARRIBA
+            if (e.target.classList.contains('moverArriba')) {
+                const anterior = e.target.closest('.card').previousElementSibling;
+                if (anterior) {
+                    anterior.before(e.target.closest('.card'));
+                }
+                return;
+            }
+
+            //MOVER ABAJO
+            if (e.target.classList.contains('moverAbajo')) {
+                const siguiente = e.target.closest('.card').nextElementSibling;
+                if (siguiente) {
+                    siguiente.after(e.target.closest('.card'));
+                }
+                return;
+            }
+
+            if (e.target.id === 'buscador') {
+
+            }
+        });
+
+        function iniciarContador(card) {
+            let tiempo = 20;
+            const contador = card.querySelector('.contador');
+
+            const intervalo = setInterval(() => {
+                tiempo--;
+                contador.textContent = `Expira en: ${tiempo}s`;
+                if (tiempo <= 0) {
+                    clearInterval(intervalo);
+
+                    //Marcar tarjeta como expirada
+                    card.style.backgroundColor = '#ccc';
+                    card.style.opacity = '0.6';
+
+                    //Desactivar botones
+                    card.querySelectorAll('button').forEach(b => b.disabled = true);
+
+                    //Quitar contador
+                    contador.remove();
+                }
+            }, 1000);
+        }
+
+        document.addEventListener('input', function (e) {
+
+            if (e.target.id === 'buscador') {
+
+                const texto = e.target.value.toLowerCase();
+
+                document.querySelectorAll('.card').forEach(card => {
+
+                    const titulo = card.querySelector('h3').textContent.toLowerCase();
+                    const descripcion = card.querySelector('p').textContent.toLowerCase();
+
+                    if (titulo.includes(texto) || descripcion.includes(texto)) {
+                        card.style.display = '';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            }
+        });
+
+
+    </script>
+
+</body>
+
+</html>

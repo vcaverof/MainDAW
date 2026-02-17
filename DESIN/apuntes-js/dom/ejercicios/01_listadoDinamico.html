@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio 1 - Listado dinámico de enlaces</title>
+</head>
+
+<body>
+    <script>
+        const urls = ['http://google.com', 'http://apple.com', 'http://youtube.com', 'http://amazon.com', 'http://tiktok.com'];
+
+        //Los eventos load NUNCA funcionan sobre div, mejor usar window.
+        window.addEventListener('load', function () {
+
+            //Creamos la lista
+            const ul = document.createElement('ul');
+            for (let i = 0; i < urls.length; i++) {
+                const li = document.createElement('li');
+                const a = document.createElement('a');
+
+                a.href = urls[i];
+                a.textContent = urls[i];
+                a.target = '_blank';
+
+                li.appendChild(a);
+                ul.appendChild(li);
+            }
+            document.body.appendChild(ul);
+        });
+    </script>
+</body>
+
+</html>

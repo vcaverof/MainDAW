@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio 3 - Gestión dinámica de tarjetas</title>
+</head>
+
+<body>
+    <div id="panel"></div>
+    <br>
+    <button id="btn">Añadir tarjeta</button>
+
+    <script>
+        const panel = document.getElementById('panel');
+        const btn = document.getElementById('btn');
+        const CANTIDAD = 3;
+        let contador = 0;
+
+        // ============================================================ 
+        // 1. CREAR TARJETAS INICIALES USANDO DOCUMENTFRAGMENT 
+        // ============================================================
+
+        window.addEventListener('load', function () {
+            //Generar tarjetas dentro del div
+            for (let i = 1; i <= CANTIDAD; i++) {
+
+                contador = i;
+
+                //Creamos el contenedor de la tarjeta
+                const cardDiv = document.createElement('div');
+                cardDiv.className = 'tarjeta';
+
+                //Creamos el titulo de la tarjeta
+                const h3 = document.createElement('h3');
+                h3.textContent = 'Tarjeta ' + i;
+
+                //Creamos el contenido de la tarjeta
+                const p = document.createElement('p');
+                p.textContent = 'Contenido de la tarjeta ' + i;
+
+                //Creamos el botón de eliminar tarjeta, con su evento
+                const btnEliminar = document.createElement('button');
+                btnEliminar.textContent = 'Eliminar';
+
+                //Creamos botón de mover arriba
+                const btnMoverArriba = document.createElement('button');
+                btnMoverArriba.textContent = 'Mover arriba';
+
+                //Creamos botón de mover abajo
+                const btnMoverAbajo = document.createElement('button');
+                btnMoverAbajo.textContent = 'Mover abajo';
+
+
+                cardDiv.appendChild(h3);
+                cardDiv.appendChild(p);
+                cardDiv.appendChild(btnEliminar);
+                cardDiv.appendChild(btnMoverArriba);
+                cardDiv.appendChild(btnMoverAbajo);
+                panel.appendChild(cardDiv);
+            }
+        });
+
+        // ============================================================ 
+        // 2. DELEGACIÓN DE EVENTOS PARA TODOS LOS BOTONES 
+        // ============================================================
+
+        panel.addEventListener('click', function (e) {
+            const tarjeta = e.target.closest('.tarjeta');
+            if (!tarjeta) return;
+
+            // ---------------- ELIMINAR ----------------
+            if (e.target.textContent === 'Eliminar') {
+                tarjeta.remove();
+            }
+
+            // ---------------- MOVER ARRIBA ----------------
+            if (e.target.textContent === 'Mover arriba') {
+                const anterior = tarjeta.previousElementSibling;
+                if (anterior) {
+                    anterior.before(tarjeta);
+                }
+                return;
+            }
+
+            // ---------------- MOVER ABAJO ----------------
+            if (e.target.textContent === 'Mover abajo') {
+                const siguiente = tarjeta.nextElementSibling;
+                if (siguiente) {
+                    siguiente.after(tarjeta);
+                }
+                return;
+            }
+        })
+
+        // ============================================================ 
+        // 3. AÑADIR NUEVA TARJETA (CLONANDO LA ÚLTIMA) 
+        // ============================================================
+
+        btn.addEventListener('click', function () {
+            const cardClone = panel.lastElementChild.cloneNode(true);
+            contador++;
+
+            cardClone.querySelector('h3').textContent = 'Tarjeta ' + contador; 
+            cardClone.querySelector('p').textContent = 'Contenido de la tarjeta ' + contador;
+
+            panel.appendChild(cardClone);
+        });
+
+    </script>
+
+</body>
+
+</html>

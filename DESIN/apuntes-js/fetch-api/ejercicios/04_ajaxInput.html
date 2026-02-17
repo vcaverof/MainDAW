@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio 4 - AJAX + input del usuario</title>
+</head>
+
+<body>
+    <input id="userId" type="number" placeholder="ID usuario">
+    <button id="buscar">Buscar</button>
+    <div id="resultado"></div>
+
+    <script>
+        document.getElementById("buscar").addEventListener("click", () => {
+            const id = document.getElementById("userId").value;
+
+            fetch(`https://jsonplaceholder.typicode.com/users/${id}`)
+                .then(res => res.json())
+                .then(user => {
+                    document.getElementById("resultado").innerHTML =
+                        `<h3>${user.name}</h3><p>${user.email}</p>`;
+                });
+        });
+    </script>
+</body>
+
+</html>

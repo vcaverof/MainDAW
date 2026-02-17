@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio 2 - Clonar, eliminar y reordenar elementos</title>
+</head>
+
+<body>
+    <div id="contenedor">
+        <p>Mensaje 1</p>
+        <p>Mensaje 2</p>
+        <p>Mensaje 3</p>
+    </div>
+
+    <script>
+        //Seleccionar el div con id='contenedor'
+        const contenedor = document.getElementById('contenedor');
+        
+        //Eliminar el segundo párrafo
+        document.querySelectorAll('#contenedor p')[1].remove();
+
+        //Clonar el primer párrafo (copia profunda)
+        const clon = document.querySelectorAll('#contenedor p')[0].cloneNode(true);
+
+        //Modificar el texto del clon para que diga "Mensaje clonado"
+        clon.textContent = 'Mensaje clonado';
+
+        //Insertar el clon después del último párrafo que quede en el contenedor
+        contenedor.appendChild(clon);
+
+        //Insertar un nuevo párrafo al principio del contenedor con el texto 'Nuevo mensaje inicial'
+        const nuevoP = document.createElement('p');
+        nuevoP.textContent = 'Nuevo mensaje inicial';
+        contenedor.prepend(nuevoP);
+
+    </script>
+
+</body>
+
+</html>

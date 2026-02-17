@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio 3 - Enviar datos con AJAX (POST)</title>
+</head>
+
+<body>
+    <script>
+        fetch("https://jsonplaceholder.typicode.com/posts", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                title: "Mi título",
+                body: "Mi contenido",
+                userId: 1
+            })
+        })
+            .then(res => res.json())
+            .then(data => console.log("Respuesta del servidor:", data));
+
+    </script>
+</body>
+
+</html>
