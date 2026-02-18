@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario Bailarines</title>
+    <link rel="stylesheet" href="main.css">
+    <script>
+        class Bailarin {
+            #nombre;
+            #dni;
+            #fechaAlta;
+            #estilo;
+            #sexo;
+
+            constructor(nombre, dni, fechaAlta, estilo, sexo) {
+                this.#nombre = nombre;
+                this.#dni = dni;
+                this.#fechaAlta = fechaAlta;
+                this.#estilo = estilo;
+                this.#sexo = sexo;
+            }
+
+            get nombre() {
+                return this.#nombre;
+            }
+
+            get dni() {
+                return this.#dni;
+            }
+
+            get fechaAlta() {
+                return this.#fechaAlta;
+            }
+
+            get estilo() {
+                return this.#estilo;
+            }
+
+            get sexo() {
+                return this.#sexo;
+            }
+
+        }
+    </script>
+</head>
+
+<body>
+    <div id="registro"></div>
+    <div id="bailarines"></div>
+
+    <script type="text/javascript">
+
+        // Función auxiliar para crear elementos
+        const crear = (tag, props = {}, children = []) => {
+            const el = document.createElement(tag);
+            Object.assign(el, props);
+            children.forEach(c => el.appendChild(c));
+            return el;
+        };
+
+        window.addEventListener('load', function () {
+
+            //Crear formulario
+            const form = crear('form', { id: 'form' });
+            form.method = 'POST';
+            form.setAttribute('novalidate', '');
+
+            //Creación del campo nombre
+            form.append(
+                crear('label', { textContent: 'Nombre:' }),
+                crear('input', { type: 'text', name: 'nombre', required: true })
+            );
+
+            //Creación del campo DNI
+            form.append(
+                crear('label', { textContent: 'DNI' }),
+                crear('input', { type: 'text', /*pattern: '[0-9]{8}[A-Z]{1}'*/ name: 'dni', required: true })
+            );
+
+            //Creación del campo Fecha Alta
+            form.append(
+                crear('label', { textContent: 'Fecha de alta: ' }),
+                crear('input', { type: 'date', name: 'fechaAlta', required: true })
+            );
+
+            //Creación del campo Estilos
+            const estilos = crear('select', { name: 'estilos' });
+            estilos.append(crear('option', { textContent: 'Elige un estilo', value: '' }));
+            ['Salsa', 'Bachata', 'Rock', 'Swing'].forEach(estilo => estilos.append(crear('option', { value: estilo.toLowerCase(), textContent: estilo })));
+
+            form.append(
+                crear("label", { textContent: "Estilos" }),
+                estilos
+            );
+
+            //Creación del campo Sexo (M/F)
+            const sexos = crear('select', { name: 'sexo' });
+            sexos.append(crear('option', { textContent: 'Elige un sexo', value: '' }));
+            ['Hombre', 'Mujer'].forEach(sexo => sexos.append(crear('option', { value: sexo.toLowerCase(), textContent: sexo })));
+
+            form.append(
+                crear("label", { textContent: "Sexo" }),
+                sexos
+            );
+
+            form.append(
+                crear('button', { textContent: 'Registrar bailarín', type: 'submit', id: 'registrar' })
+            )
+
+            form.append(
+                crear('div', { textContent: 'Arrastra aquí para dar de baja', name: 'eliminar', id: 'eliminar' })
+            )
+
+            const registro = document.getElementById('registro');
+            registro.appendChild(form);
+
+            //Crear tabla donde aparecen los bailarines creados
+            const tabla = crear('div', { id: 'tabla' });
+
+            tabla.append(
+                crear('div', { className: 'estilos', id: 'salsa' }, [crear('h3', { textContent: 'Salsa' })]),
+                crear('div', { className: 'estilos', id: 'bachata' }, [crear('h3', { textContent: 'Bachata' })]),
+                crear('div', { className: 'estilos', id: 'rock' }, [crear('h3', { textContent: 'Rock & Roll' })]),
+                crear('div', { className: 'estilos', id: 'swing' }, [crear('h3', { textContent: 'Swing' })]),
+                crear('p', { textContent: '', id: 'mensaje' })
+            );
+
+            const bailarines = document.getElementById('bailarines');
+            bailarines.appendChild(tabla);
+
+            //Validaciones de campos
+            form.addEventListener('submit', function (e) {
+                e.preventDefault();
+
+                if (!form.checkValidity()) {
+                    alert('Todos los campos son obligatorios');
+                }
+
+                //Acumulador de errores
+                let errores = [];
+
+                //Validar DNI (IMPORTANTE NO VÁLIDA BIEN LA LETRA DEL FINAL)
+                // const dni = document.getElementsByName('dni')[0].value;
+                // const letra = dni[dni.length - 1];
+                // console.log(letra);
+                // console.log(typeof (letra));
+                // if (dni.length !== 9 || typeof (letra !== 'string')) {
+                //     alert('El formato del dni es incorrecto. Pruebe de nuevo');
+                // }
+
+                //Crear bailarin con los datos del formulario
+                const bailarinObj = new Bailarin(
+                    form['nombre'].value,
+                    form['dni'].value,
+                    form['fechaAlta'].value,
+                    form['estilos'].value,
+                    form['sexo'].value
+                );
+
+
+                const bailarin = crear('div', { className: `bailarin bailarin${form['estilos'].value}`, draggable: true }, [
+                    crear('p', { textContent: form['sexo'].value === 'hombre' ? '🕺' : '💃' }),
+                    crear('h3', { textContent: form['nombre'].value }),
+                    crear('p', { textContent: form['dni'].value }),
+                    crear('p', { textContent: form['fechaAlta'].value })
+                ]);
+
+
+                const mensaje = document.getElementById('mensaje');
+
+                if (form['estilos'].value === 'salsa') {
+                    const salsa = document.getElementById('salsa');
+                    salsa.appendChild(bailarin);
+                    mensaje.textContent = 'Se ha creado un bailarín en Salsa: ' + form['nombre'].value;
+                    mensaje.style.visibility = 'visible';
+
+                }
+
+                if (form['estilos'].value === 'bachata') {
+                    const salsa = document.getElementById('bachata');
+                    salsa.appendChild(bailarin);
+                    mensaje.textContent = 'Se ha creado un bailarín en Bachata: ' + form['nombre'].value;
+                    mensaje.style.visibility = 'visible';
+                }
+
+                if (form['estilos'].value === 'rock') {
+                    const salsa = document.getElementById('rock');
+                    salsa.appendChild(bailarin);
+                    mensaje.textContent = 'Se ha creado un bailarín en Rock: ' + form['nombre'].value;
+                    mensaje.style.visibility = 'visible';
+                }
+
+                if (form['estilos'].value === 'swing') {
+                    const salsa = document.getElementById('swing');
+                    salsa.appendChild(bailarin);
+                    mensaje.textContent = 'Se ha creado un bailarín en Swing: ' + form['nombre'].value;
+                    mensaje.style.visibility = 'visible';
+                }
+            });
+        });
+
+
+
+
+
+
+
+
+
+    </script>
+</body>
+
+</html>

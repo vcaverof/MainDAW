@@ -1,0 +1,74 @@
+body {
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+    margin: 20px;
+    height: 95vh;
+    background-color: rgb(63, 63, 125);
+    color: white;
+}
+
+form {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 20px;
+    width: 250px;
+    background-color: rgb(96, 114, 185);
+    border-radius: 15px;
+    height: 90%;
+}
+
+#eliminar {
+    border: 2px dotted black;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+#tabla {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: 3fr 1fr;
+    height: 95vh;
+    gap: 15px;
+    text-align: center;
+    
+}
+
+.estilos {
+    background-color: rgb(96, 114, 185);
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.bailarin {
+    border-radius: 15px;
+    box-shadow: 0px 0px 15px 2px rgba(0,0,0,0.3);
+    margin: 10px;
+    padding: 20px;
+    width: 60%;
+}
+
+.bailarinsalsa {
+    background-color: rgb(203, 139, 150);
+}
+
+.bailarinbachata {
+    background-color: rgb(179, 99, 179);
+}
+
+.bailarinrock {
+    background-color: rgb(199, 199, 105);
+}
+
+.bailarinswing {
+    background-color: rgb(160, 160, 218);
+}
+
+#mensaje {
+    background-color: green;
+    font-size: 2rem;
+    visibility: hidden;
+}
