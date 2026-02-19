@@ -32,7 +32,7 @@
             </div>
         @endforeach
         <div style="margin-top: 20px;">
-            {{ $chollos->links('pagination::bootstrap-4') }}
+            {{ $chollos->links('pagination') }}
         </div>
     </ul>
 @endsection

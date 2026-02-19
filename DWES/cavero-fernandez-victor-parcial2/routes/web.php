@@ -1,5 +1,8 @@
 <?php
 
+use App\Models\Oferta;
+use App\Http\Controllers\EmpresaController;
+use App\Http\Controllers\OfertaController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -29,3 +32,9 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
+
+//Rutas para las ofertas
+Route::resource('ofertas', OfertaController::class);
+
+//Rutas para las empresas
+Route::resource('empresas', EmpresaController::class);

@@ -22,8 +22,8 @@
 
         <div *ngIf="formulario.get('edad')?.invalid && formulario.get('edad')?.touched">
             <p class="danger" *ngIf="formulario.get('edad')?.errors?.['required']">La edad es obligatoria</p>
-            <p class="danger" *ngIf="formulario.get('email')?.errors?.['min']">La edad no puede ser inferior a 16 años</p>
-            <p class="danger" *ngIf="formulario.get('email')?.errors?.['max']">La edad no puede ser superior a 100 años</p>
+            <p class="danger" *ngIf="formulario.get('edad')?.errors?.['min']">La edad no puede ser inferior a 16 años</p>
+            <p class="danger" *ngIf="formulario.get('edad')?.errors?.['max']">La edad no puede ser superior a 100 años</p>
         </div>
 
         <label>Curso:</label>
