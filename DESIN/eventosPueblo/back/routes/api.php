@@ -48,7 +48,6 @@ Route::middleware(['auth:sanctum', 'rol:1'])->group(function () {
 Route::get('/eventos/municipio/{id}', [EventoController::class, 'porMunicipio']);
 
 
-
 // Rutas públicas
 Route::get('/municipios', [MunicipioController::class, 'index']);
 Route::get('/municipios/{id}', [MunicipioController::class, 'show']);
