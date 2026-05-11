@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="main.css" />
+    <title>Examen 2º Parcial</title>
+  </head>
+  <body>
+    <h1>Academia de Baile IES Julián Marias</h1>
+    <div class="contenedor">
+      <div class="formulario">
+        <form method="post" action="#" novalidate>
+          <label>Nombre</label>
+          <input type="text" name="nombre" id="nombre" required />
+
+          <label>Dni</label>
+          <input
+            type="text"
+            name="dni"
+            id="dni"
+            pattern="[0-9]{8}[A-Z]{1}"
+            required
+          />
+
+          <label>Fecha de alta</label>
+          <input type="date" name="fechaAlta" id="fechaAlta" required />
+
+          <label>Estilo</label>
+          <select name="estilo" id="estilo" required>
+            <option disabled selected>---Elige una opción---</option>
+            <option value="salsa">Salsa</option>
+            <option value="bachata">Bachata</option>
+            <option value="rock">Rock & Roll</option>
+            <option value="swing">Swing</option>
+          </select>
+
+          <label>Sexo</label>
+          <select name="sexo" id="sexo" required>
+            <option value="masculino">Masculino</option>
+            <option value="femenino">Femenino</option>
+          </select>
+          <button type="submit" id="btnInscribir">Inscribir</button>
+        </form>
+
+        <div class="dar-baja" id="darBaja">
+          <p>Arrastrar aquí para dar de baja</p>
+        </div>
+      </div>
+      <div class="contenido">
+        <h2>Bailarines inscritos</h2>
+        <div class="estilos">
+          <div class="estilo" id="salsa"><h3>Salsa</h3></div>
+          <div class="estilo" id="bachata"><h3>Bachata</h3></div>
+          <div class="estilo" id="rock"><h3>Rock & Roll</h3></div>
+          <div class="estilo" id="swing"><h3>Swing</h3></div>
+        </div>
+        <div id="mensaje"></div>
+      </div>
+    </div>
+
+    <script type="module">
+      import Bailarin from "./Bailarin.js";
+
+      let tarjetaArrastrada = null;
+      
+      //Crear la tarjeta con los datos del bailarín registrado
+      function crearTarjeta(bailarinObj) {
+        const div = document.createElement("div");
+        div.classList.add("bailarin", bailarinObj.estilo);
+        const icono = bailarinObj.sexo === "femenino" ? "💃" : "🕺";
+        div.innerHTML = `
+          <span>${icono}</span>
+          <p>${bailarinObj.nombre}</p>
+          <p>${bailarinObj.dni}</p>
+          <p>${bailarinObj.fechaAlta}</p>
+        `;
+
+        div.draggable = "true";
+        div.addEventListener("dragstart", (e) => {
+          tarjetaArrastrada = div;
+          e.dataTransfer.setData("text/plain", bailarinObj.dni);
+        });
+        return div;
+      }
+
+      function mostrarMensaje(texto, exito) {
+        const mensaje = document.getElementById("mensaje");
+        mensaje.textContent = texto;
+        mensaje.className = exito ? "mensaje-exito" : "mensaje-error";
+      }
+
+      const formulario = document.forms[0];
+
+      //Recupera los bailarines del localStorage y los reconstruye (para no perder los métodos)
+      const bailarines = (
+        JSON.parse(localStorage.getItem("bailarines")) || []
+      ).map(
+        (b) => new Bailarin(b.nombre, b.dni, b.estilo, b.sexo, b.fechaAlta),
+      );
+
+      //Pintar los bailarines recuperados
+      bailarines.forEach((b) => {
+        const columna = document.getElementById(b.estilo);
+        columna.appendChild(crearTarjeta(b));
+      });
+
+      //Mover las tarjetas entre columnas
+      document.querySelectorAll(".estilo").forEach((columna) => {
+        columna.addEventListener("dragover", (e) => e.preventDefault());
+        columna.addEventListener("drop", (e) => {
+          e.preventDefault();
+
+          const dni = e.dataTransfer.getData("text/plain");
+          const bailarinObj = bailarines.find((b) => b.dni === dni);
+          bailarinObj.estilo = columna.id;
+          tarjetaArrastrada.className = `bailarin ${columna.id}`;
+          columna.appendChild(tarjetaArrastrada);
+          localStorage.setItem("bailarines", JSON.stringify(bailarines));
+        });
+      });
+
+      //La zona de baja acepta también el drop
+      const zonaBaja = document.getElementById("darBaja");
+      zonaBaja.addEventListener("dragover", (e) => e.preventDefault());
+      zonaBaja.addEventListener("drop", (e) => {
+        e.preventDefault();
+
+        const dni = e.dataTransfer.getData("text/plain");
+        const indice = bailarines.findIndex((b) => b.dni === dni);
+        const coste = bailarines[indice].calcularCoste();
+        const nombre = bailarines[indice].nombre;
+        bailarines.splice(indice, 1);
+        tarjetaArrastrada.remove();
+        localStorage.setItem("bailarines", JSON.stringify(bailarines));
+        mostrarMensaje(
+          `${nombre} dado de baja. Total gastado: ${coste}€`,
+          true,
+        );
+      });
+
+
+      formulario.addEventListener("submit", (e) => {
+        e.preventDefault();
+
+        if (!formulario.checkValidity()) {
+          mostrarMensaje("Revisa los campos del formulario", false);
+          return;
+        }
+
+        if (bailarines.some((b) => b.dni === formulario.dni.value)) {
+          mostrarMensaje("Ya existe un bailarín con ese DNI", false);
+          return;
+        }
+
+        //Crear bailarin con los datos
+        const bailarinObj = new Bailarin(
+          formulario.nombre.value,
+          formulario.dni.value,
+          formulario.estilo.value,
+          formulario.sexo.value,
+          formulario.fechaAlta.value,
+        );
+
+        const columna = document.getElementById(bailarinObj.estilo);
+        columna.appendChild(crearTarjeta(bailarinObj));
+
+        bailarines.push(bailarinObj);
+
+        localStorage.setItem("bailarines", JSON.stringify(bailarines));
+
+        formulario.reset();
+        mostrarMensaje("Bailarín inscrito correctamente", true);
+      });
+    </script>
+  </body>
+</html>
